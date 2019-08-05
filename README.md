@@ -66,3 +66,8 @@ Things you may want to cover:
   ```sh
   $ foreman start -f Procfile.dev -p 3000
   ```
+# Compatibility
+
+* Ruby 2.6.3
+* Rails 5.2.3
+* PostgreSQL 11.4
