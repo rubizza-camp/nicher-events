@@ -21,4 +21,27 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
+##Installation
+
+1. Setup PostgreSQL
+
+  https://www.digitalocean.com/community/tutorials/postgresql-ubuntu-16-04-ru
+
+2. Install gem pg:
+
+  ```sh
+  # Install gem pg
+  $ sudo apt-get install libpq-dev
+  $ gem install pg  --   --with-pg-lib=/usr/lib
+  ```
+3. Install yarn
+
+  https://yarnpkg.com/lang/en/docs/install/#debian-stable
+
+4. Then, in your project directory:
+
+  ```sh
+  $ bundle install
+  ```
+
+5.   
