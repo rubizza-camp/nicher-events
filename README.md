@@ -21,7 +21,7 @@ Things you may want to cover:
 
 * Deployment instructions
 
-##Installation
+#Installation
 
 1. Setup PostgreSQL
 
@@ -44,4 +44,8 @@ Things you may want to cover:
   $ bundle install
   ```
 
-5.   
+5. Run application: 
+
+  ```sh
+  $ foreman start -f Procfile.dev -p 3000
+  ```
