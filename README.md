@@ -21,7 +21,7 @@ Things you may want to cover:
 
 * Deployment instructions
 
-#Installation
+# Installation
 
 1. Setup PostgreSQL
 
@@ -38,10 +38,16 @@ Things you may want to cover:
 
   https://yarnpkg.com/lang/en/docs/install/#debian-stable
 
+  ```sh
+  $ yarn install --check-files
+  ```
+
 4. Then, in your project directory:
 
   ```sh
   $ bundle install
+  $ rake db:create
+  $ rake db:migrate
   ```
 
 5. Run application: 
@@ -49,3 +55,8 @@ Things you may want to cover:
   ```sh
   $ foreman start -f Procfile.dev -p 3000
   ```
+# Compatibility
+
+* Ruby 2.6.3
+* Rails 5.2.3
+* PostgreSQL 11.4
