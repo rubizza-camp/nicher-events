@@ -8,6 +8,8 @@ import OrganizationAdd from './organization/OrganizationAdd';
 import OrganizationEdit from './organization/OrganizationEdit';
 import OrganizationInfo from './organization/OrganizationInfo';
 import OrganizationList from './organization/OrganizationList';
+import SignUp from './SignUp';
+import SignIn from './SignIn';
 import {HashRouter as Router, Route, NavLink, Switch} from 'react-router-dom'
 
 class App extends Component {
@@ -32,6 +34,9 @@ const Navigation = () => (
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/events">Events</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/organizations">Organization</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/">Back</NavLink></li>
+      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_up">Sign up</NavLink></li>
+      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_in">Sign in</NavLink></li>
+      {/* <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/???">Sign out</NavLink></li> */}
     </ul>
   </nav>
 );
@@ -48,6 +53,10 @@ const Main = () => (
     <Route exact path='/organizations/new' component={OrganizationAdd} />
     <Route exact path='/organizations/:id/edit' component={OrganizationEdit} />
     <Route exact path='/organizations/:id' component={OrganizationInfo} />
+    <Route exact path="/" />
+    <Route path="/home" component={Home} />
+    <Route path="/sign_up" component={SignUp} />
+    <Route path="/sign_in" component={SignIn} />
   </Switch>
 );
 
