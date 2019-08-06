@@ -1,12 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
 
-// Axios.interceptors.request.use(config => {
-//   console.log(config);
-//   config.headers['key'] = JSON.parse(sessionStorage.user);
-//   return config;
-// });
-
 export default class SigInForm extends React.Component {
   constructor(props) {
     super(props);
