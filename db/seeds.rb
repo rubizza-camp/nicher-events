@@ -38,3 +38,10 @@ organizations = [
 organizations.each do |organization|
   Organization.create!(organization)
 end
+
+users = [
+    { email: 'user@gmail.com', password: '123456' }
+]
+
+User.create(users)
+
