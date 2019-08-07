@@ -32,6 +32,16 @@ const SignOutNavigation = () => (
   </AppBar>
 );
 
+const OrganizationNavigation = () => (
+  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <ul>
+      <li className="nav-item">
+        <NavLink exact className="nav-link" activeClassName="active" to="/organizations">Organizations</NavLink>
+      </li>
+    </ul>
+  </nav>
+);
+
 
 const DefaultLayout = ({ component: Component, ...rest }) => {
   let userInfo = '';
@@ -47,12 +57,21 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
   } else {
     navbarComponent = <SignOutNavigation />;
   }
+  let organizationComponent;
+  if (sessionStorage.user != null) {
+    const userRole = JSON.parse(sessionStorage.user_attributes).role;
+    if(userRole === 'organizer') {
+      organizationComponent = <OrganizationNavigation />;
+    }
+  }
   return (
     <Route {...rest} render={matchProps => (
       <div className="DefaultLayout">
         <Box pb={10}>
           {navbarComponent}
         </Box>
+        {userInfo}
+        <div className="Header">{navbarComponent} {organizationComponent}<MainNavigation /></div>
         <Component {...matchProps} />
       </div>
     )}/>
@@ -67,6 +86,10 @@ const Main = () => (
     <DefaultLayout exact path="/sign_out" component={SignOut}/>
     <DefaultLayout exact path="/forgot_password" component={ForgotPassword}/>
     <DefaultLayout path="/reset_password" component={ResetPassword}/>
+    <DefaultLayout exact path='/organizations' component={OrganizationList}  />
+    <DefaultLayout exact path='/organizations/new' component={NewOrganization} />
+    <DefaultLayout exact path='/organizations/:id/edit' component={EditedOrganization} />
+    <DefaultLayout exact path='/organizations/:id' component={OrganizationInfo} />
   </Switch>
 );
 
