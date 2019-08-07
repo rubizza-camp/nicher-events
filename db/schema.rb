@@ -25,4 +25,10 @@ ActiveRecord::Schema.define(version: 2019_08_07_090546) do
     t.integer "user_id"
   end
 
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 end
