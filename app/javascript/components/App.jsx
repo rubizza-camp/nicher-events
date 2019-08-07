@@ -35,10 +35,10 @@ const Main = () => (
   <Switch>
     <Route exact path='/' />
     <Route path='/home' component={Home} />
-    <Route path='/events' component={EventList} />
-    <Route path="/events/new" component={EventAdd} />
-    <Route path='/events/:id' component={EventInfo} />
-    <Route path='/events/:id/edit' component={EventEdit} />
+    <Route exact path='/events' component={EventList} />
+    <Route exact path="/events/new" component={EventAdd} />
+    <Route exact path='/events/:id' component={EventInfo} />
+    <Route exact path='/events/:id/edit' component={EventEdit} />
   </Switch>
 );
 
