@@ -16,14 +16,14 @@ module NicherEvents
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     # config.api_only = true
-      config.middleware.insert_before 0, Rack::Cors do
-        allow do
-          origins 'http://localhost:3000'
-          resource '*', 
-           :headers => :any, 
-           :expose => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
-           :methods => [:get, :post, :patch, :delete, :options]
-        end
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins 'http://localhost:3000'
+        resource '*',
+         :headers => :any,
+         :expose => %w[access-token expiry token-type uid client],
+         :methods => %i[get post patch delete]
       end
+    end
   end
 end

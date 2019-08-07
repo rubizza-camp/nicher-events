@@ -7,4 +7,8 @@ FactoryBot.define do
     date { Faker::Date.between(2.days.ago, Date.today) }
     status { :social }
   end
+  factory :user do
+    email { 'dim1111122111a@gmail.com' }
+    password { '123456' }
+  end
 end
