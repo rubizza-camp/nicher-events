@@ -1,8 +1,8 @@
 import React from 'react';
 import Axios from 'axios'
 
-export default class SignUp extends React.Component{
-  handleSignUp = (e) =>{
+export default class SignIn extends React.Component{
+  handleSignIn = (e) =>{
     e.preventDefault();
     Axios({
       method: 'post',
@@ -12,7 +12,14 @@ export default class SignUp extends React.Component{
         password: this.password.value
       }
     }).then(function (response) {
-        //console.log(response)
+      sessionStorage.setItem('user',
+      JSON.stringify({
+        'access-token': response.request.getResponseHeader('access-token'),
+          'token-type': response.request.getResponseHeader('token-type'),
+          client: response.headers["client"],
+          expiry: response.headers["expiry"],
+          uid: response.headers["uid"]
+      }));
         window.location = "/"
       }).catch(function(error) {
         window.location = "/#/sign_in"
@@ -22,7 +29,7 @@ export default class SignUp extends React.Component{
   render(){
     return (
       <div className="jumbotron">
-        <form onSubmit={this.handleSignUp}>
+        <form onSubmit={this.handleSignIn}>
           <div>
             <label htmlFor='email'>E-mail</label><br />
             <input type='text' name='email' ref={(input) => this.email = input} />
