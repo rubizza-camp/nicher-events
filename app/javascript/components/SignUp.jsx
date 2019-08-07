@@ -1,6 +1,5 @@
 import React from 'react';
-import Axios from 'axios'
-// import { Session } from 'inspector';
+import Axios from 'axios';
 
 export default class SignUp extends React.Component{
   handleSignUp = (e) =>{
@@ -16,10 +15,10 @@ export default class SignUp extends React.Component{
       sessionStorage.setItem('user',
       JSON.stringify({
         'access-token': response.request.getResponseHeader('access-token'),
-          'token-type': response.request.getResponseHeader('token-type'),
-          client: response.headers["client"],
-          expiry: response.headers["expiry"],
-          uid: response.headers["uid"]
+        'token-type': response.request.getResponseHeader('token-type'),
+        client: response.headers["client"],
+        expiry: response.headers["expiry"],
+        uid: response.headers["uid"]
       }));
         window.location = "/"
       }).catch(function(error) {
