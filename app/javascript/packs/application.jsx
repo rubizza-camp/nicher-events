@@ -9,6 +9,10 @@ import VenueIndex from '../components/venue/VenueIndex';
 import VenueNew from '../components/venue/VenueNew';
 import VenueShow from '../components/venue/VenueShow';
 import VenueEdit from '../components/venue/VenueEdit';
+import NewOrganization from '../components/organization/NewOrganization';
+import EditedOrganization from '../components/organization/EditedOrganization';
+import OrganizationInfo from '../components/organization/OrganizationInfo';
+import OrganizationList from '../components/organization/OrganizationList';
 import { Router, Route, NavLink, Switch } from 'react-router-dom';
 
 const RegisterNavigation = () => (
@@ -51,6 +55,16 @@ const MainNavigation = () => (
   </nav>
 );
 
+const OrganizationNavigation = () => (
+  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <ul>
+      <li className="nav-item">
+        <NavLink exact className="nav-link" activeClassName="active" to="/organizations">Organizations</NavLink>
+      </li>
+    </ul>
+  </nav>
+);
+
 
 const DefaultLayout = ({ component: Component, ...rest }) => {
   let userInfo = '';
@@ -65,11 +79,18 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
   } else {
     navbarComponent = <SignOutNavigation />;
   }
+  let organizationComponent;
+  if (sessionStorage.user != null) {
+    const userRole = JSON.parse(sessionStorage.user_attributes).role;
+    if(userRole === 'organizer') {
+      organizationComponent = <OrganizationNavigation />;
+    }
+  }
   return (
     <Route {...rest} render={matchProps => (
       <div className="DefaultLayout">
         {userInfo}
-        <div className="Header">{navbarComponent}<MainNavigation /></div>
+        <div className="Header">{navbarComponent} {organizationComponent}<MainNavigation /></div>
         <Component {...matchProps} />
       </div>
     )}/>
@@ -82,10 +103,17 @@ const Main = () => (
     <DefaultLayout path="/sign_up" component={SignUp} />
     <DefaultLayout path="/sign_in" component={SignIn} />
     <DefaultLayout path="/sign_out" component={SignOut} />
+<<<<<<< HEAD
     <DefaultLayout exact path='/venues' component={VenueIndex} />
     <DefaultLayout exact path="/venues/new" component={VenueNew} />
     <DefaultLayout exact path='/venues/:id' component={VenueShow} />
     <DefaultLayout exact path='/venues/:id/edit' component={VenueEdit} />
+=======
+    <DefaultLayout exact path='/organizations' component={OrganizationList}  />
+    <DefaultLayout exact path='/organizations/new' component={NewOrganization} />
+    <DefaultLayout exact path='/organizations/:id/edit' component={EditedOrganization} />
+    <DefaultLayout exact path='/organizations/:id' component={OrganizationInfo} />
+>>>>>>> Add organizations:
   </Switch>
 );
 

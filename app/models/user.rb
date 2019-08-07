@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+<<<<<<< HEAD
 # == Schema Information
 #
 # Table name: users
@@ -27,6 +28,9 @@
 #
 
 class User < ActiveRecord::Base
+=======
+class User < ApplicationRecord
+>>>>>>> Add organizations:
   # :trackable
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -38,4 +42,7 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :phone, presence: true, length: { minimum: 5 }
+
+  has_one :user_organization
+  has_one :organization, through: :user_organization
 end
