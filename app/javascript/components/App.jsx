@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Home from './Home';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
+import SignOut from './SignOut'
 import {HashRouter as Router, Route, NavLink, Switch} from 'react-router-dom'
 
 class App extends Component {
@@ -26,7 +27,7 @@ const Navigation = () => (
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/">Back</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_up">Sign up</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_in">Sign in</NavLink></li>
-      {/* <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/???">Sign out</NavLink></li> */}
+      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_out">Sign out</NavLink></li>
     </ul>
   </nav>
 );
@@ -37,6 +38,7 @@ const Main = () => (
     <Route path="/home" component={Home} />
     <Route path="/sign_up" component={SignUp} />
     <Route path="/sign_in" component={SignIn} />
+    <Route path="/sign_out" component={SignOut} />
   </Switch>
 );
 
