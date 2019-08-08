@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 
-export default class ArticleEdit extends React.Component {
+export default class EventEdit extends React.Component {
   constructor(props) {
     super(props);
     this.state =  {};
@@ -37,6 +37,7 @@ export default class ArticleEdit extends React.Component {
   }
 
   render() {
+    const isStatus = this.state.status;
     return (
       <div>
         <h1>Edit {this.state.title}</h1>
@@ -51,10 +52,21 @@ export default class ArticleEdit extends React.Component {
          </div>
           <div className="form-group">
             <label>Status : </label> <br/>
-            <input type="radio" id='status_social' name="status" onChange={this.handleChange} value="social" />
+
+            {isStatus=='social' ? (
+              <input type="radio" id='status_social' name="status" onChange={this.handleChange} value="social" checked />
+            ) : (
+              <input type="radio" id='status_social' name="status" onChange={this.handleChange} value="social" />
+            )}
             <label htmlFor='status_social'>Social</label> <br/>
-            <input id='status_confidential' type="radio" name="status" onChange={this.handleChange} value="confidential" />
+
+            {isStatus=='confidential' ? (
+              <input id='status_confidential' type="radio" name="status" onChange={this.handleChange} value="confidential" checked/>
+            ) : (
+              <input id='status_confidential' type="radio" name="status" onChange={this.handleChange} value="confidential" />
+            )}
             <label htmlFor='status_confidential'>Confidential</label>
+            
           </div>
           <div className="form-group">
             <label htmlFor='description'>Description</label> <br/>

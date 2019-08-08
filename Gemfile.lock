@@ -163,6 +163,8 @@ GEM
       actionpack (>= 5.0.1.x)
       actionview (>= 5.0.1.x)
       activesupport (>= 5.0.1.x)
+    rails-controller-testing (0.0.3)
+      rails (>= 4.2)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)

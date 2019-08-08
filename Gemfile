@@ -49,8 +49,8 @@ group :development, :test do
   gem 'faker', '~> 2.1'
   gem 'rails-controller-testing', '~> 1.0', '>= 1.0.4'
   gem 'pry', '~> 0.12.2'
-  gem 'rails-controller-testing', '~> 1.0'
-  gem 'rspec-rails', '~> 3.8'
+  gem 'rails-controller-testing', '~> 0.0.3'
+  gem 'rspec-rails', '~> 3.8', '>= 3.8.2'
 end
 
 group :development do

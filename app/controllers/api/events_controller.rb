@@ -1,3 +1,6 @@
+# rubocop:disable Style/ClassAndModuleChildren
+# :reek:InstanceVariableAssumption
+
 class Api::EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
@@ -7,8 +10,12 @@ class Api::EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find(params[:id])
-    render json: @event
+    @event = Event.find_by(id: params[:id])
+    if @event
+      render json: @event
+    else
+      render json: { status: :unprocessable_entity }
+    end
   end
 
   def create
@@ -30,9 +37,13 @@ class Api::EventsController < ApplicationController
   end
 
   def destroy
-    @event = Event.find(params[:id])
-    @event.destroy
-    head :no_content
+    @event = Event.find_by(id: params[:id])
+    if @event
+      @event.destroy
+      head :no_content
+    else
+      render json: { status: :unprocessable_entity }
+    end
   end
 
   private
@@ -43,3 +54,4 @@ class Api::EventsController < ApplicationController
     params.require(:event).permit(:name, :date, :description).merge(status: status)
   end
 end
+# rubocop:enable Style/ClassAndModuleChildren
