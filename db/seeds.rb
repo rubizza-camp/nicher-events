@@ -44,4 +44,3 @@ users = [
 ]
 
 User.create(users)
-
