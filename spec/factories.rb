@@ -8,4 +8,11 @@ FactoryBot.define do
     phone { Faker::PhoneNumber.phone_number }
     password { Faker::Internet.password }
   end
+
+  factory :event do
+    name { Faker::String.random(6) }
+    description { Faker::String.random(20) }
+    date { Faker::Date.between(2.days.ago, Date.today) }
+    status { :social }
+  end
 end

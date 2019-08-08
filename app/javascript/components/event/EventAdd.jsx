@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 
-export default class ArticleAdd extends React.Component {
+export default class EventAdd extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { name: '', description: '', status: '', date: '' };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
