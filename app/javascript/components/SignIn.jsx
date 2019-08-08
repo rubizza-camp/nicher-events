@@ -7,10 +7,7 @@ export default class SignIn extends React.Component{
     Axios({
       method: 'post',
       url: '/auth/sign_in',
-      data: {
-        email: this.email.value,
-        password: this.password.value
-      }
+      data: this.state
     }).then(function (response) {
       sessionStorage.setItem('user',
       JSON.stringify({
@@ -26,18 +23,22 @@ export default class SignIn extends React.Component{
       })
   };
 
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
   render(){
     return (
       <div className="jumbotron">
         <form onSubmit={this.handleSignIn}>
           <div>
             <label htmlFor='email'>E-mail</label><br />
-            <input type='text' name='email' ref={(input) => this.email = input} />
+            <input type="text" name="email" value={this.state.email} onChange={this.handleChange} className="form-control" />
           </div>
 
           <div>
             <label htmlFor='password'>Password</label><br />
-            <input type='password' name='password' ref={(input) => this.password = input} />
+            <input type="text" name="password" value={this.state.password} onChange={this.handleChange} className="form-control" />
           </div>
 
           <button type='submit' className='btn_sign_in'>Sign in</button>

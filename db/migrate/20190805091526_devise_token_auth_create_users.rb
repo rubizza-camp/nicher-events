@@ -1,4 +1,3 @@
-# :reek:FeatureEnvy
 # :reek:TooManyStatements
 # :reek:UncommunicativeVariableName
 class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.2]
