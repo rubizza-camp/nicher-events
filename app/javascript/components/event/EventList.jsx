@@ -11,9 +11,9 @@ export default class EventList extends React.Component {
   componentDidMount() {
     Axios.get('api/events')
       .then(res => {
-        const events= res.data;
-        this.setState({ events });
+        this.setState({ events: res.data });
       })
+      .catch(error => console.log('error', error))
   }
 
   render() {
@@ -23,7 +23,6 @@ export default class EventList extends React.Component {
           return(
             <div key={event.id}>
               <h2><Link to={`/events/${event.id}`}>{event.name}</Link> - {event.status}</h2>
-              <p>{event.date}</p>
               <hr/>
             </div>
           )

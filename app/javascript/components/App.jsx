@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Home from './Home';
-import EventList from './EventList';
-import EventAdd from './EventAdd';
-import EventInfo from './EventInfo';
-import EventEdit from './EventEdit';
+import EventList from './event/EventList';
+import EventAdd from './event/EventAdd';
+import EventInfo from './event/EventInfo';
+import EventEdit from './event/EventEdit';
 import {HashRouter as Router, Route, NavLink, Switch} from 'react-router-dom'
 
 class App extends Component {
@@ -26,7 +26,6 @@ const Navigation = () => (
     <ul className="navbar-nav mr-auto">
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/home">Home</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/events">Events</NavLink></li>
-      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/">Back</NavLink></li>
     </ul>
   </nav>
 );

@@ -12,9 +12,9 @@ export default class ArticleInfo extends React.Component {
   componentDidMount() {
     Axios.get(`api/events/${this.props.match.params.id}`)
       .then(res => {
-        const event= res.data;
-        this.setState({ event});
+        this.setState({ event: res.data });
       })
+      .catch(error => console.log('error', error))
   }
 
   handleDelete() {
@@ -22,17 +22,20 @@ export default class ArticleInfo extends React.Component {
       .then(() => {
         this.props.history.push("/events")
       })
+      .catch(error => console.log('error', error))
   }
 
   render() {
     return (
       <div>
         <h2>{this.state.event.id}: {this.state.event.name} - {this.state.event.status}</h2>
-        <p>{this.state.event.date}</p>
-        <p>{this.state.event.description}</p>
+        <p>Date: {this.state.event.date}</p>
+        <p>Description: {this.state.event.description}</p>
         <p>
           <Link to={`/events/${this.state.event.id}/edit`} className="btn btn-outline-dark">Edit</Link> 
+        </p> 
           <button onClick={this.handleDelete} className="btn btn-outline-dark">Delete</button> 
+        <p>
           <Link to="/events" className="btn btn-outline-dark">Close</Link>
         </p>
         <hr/>

@@ -6,6 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 events = Event.create([
-    {name: 'First Event', date: '2019-08-10 11:10:25-07', description:'here can be info about speekers, schedule etc.', status: :common, user_id:1},
-    {name: 'Second Event', date: '2019-08-10 22:00:25-07', description:'here can be info about speekers, schedule etc.', status: :secret, user_id:1}
+    {name: 'First Event', date: '2019-08-10 11:10:25-07', description:'here can be info about speekers, schedule etc.', status: :confidential, user_id:1},
+    {name: 'Second Event', date: '2019-08-10 22:00:25-07', description:'here can be info about speekers, schedule etc.', status: :social, user_id:1}
 ])
