@@ -3,25 +3,25 @@ require 'rails_helper'
 describe 'SignInOut', type: :request do
   include ActionController::RespondWith
   before(:each) do
-    @user1 = create(:user)
+    @user = create(:user)
   end
 
   it 'should get success status after sign_in' do
     get '/#/sign_in'
     expect(response).to have_http_status(:success)
 
-    post '/auth/sign_in', params: { email: @user1.email, password: @user1.password }
+    post '/auth/sign_in', params: { email: @user.email, password: @user.password }
     expect(response).to have_http_status(:success)
   end
 
   it 'should get error status after sign_in' do
-    post '/auth/sign_in', params: { email: 'usr@gmail.com', password: '123456' }
+    post '/auth/sign_in', params: { email: '', password: @user.password }
     expect(response).to have_http_status(401)
 
-    post '/auth/sign_in', params: { email: 'user@gmail.com', password: '12345' }
+    post '/auth/sign_in', params: { email: @user.email, password: '' }
     expect(response).to have_http_status(401)
 
-    post '/auth/sign_in', params: { email: 'example@gmail.', password: '123456' }
+    post '/auth/sign_in', params: { email: @user.password, password: @user.email }
     expect(response).to have_http_status(401)
   end
 
@@ -29,7 +29,7 @@ describe 'SignInOut', type: :request do
     get '/'
     expect(response).to have_http_status(:success)
 
-    delete '/auth/sign_out', params: @user1.create_new_auth_token
+    delete '/auth/sign_out', params: @user.create_new_auth_token
     expect(response).to have_http_status(:success)
   end
 
@@ -38,11 +38,11 @@ describe 'SignInOut', type: :request do
     expect(response).to have_http_status(404)
 
     delete '/auth/sign_out', params: {
-      'access-token': 'vMzlOcJkftWkaU382TO2bg',
-      'token-type': 'Bearer',
-      'client': 'OWd3ZdcglX5nXDjg5bYEbA',
-      'expiry': '1566226122',
-      'uid': 'example@mail.ru'
+      'access-token': '',
+      'token-type': '',
+      'client': '',
+      'expiry': '',
+      'uid': ''
     }
     expect(response).to have_http_status(404)
   end
