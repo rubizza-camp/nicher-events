@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 
-export default class EventAdd extends React.Component {
+export default class NewEvent extends React.Component {
   constructor(props) {
     super(props);
     this.state = { name: '', description: '', status: '', date: '' };
@@ -30,7 +30,7 @@ export default class EventAdd extends React.Component {
   render() {
     return (
       <div>
-        <h1>Create Article Post</h1>
+        <h1>Create</h1>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor='name'>Name</label> <br/>
