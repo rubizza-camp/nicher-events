@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ActiveRecord::Base
+  enum role: %i[attendee organizer]
+  validates :role, inclusion: { in: %w[attendee organizer] }
   # :trackable
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
