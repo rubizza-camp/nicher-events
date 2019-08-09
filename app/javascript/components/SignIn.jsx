@@ -26,6 +26,7 @@ export default class SigInForm extends React.Component {
       }));
       sessionStorage.setItem('email', response.headers["uid"]);
       Axios.defaults.headers.common['Authorization'] = response.request.getResponseHeader('access-token');
+    }).then(response => {
       this.props.history.push('/');
 
       }).catch(error => {

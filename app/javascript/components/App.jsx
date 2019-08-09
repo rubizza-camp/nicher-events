@@ -38,10 +38,8 @@ class App extends Component {
                 url: `/api/v1/users`,
                 data: JSON.parse(sessionStorage.user)
             }).then(res => {
-                console.log(res.data);
                 let myMap = new Map();
                 myMap = res.data.find(o => o.uid === sessionStorage.email);
-                console.log(myMap);
                 this.setState({ user: myMap } );
             })
         }
