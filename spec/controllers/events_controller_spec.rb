@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::EventsController, type: :controller do
+RSpec.describe Api::V1::EventsController, type: :controller do
   let(:event_attributes) { %w[id name date description status user_id] }
 
   describe 'GET #index' do
@@ -13,21 +13,18 @@ RSpec.describe Api::EventsController, type: :controller do
   describe 'GET #show' do
     context 'when valid' do
       let(:event) { create(:event) }
+
       it 'returns json response with event' do
         get :show, params: { id: event.id }
-        json_response = JSON.parse(response.body)
-
         expect(json_response.keys).to eq(event_attributes)
         expect(json_response['name']).to eq(event.name)
       end
     end
 
     context 'when invalid' do
-      it 'return unprocessable_entity status' do
+      it 'return not_found status' do
         get :show, params: { id: -1 }
-        json_response = JSON.parse(response.body)
-
-        expect(json_response['status']).to eq('unprocessable_entity')
+        expect(json_response['status']).to eq('not_found')
       end
     end
   end
@@ -40,9 +37,9 @@ RSpec.describe Api::EventsController, type: :controller do
           status: 'social',
           date: '2019-11-08T05:00' }
       end
+
       it 'return json with params of created event' do
         post :create, params: { event: valid_params }
-        json_response = JSON.parse(response.body)
         event = assigns(:event)
         expect(event.name).to eq(valid_params[:name])
         expect(json_response.keys).to eq(event_attributes)
@@ -57,6 +54,7 @@ RSpec.describe Api::EventsController, type: :controller do
           status: 'social',
           date: '2019-11-08T05:00' }
       end
+
       it 'return message errors' do
         post :create, params: { event: invalid_params }
         event = assigns(:event)
@@ -69,6 +67,7 @@ RSpec.describe Api::EventsController, type: :controller do
   describe 'GET #destroy' do
     context 'when valid' do
       let(:event_valid) { create(:event) }
+
       it 'return params of deleted event' do
         get :destroy, params: { id: event_valid.id }
         event = assigns(:event)
@@ -76,11 +75,9 @@ RSpec.describe Api::EventsController, type: :controller do
       end
     end
     context 'when invalid' do
-      it 'return unprocessable_entity status' do
+      it 'return not_found status' do
         get :destroy, params: { id: -1 }
-        json_response = JSON.parse(response.body)
-
-        expect(json_response['status']).to eq('unprocessable_entity')
+        expect(json_response['status']).to eq('not_found')
       end
     end
   end
