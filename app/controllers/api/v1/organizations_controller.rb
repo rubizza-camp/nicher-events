@@ -6,7 +6,6 @@ class Api::V1::OrganizationsController < ApplicationController
   before_action :set_organization, only: %i[show update destroy]
 
   def index
-    binding.pry
     @organizations = Organization.all
     render json: @organizations
   end
