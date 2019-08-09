@@ -47,8 +47,6 @@ ActiveRecord::Schema.define(version: 2019_08_05_091526) do
     t.string "first_name"
     t.string "last_name"
     t.string "phone"
-    t.string "nickname"
-    t.string "image"
     t.string "email"
     t.json "tokens"
     t.datetime "created_at", null: false
