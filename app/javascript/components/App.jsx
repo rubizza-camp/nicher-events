@@ -11,6 +11,9 @@ import OrganizationList from './organization/OrganizationList';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
 import Axios from 'axios';
+import VenueNew from './venue/VenueNew';
+import VenueShow from './venue/VenueShow';
+import VenueEdit from './venue/VenueEdit';
 import {HashRouter as Router, Route, NavLink, Switch} from 'react-router-dom'
 
 class App extends Component {
@@ -71,6 +74,9 @@ const Navigation = () => (
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/home">Home</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/events">Events</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/organizations">Organization</NavLink></li>
+      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/venues/new">Create venue</NavLink></li>
+      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/venues/:id">Show venue</NavLink></li>
+      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/venues/:id/edit">Edit venue</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/">Back</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_up">Sign up</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_in">Sign in</NavLink></li>
@@ -94,6 +100,9 @@ const Main = () => (
     <Route path="/home" component={Home} />
     <Route path="/sign_up" component={SignUp} />
     <Route path="/sign_in" component={SignIn} />
+    <Route exact path="/venues/new" component={VenueNew} />
+    <Route exact path='/venues/:id' component={VenueShow} />
+    <Route path='/venues/:id/edit' component={VenueEdit} />
   </Switch>
 );
 

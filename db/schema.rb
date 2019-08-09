@@ -58,4 +58,12 @@ ActiveRecord::Schema.define(version: 2019_08_08_100943) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  create_table "venues", force: :cascade do |t|
+    t.string "address", default: "", null: false
+    t.text "description", default: ""
+    t.integer "people_capacity", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
 end
