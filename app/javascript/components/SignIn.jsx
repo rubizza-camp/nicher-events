@@ -29,7 +29,7 @@ export default class SigInForm extends React.Component {
       this.props.history.push('/');
 
       }).catch(error => {
-      this.props.history.push('/sign_in');
+        this.props.history.push(`/sign_in`);
       })
   };
 
