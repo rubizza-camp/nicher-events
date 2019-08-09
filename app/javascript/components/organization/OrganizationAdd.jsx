@@ -12,7 +12,7 @@ class OrganizationAdd extends Component {
 
 	handleSubmit(organization) {
 	  organization.preventDefault();
-    axios.post('api/organizations', this.state)
+    axios.post('api/v1/organizations', this.state)
       .then(data => {
         this.props.history.push(`/organizations/${data.id}`);
       })
@@ -24,7 +24,7 @@ class OrganizationAdd extends Component {
 	}
 
 	handleCancel() {
-    this.props.history.push('/#/organizations/new')
+    this.props.history.push('/#/organizations')
 	}
 
 	render() {

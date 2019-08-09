@@ -11,7 +11,7 @@ class OrganizationEdit extends Component {
 	}
 
 	componentDidMount() {
-	  axios.get(`api/organizations/${this.props.match.params.id}`)
+	  axios.get(`api/v1/organizations/${this.props.match.params.id}`)
       .then(res =>{
         this.setState(res.data);
       })

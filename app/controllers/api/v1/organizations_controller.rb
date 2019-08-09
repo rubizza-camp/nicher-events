@@ -1,10 +1,12 @@
 # rubocop:disable Style/ClassAndModuleChildren
 # :reek:InstanceVariableAssumption
-class Api::OrganizationsController < ApplicationController
-  skip_before_action :verify_authenticity_token
+class Api::V1::OrganizationsController < ApplicationController
+  # skip_before_action :verify_authenticity_token
+  # before_action :authenticate_user!
   before_action :set_organization, only: %i[show update destroy]
 
   def index
+    binding.pry
     @organizations = Organization.all
     render json: @organizations
   end

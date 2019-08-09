@@ -9,7 +9,7 @@ class OrganizationList extends Component {
   }
 
   componentDidMount() {
-    axios.get('api/organizations')
+    axios.get('api/v1/organizations')
       .then(res => { 
         const organizations = res.data;
         this.setState({organizations})
@@ -17,6 +17,7 @@ class OrganizationList extends Component {
   }   
 
   render() {
+    debugger;
     return (
       <div>
         {this.state.organizations.map((organization) => {

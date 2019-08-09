@@ -10,7 +10,7 @@ class OrganizationInfo extends Component {
 	}
 
   componentDidMount() {
-    axios.get(`api/organizations/${this.props.match.params.id}`)
+    axios.get(`api/v1/organizations/${this.props.match.params.id}`)
       .then(res => {
         this.setState({organization: res.data})
       })

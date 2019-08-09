@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::OrganizationsController, type: :controller do
+RSpec.describe Api::V1::OrganizationsController, type: :controller do
   describe 'GET #show' do
     let(:organization_attributes) { %w[id name description] }
     context 'when valid' do
