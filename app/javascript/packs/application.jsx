@@ -5,6 +5,10 @@ import history from './history';
 import SignUp from '../components/SignUpForm';
 import SignIn from '../components/SignIn';
 import SignOut from '../components/SignOut';
+import VenueIndex from '../components/venue/VenueIndex';
+import VenueShow from '../components/venue/VenueShow';
+import VenueEdit from '../components/venue/VenueEdit';
+import VenueNew from '../components/venue/VenueNew';
 import ForgotPassword from '../components/ForgotPassword';
 import ResetPassword from '../components/ResetPassword';
 import Box from '@material-ui/core/Box';
@@ -28,8 +32,14 @@ const RegisterNavigation = () => (
 const SignOutNavigation = () => (
   <AppBar >
     <Toolbar>
+<<<<<<< HEAD
       <NavButtons to="/" text='Main page' />
       <NavButtons to="/sign_out" text='Sign Out' />
+=======
+    <NavButtons to="/" text='Main page' />
+    <NavButtons to="/venues" text='Venues' />
+    <NavButtons to="/sign_out" text='Sign Out' />
+>>>>>>> Add resource venue
     </Toolbar>
   </AppBar>
 );
@@ -86,11 +96,18 @@ const Main = () => (
     <DefaultLayout exact path="/" component={App} />
     <DefaultLayout exact path="/forgot_password" component={ForgotPassword}/>
     <DefaultLayout path="/reset_password" component={ResetPassword}/>
+<<<<<<< HEAD
     <DefaultLayout exact path="/sign_up" component={SignUp} />
     <DefaultLayout path="/sign_in" component={SignIn} />
     <DefaultLayout path="/sign_out" component={SignOut} />
     <DefaultLayout exact path='/organizations/:id/edit' component={EditOrganizationForm} />
     <DefaultLayout exact path='/organizations/:id' component={OrganizationInfo} />
+=======
+    <DefaultLayout exact path='/venues' component={VenueIndex} />
+    <DefaultLayout exact path="/venues/new" component={VenueNew} />
+    <DefaultLayout exact path='/venues/:id' component={VenueShow} />
+    <DefaultLayout exact path='/venues/:id/edit' component={VenueEdit} />
+>>>>>>> Add resource venue
   </Switch>
 );
 
