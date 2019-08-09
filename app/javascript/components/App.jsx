@@ -17,9 +17,9 @@ class App extends Component {
       url: '/auth/sign_out',
       data: JSON.parse(sessionStorage.user)
     }).then(function (response) {
-      this.props.history.push(`/`);
+      this.props.history.push('/');
     }).catch(function(error) {
-      this.props.history.push(`/`);
+      this.props.history.push('/');
     })
   };
 

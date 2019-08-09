@@ -24,9 +24,9 @@ export default class SignUpForm extends React.Component {
         expiry: response.headers["expiry"],
         uid: response.headers["uid"]
       }));
-        this.props.history.push(`/`);
+        this.props.history.push('/');
       }).catch(error => {
-        this.props.history.push(`/sign_up`);
+        this.props.history.push('/sign_up');
       })
   };
 
