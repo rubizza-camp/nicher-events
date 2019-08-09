@@ -1,6 +1,12 @@
 import React from 'react';
 import Axios from 'axios';
 
+// Axios.interceptors.request.use(config => {
+//   console.log(config);
+//   config.headers['key'] = JSON.parse(sessionStorage.user);
+//   return config;
+// });
+
 export default class SignIn extends React.Component{
   handleSignIn = (e) =>{
     e.preventDefault();
@@ -20,7 +26,10 @@ export default class SignIn extends React.Component{
         expiry: response.headers["expiry"],
         uid: response.headers["uid"]
       }));
-        window.location = "/"
+      sessionStorage.setItem('email', response.headers["uid"]);
+      Axios.defaults.headers.common['Authorization'] = response.request.getResponseHeader('access-token');
+      window.location = "/"
+
       }).catch(function(error) {
         window.location = "/#/sign_in"
       })

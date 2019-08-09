@@ -13,7 +13,17 @@ import SignIn from './SignIn';
 import Axios from 'axios';
 import {HashRouter as Router, Route, NavLink, Switch} from 'react-router-dom'
 
+// Axios.interceptors.request.use(config => {
+//     console.log(config);
+//     config.headers['key'] = JSON.parse(sessionStorage.user);
+//     return config;
+// });
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { user: {} };
+  }
   handleSignOut = (e) =>{
     e.preventDefault();
     Axios({
@@ -21,19 +31,34 @@ class App extends Component {
       url: '/auth/sign_out',
       data: JSON.parse(sessionStorage.user)
     }).then(function (response) {
+        sessionStorage.removeItem('user');
         window.location = "/"
       }).catch(function(error) {
         window.location = "/#/sign_out"
       })
   };
+    componentDidMount () {
+        if(sessionStorage.user != null) {
+            Axios({
+                type: 'get',
+                url: `/api/v1/users`,
+                data: JSON.parse(sessionStorage.user)
+            }).then(res => {
+                let myMap = new Map();
+                myMap = res.data.find(o => o.uid === sessionStorage.email);
+                this.setState({ user: myMap } );
+            })
+        }
+    }
 
-  render() {
+    render() {
     return (
       <div className="App">
         <Router>
           <div className="container">
             <Navigation />
             <Main />
+              <h2>role: {this.state.user['role']}</h2>
             <div className="jumbotron">
               <form onSubmit={this.handleSignOut}>
                 <button type='submit' className='btn_sign_out'>Sign out</button>

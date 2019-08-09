@@ -9,7 +9,8 @@ export default class SignUp extends React.Component{
       url: '/auth',
       data: {
         email: this.email.value,
-        password: this.password.value
+        password: this.password.value,
+        role: this.state
       }
     }).then(function (response) {
       sessionStorage.setItem('user',
@@ -20,6 +21,7 @@ export default class SignUp extends React.Component{
         expiry: response.headers["expiry"],
         uid: response.headers["uid"]
       }));
+        Axios.defaults.headers.common['Authorization'] = response.request.getResponseHeader('access-token');
         window.location = "/"
       }).catch(function(error) {
         window.location = "/#/sign_up"
@@ -40,7 +42,8 @@ export default class SignUp extends React.Component{
             <input type='password' name='password' ref={(input) => this.password = input} />
           </div>
 
-          <button type='submit' className='btn_sign_up'>Sign up</button>
+          <button type='submit' className='btn_sign_up' value={this.state = 'attendee'}>Sign up as attendee</button>
+          <button type='submit' className='btn_sign_up' value={this.state = 'organizer'}>Sign up as organizer</button>
         </form>
       </div>
     );
