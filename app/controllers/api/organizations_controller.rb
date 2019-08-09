@@ -2,7 +2,7 @@
 # :reek:InstanceVariableAssumption
 class Api::OrganizationsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_organization, only: %i[show edit,update destroy]
+  before_action :set_organization, only: %i[show update destroy]
 
   def index
     @organizations = Organization.all
