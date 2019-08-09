@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::EventsController, type: :controller do
+  let(:event_attributes) { %w[id name date description status user_id] }
+
   describe 'GET #index' do
     it 'should get index' do
       get :index
@@ -9,8 +11,6 @@ RSpec.describe Api::EventsController, type: :controller do
   end
 
   describe 'GET #show' do
-    let(:event_attributes) { %w[id name date description status user_id] }
-
     context 'when valid' do
       let(:event) { create(:event) }
       it 'returns json response with event' do
@@ -23,39 +23,65 @@ RSpec.describe Api::EventsController, type: :controller do
     end
 
     context 'when invalid' do
-      it 'return nill' do
+      it 'return unprocessable_entity status' do
         get :show, params: { id: -1 }
         json_response = JSON.parse(response.body)
 
-        expect(json_response).to be_nil
+        expect(json_response['status']).to eq('unprocessable_entity')
       end
     end
   end
 
-  describe 'GET #create' do
+  describe 'POST #create' do
     context 'when valid' do
-      let(:event) { create(:event) }
-
-      it 'increase count of events in db' do
-        expect { create(:event) }.to change { Event.all.count }.by(1)
+      let(:valid_params) do
+        { name: 'first event',
+          description: 'it is enough long description',
+          status: 'social',
+          date: '2019-11-08T05:00' }
       end
-
-      it 'object name the same as db record' do
-        expect(event.name).to eq(Event.find(event.id).name)
+      it 'return json with params of created event' do
+        post :create, params: { event: valid_params }
+        json_response = JSON.parse(response.body)
+        event = assigns(:event)
+        expect(event.name).to eq(valid_params[:name])
+        expect(json_response.keys).to eq(event_attributes)
+        expect(json_response['name']).to eq(valid_params[:name])
       end
     end
 
     context 'when invalid' do
-      it 'count of events in db shouldn\'t change' do
-        expect { build(:event, name: nil) }.to change { Event.all.count }.by(0)
+      let(:invalid_params) do
+        { name: nil,
+          description: 'so short',
+          status: 'social',
+          date: '2019-11-08T05:00' }
+      end
+      it 'return message errors' do
+        post :create, params: { event: invalid_params }
+        event = assigns(:event)
+        expect(event.errors.messages[:name].first).to eq('can\'t be blank')
+        expect(event.errors.messages[:description].first).to eq('is too short (minimum is 10 characters)')
       end
     end
   end
 
   describe 'GET #destroy' do
-    let!(:event) { create(:event) }
-    it 'decrease count of events in db' do
-      expect { get :destroy, params: { id: event.id } }.to change { Event.all.count }.by(-1)
+    context 'when valid' do
+      let(:event_valid) { create(:event) }
+      it 'return params of deleted event' do
+        get :destroy, params: { id: event_valid.id }
+        event = assigns(:event)
+        expect(event_valid.name).to eq(event.name)
+      end
+    end
+    context 'when invalid' do
+      it 'return unprocessable_entity status' do
+        get :destroy, params: { id: -1 }
+        json_response = JSON.parse(response.body)
+
+        expect(json_response['status']).to eq('unprocessable_entity')
+      end
     end
   end
 end

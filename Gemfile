@@ -48,7 +48,8 @@ group :development, :test do
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
   gem 'faker', '~> 1.8', '>= 1.8.7'
   gem 'pry', '~> 0.12.2'
-  gem 'rspec-rails', '~> 3.8'
+  gem 'rails-controller-testing', '~> 0.0.3'
+  gem 'rspec-rails', '~> 3.8', '>= 3.8.2'
 end
 
 group :development do

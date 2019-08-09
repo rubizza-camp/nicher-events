@@ -1,41 +1,49 @@
 # rubocop:disable Style/ClassAndModuleChildren
+# :reek:InstanceVariableAssumption
+
 class Api::EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  attr_reader :event, :events
-
   def index
-    events = Event.all
-    render json: events
+    @events = Event.all
+    render json: @events
   end
 
   def show
-    event = Event.find_by(id: params[:id])
-    render json: event
+    @event = Event.find_by(id: params[:id])
+    if @event
+      render json: @event
+    else
+      render json: { status: :unprocessable_entity }
+    end
   end
 
   def create
-    event = Event.new(event_params)
-    if event.save
-      render json: event, status: :created
+    @event = Event.new(event_params)
+    if @event.save
+      render json: @event, status: :created
     else
-      render json: event.errors, status: :unprocessable_entity
+      render json: @event.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    event = Event.find(params[:id])
-    if event.update(event_params)
-      render json: event, status: :ok
+    @event = Event.find(params[:id])
+    if @event.update(event_params)
+      render json: @event, status: :ok
     else
-      render json: event.errors, status: :unprocessable_entity
+      render json: @event.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
-    event = Event.find(params[:id])
-    event.destroy
-    head :no_content
+    @event = Event.find_by(id: params[:id])
+    if @event
+      @event.destroy
+      head :no_content
+    else
+      render json: { status: :unprocessable_entity }
+    end
   end
 
   private
