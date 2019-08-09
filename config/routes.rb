@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   root 'welcome#index'
   namespace :api do
-    resources :events
+    namespace :v1 do
+      resources :events
+    end
   end
   get '*page', to: 'static#index',
                constraints: ->(req) { !req.xhr? && req.format.html? }
