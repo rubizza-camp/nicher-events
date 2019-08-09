@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe WelcomeController, type: :controller do
+RSpec.describe Api::WelcomeController, type: :controller do
   describe 'GET index' do
     it 'should get index' do
       get :index

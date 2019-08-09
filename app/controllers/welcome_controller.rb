@@ -1,3 +1,5 @@
 class WelcomeController < ApplicationController
-  def index; end
+  def index
+    render file: 'welcome/index.html'
+  end
 end
