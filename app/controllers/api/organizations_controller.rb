@@ -1,3 +1,5 @@
+# rubocop:disable Style/ClassAndModuleChildren
+# :reek:InstanceVariableAssumption
 class Api::OrganizationsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_organization, only: [:show, :edit, :update, :destroy]
@@ -8,7 +10,12 @@ class Api::OrganizationsController < ApplicationController
   end
 
   def show
-    render json: @organization
+    if @organization
+      render json: @organization
+    else
+      render json: { status: :unprocessable_entity }
+    end
+
   end
 
   def create
@@ -20,8 +27,6 @@ class Api::OrganizationsController < ApplicationController
     end
   end
 
-  def edit; end
-
   def update
     if @organization.update(organization_params)
       render json: @organization, status: :ok
@@ -31,16 +36,21 @@ class Api::OrganizationsController < ApplicationController
   end
 
   def destroy
-    @organization.destroy
-    head :no_content
+    if @organization
+      @organization.destroy
+      head :no_content
+    else
+      render json: { status: :unprocessable_entity }
+    end
   end
 
   private
     def set_organization
-      @organization = Organization.find(params[:id])
+      @organization = Organization.find_by(id: params[:id])
     end
 
     def organization_params
       params.require(:organization).permit(:name, :description)
     end
 end
+# rubocop:enable Style/ClassAndModuleChildren

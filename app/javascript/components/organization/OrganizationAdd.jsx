@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class OrganizationAdd extends Component {
 	constructor() {
@@ -15,7 +16,7 @@ class OrganizationAdd extends Component {
       .then(data => {
         this.props.history.push(`/organizations/${data.id}`);
       })
-      .catch(error => window.location = '/#/organizations')
+      .catch(error => console.log('error', error))
 	}
 
 	handleChange(organization) {
@@ -23,7 +24,7 @@ class OrganizationAdd extends Component {
 	}
 
 	handleCancel() {
-    this.props.history.push('/#/organizations')
+    this.props.history.push('/#/organizations/new')
 	}
 
 	render() {
@@ -33,20 +34,23 @@ class OrganizationAdd extends Component {
 		  	<form onSubmit={this.handleSubmit}>
 		  	  <div className='form-group'>
             <label>Name</label>
+            <br/>
             <input type='text' name='name' value={this.state.name} 
             onChange={this.handleChange} className='form-control' />
-          </div>
-          <div>
-            <label>Description</label>
-            <textarea name='description' rows='10' value={this.state.description}
-            onChange={this.handleChange} className='form-controls' />
-          </div>
-          <div class='btn-group'>
-            <button type='submit' className='btn btn-dark'>Create</button>
-            <button type='button' onClick={this.handleCancel} 
-            className='btn btn-secondary'>Cancel</button>
-          </div>
-		  	</form>
+	        </div>
+	        <br/>
+	        <div>
+	          <label>Description</label>
+	          <br/>
+	          <textarea name='description' rows='10' value={this.state.description}
+	          onChange={this.handleChange} className='form-controls' />
+	        </div>
+	        <div class='btn-group'>
+	          <button type='submit' className='btn btn-dark'>Create</button>
+	          <button type='button' onClick={this.handleCancel} 
+	          className='btn btn-secondary'>Cancel</button>
+	        </div>
+  		  </form>
 		  </div>
 			)
 	}

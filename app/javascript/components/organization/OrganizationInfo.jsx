@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class OrganizationInfo extends Component {
-	constructor() {
-    super();
+	constructor(props) {
+    super(props);
     this.state = { organization: {} };
     this.handleDelete = this.handleDelete.bind(this);
 	}
@@ -11,13 +12,17 @@ class OrganizationInfo extends Component {
   componentDidMount() {
     axios.get(`api/organizations/${this.props.match.params.id}`)
       .then(res => {
-        const organization = res.data;
-        this.setState({organization})
+        this.setState({organization: res.data})
       })
+      .catch(error => console.log('error', error))
   }
 
   handleDelete() {
     axios.delete(`api/organizations/${this.props.match.params.id}`)
+      .then(res => {
+        this.props.history.push('/organizations')
+      })
+      .catch(error => console.log('error', error))
   }
 
   render() {

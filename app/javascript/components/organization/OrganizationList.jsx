@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Axios from 'axios';
+import axios from 'axios';
 
 class OrganizationList extends Component {
   constructor() {
@@ -9,7 +9,7 @@ class OrganizationList extends Component {
   }
 
   componentDidMount() {
-    Axios.get('api/organizations')
+    axios.get('api/organizations')
       .then(res => { 
         const organizations = res.data;
         this.setState({organizations})
@@ -19,7 +19,6 @@ class OrganizationList extends Component {
   render() {
     return (
       <div>
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>
         {this.state.organizations.map((organization) => {
           return(
             <div key={organization.id}>
@@ -27,6 +26,7 @@ class OrganizationList extends Component {
               {organization.description}
               <hr/>
             </div>
+            
           )
         })}
         <Link to="/organizations/new" className="btn btn-outline-primary">Create Organization</Link> 

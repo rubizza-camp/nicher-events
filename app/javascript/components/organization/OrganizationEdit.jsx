@@ -2,28 +2,37 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 class OrganizationEdit extends Component {
-	constructor() {
-		super();
-		this.state = {name: '', description: ''};
+	constructor(props) {
+		super(props);
+		this.state = {};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleCancel = this.handleCancel.bind(this);
 	}
 
 	componentDidMount() {
-
+	  axios.get(`api/organizations/${this.props.match.params.id}`)
+      .then(res =>{
+        this.setState(res.data);
+      })
+      .catch(error => console.log('error', error))
 	}
 
-	handleSubmit() {
-
+	handleSubmit = (organization) => {
+    organization.preventDefault();
+    axios.patch(`api/organizations/${this.props.match.params.id}`, this.state)
+      .then(res => {
+        this.setState(res.data);
+      })
+      .catch(error => console.log('error', error))
 	}
 
-	handleChange() {
-
+	handleChange = (organization) => {
+    this.setState({[organization.target.name]: organization.target.value})
 	}
 
 	handleCancel() {
-
+    this.props.history.push(`/organizations/${this.state.id}`)
 	}
 
 	render() {
@@ -32,10 +41,10 @@ class OrganizationEdit extends Component {
         <h1>Edit {this.state.name}</h1>
         <form onSubmit={this.handleSubmit}>
           <div className='form-group'>
-            <label>Name</label>
+            <label>Name</label><br/>
             <input type='text' name='name' value={this.state.title}
-            onChange={this.handleChange} className='form-control'/>
-            <label>Description</label>
+            onChange={this.handleChange} className='form-control'/><br/>
+            <label>Description</label><br/>
             <textarea name='description' rows='10' value={this.state.description}
             onChange={this.handleChange} className='form-control' />
           </div>

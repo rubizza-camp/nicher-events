@@ -44,10 +44,10 @@ const Main = () => (
     <Route exact path="/events/new" component={NewEvent} />
     <Route exact path='/events/:id' component={EventInfo} />
     <Route exact path='/events/:id/edit' component={EventEdit} />
-    <Route path='/organizations' component={OrganizationList}  />
-    <Route path='/organizations/new' component={OrganizationAdd} />
-    <Route path='/organizations/:id/edit' component={OrganizationEdit} />
-    <Route path='/organizations/:id' component={OrganizationInfo} />
+    <Route exact path='/organizations' component={OrganizationList}  />
+    <Route exact path='/organizations/new' component={OrganizationAdd} />
+    <Route exact path='/organizations/:id/edit' component={OrganizationEdit} />
+    <Route exact path='/organizations/:id' component={OrganizationInfo} />
   </Switch>
 );
 
