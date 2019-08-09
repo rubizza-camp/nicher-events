@@ -3,6 +3,7 @@
 
 class Api::V1::EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
+  before_action :set_event, only: %i[show update destroy]
 
   def index
     @events = Event.all
@@ -10,11 +11,10 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find_by(id: params[:id])
     if @event
       render json: @event
     else
-      render json: { status: :unprocessable_entity }
+      render json: { status: :not_found }
     end
   end
 
@@ -28,7 +28,6 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def update
-    @event = Event.find(params[:id])
     if @event.update(event_params)
       render json: @event, status: :ok
     else
@@ -37,16 +36,19 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def destroy
-    @event = Event.find_by(id: params[:id])
     if @event
       @event.destroy
       head :no_content
     else
-      render json: { status: :unprocessable_entity }
+      render json: { status: :not_found }
     end
   end
 
   private
+
+  def set_event
+    @event = Event.find_by(id: params[:id])
+  end
 
   def event_params
     status_str = params.dig(:event, :status)

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Home from './Home';
 import EventList from './event/EventList';
-import EventAdd from './event/EventAdd';
+import NewEvent from './event/NewEvent';
 import EventInfo from './event/EventInfo';
-import EventEdit from './event/EventEdit';
+import EventEdit from './event/UpdatedEvent';
 import {HashRouter as Router, Route, NavLink, Switch} from 'react-router-dom'
 
 class App extends Component {
@@ -35,7 +35,7 @@ const Main = () => (
     <Route exact path='/' />
     <Route path='/home' component={Home} />
     <Route exact path='/events' component={EventList} />
-    <Route exact path="/events/new" component={EventAdd} />
+    <Route exact path="/events/new" component={NewEvent} />
     <Route exact path='/events/:id' component={EventInfo} />
     <Route exact path='/events/:id/edit' component={EventEdit} />
   </Switch>
