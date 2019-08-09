@@ -6,7 +6,7 @@ RSpec.describe Api::OrganizationsController, type: :controller do
     context 'when valid' do
       let(:organization) { create(:organization) }
       it 'returns json response with organization' do
-        get :show, params: { id: organization.id } 
+        get :show, params: { id: organization.id }
         json_response = JSON.parse(response.body)
 
         expect(json_response.keys).to eq(organization_attributes)
@@ -26,7 +26,7 @@ RSpec.describe Api::OrganizationsController, type: :controller do
   describe 'GET #destroy' do
     let!(:organization) { create(:organization) }
     it 'descrease count of organizations in db by 1' do
-      expect { get :destroy, params: { id: organization.id} }.to change { Organization.all.count }.by(-1)
+      expect { get :destroy, params: { id: organization.id } }.to change { Organization.all.count }.by(-1)
     end
   end
 
@@ -37,7 +37,7 @@ RSpec.describe Api::OrganizationsController, type: :controller do
         post :create, params: { organization: input_valid_params }
         organization = assigns(:organization)
 
-        expect(organization.name).to eq (input_valid_params[:name])
+        expect(organization.name).to eq input_valid_params[:name]
       end
     end
 
