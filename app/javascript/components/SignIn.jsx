@@ -7,17 +7,21 @@ import Axios from 'axios';
 //   return config;
 // });
 
-export default class SignIn extends React.Component{
+export default class SigInForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { };
+    this.handleSignIn = this.handleSignIn.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   handleSignIn = (e) =>{
     e.preventDefault();
     Axios({
       method: 'post',
       url: '/auth/sign_in',
-      data: {
-        email: this.email.value,
-        password: this.password.value
-      }
-    }).then(function (response) {
+      data: this.state
+    }).then(response => {
       sessionStorage.setItem('user',
       JSON.stringify({
         'access-token': response.request.getResponseHeader('access-token'),
@@ -28,30 +32,34 @@ export default class SignIn extends React.Component{
       }));
       sessionStorage.setItem('email', response.headers["uid"]);
       Axios.defaults.headers.common['Authorization'] = response.request.getResponseHeader('access-token');
-      window.location = "/"
+      this.props.history.push('/');
 
-      }).catch(function(error) {
-        window.location = "/#/sign_in"
+      }).catch(error => {
+      this.props.history.push('/sign_in');
       })
   };
 
-  render(){
+  handleChange = (user) => {
+    this.setState({ [user.target.name]: user.target.value });
+  };
+
+  render() {
     return (
-      <div className="jumbotron">
-        <form onSubmit={this.handleSignIn}>
-          <div>
-            <label htmlFor='email'>E-mail</label><br />
-            <input type='text' name='email' ref={(input) => this.email = input} />
-          </div>
+        <div>
+          <form onSubmit={this.handleSignIn}>
+            <div>
+              <label htmlFor='email'>E-mail</label><br />
+              <input type="text" name="email" value={this.state.email} onChange={this.handleChange} className="form-control" />
+            </div>
 
-          <div>
-            <label htmlFor='password'>Password</label><br />
-            <input type='password' name='password' ref={(input) => this.password = input} />
-          </div>
+            <div>
+              <label htmlFor='password'>Password</label><br />
+              <input type="text" name="password" value={this.state.password} onChange={this.handleChange} className="form-control" />
+            </div>
 
-          <button type='submit' className='btn_sign_in'>Sign in</button>
-        </form>
-      </div>
+            <button type='submit' className='btn_sign_in'>Sign in</button>
+          </form>
+        </div>
     );
-   }
+  }
 }

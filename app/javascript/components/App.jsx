@@ -13,12 +13,6 @@ import SignIn from './SignIn';
 import Axios from 'axios';
 import {HashRouter as Router, Route, NavLink, Switch} from 'react-router-dom'
 
-// Axios.interceptors.request.use(config => {
-//     console.log(config);
-//     config.headers['key'] = JSON.parse(sessionStorage.user);
-//     return config;
-// });
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -32,9 +26,9 @@ class App extends Component {
       data: JSON.parse(sessionStorage.user)
     }).then(function (response) {
         sessionStorage.removeItem('user');
-        window.location = "/"
+        window.location ='/'
       }).catch(function(error) {
-        window.location = "/#/sign_out"
+        window.location ='/'
       })
   };
     componentDidMount () {
@@ -44,8 +38,10 @@ class App extends Component {
                 url: `/api/v1/users`,
                 data: JSON.parse(sessionStorage.user)
             }).then(res => {
+                console.log(res.data);
                 let myMap = new Map();
                 myMap = res.data.find(o => o.uid === sessionStorage.email);
+                console.log(myMap);
                 this.setState({ user: myMap } );
             })
         }
