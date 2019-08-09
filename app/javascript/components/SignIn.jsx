@@ -1,14 +1,21 @@
 import React from 'react';
 import Axios from 'axios';
 
-export default class SignIn extends React.Component{
-  handleSignIn = (e) =>{
+export default class SignIn extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { };
+    this.handleSignIn = this.handleSignIn.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleSignIn = (e) => {
     e.preventDefault();
     Axios({
       method: 'post',
       url: '/auth/sign_in',
       data: this.state
-    }).then(function (response) {
+    }).then(response => {
       sessionStorage.setItem('user',
       JSON.stringify({
         'access-token': response.request.getResponseHeader('access-token'),
@@ -17,19 +24,19 @@ export default class SignIn extends React.Component{
         expiry: response.headers["expiry"],
         uid: response.headers["uid"]
       }));
-        window.location = "/"
-      }).catch(function(error) {
-        window.location = "/#/sign_in"
+        this.props.history.push('/');
+      }).catch(error => {
+        this.props.history.push(`/#/sign_in`);
       })
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = (user) => {
+    this.setState({ [user.target.name]: user.target.value });
   }
 
-  render(){
+  render() {
     return (
-      <div className="jumbotron">
+      <div>
         <form onSubmit={this.handleSignIn}>
           <div>
             <label htmlFor='email'>E-mail</label><br />

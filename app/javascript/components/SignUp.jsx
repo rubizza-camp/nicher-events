@@ -1,8 +1,15 @@
 import React from 'react';
 import Axios from 'axios';
 
-export default class SignUp extends React.Component{
-  handleSignUp = (e) =>{
+export default class SignUp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { };
+    this.handleSignUp = this.handleSignUp.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleSignUp = (e) => {
     e.preventDefault();
     Axios({
       method: 'post',
@@ -17,23 +24,38 @@ export default class SignUp extends React.Component{
         expiry: response.headers["expiry"],
         uid: response.headers["uid"]
       }));
-        window.location = "/"
+        this.props.history.push(`/`);
       }).catch(function(error) {
-        window.location = "/#/sign_up"
+        this.props.history.push(`/#/sign_up`);
       })
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = (user) => {
+    this.setState({ [user.target.name]: user.target.value });
   }
 
-  render(){
+  render() {
     return (
-      <div className="jumbotron">
+      <div>
         <form onSubmit={this.handleSignUp}>
+          <div>
+            <label htmlFor='first_name'>First name</label><br />
+            <input type="text" name="first_name" value={this.state.first_name} onChange={this.handleChange} className="form-control" />
+          </div>
+
+          <div>
+            <label htmlFor='last_name'>Last name</label><br />
+            <input type="text" name="last_name" value={this.state.last_name} onChange={this.handleChange} className="form-control" />
+          </div>
+
           <div>
             <label htmlFor='email'>E-mail</label><br />
             <input type="text" name="email" value={this.state.email} onChange={this.handleChange} className="form-control" />
+          </div>
+
+          <div>
+            <label htmlFor='phone'>Phone</label><br />
+            <input type="text" name="phone" value={this.state.phone} onChange={this.handleChange} className="form-control" />
           </div>
 
           <div>

@@ -6,17 +6,21 @@ import Axios from 'axios';
 import {HashRouter as Router, Route, NavLink, Switch} from 'react-router-dom'
 
 class App extends Component {
-  handleSignOut = (e) =>{
+  constructor(props) {
+    super(props);
+  }
+
+  handleSignOut = (e) => {
     e.preventDefault();
     Axios({
       method: 'delete',
       url: '/auth/sign_out',
       data: JSON.parse(sessionStorage.user)
     }).then(function (response) {
-        window.location = "/"
-      }).catch(function(error) {
-        window.location = "/#/sign_out"
-      })
+      this.props.history.push(`/`);
+    }).catch(function(error) {
+      this.props.history.push(`/`);
+    })
   };
 
   render() {
@@ -26,7 +30,7 @@ class App extends Component {
           <div className="container">
             <Navigation />
             <Main />
-            <div className="jumbotron">
+            <div>
               <form onSubmit={this.handleSignOut}>
                 <button type='submit' className='btn_sign_out'>Sign out</button>
               </form>
