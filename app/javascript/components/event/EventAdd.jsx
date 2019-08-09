@@ -12,7 +12,7 @@ export default class EventAdd extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    Axios.post('api/events', this.state)
+    Axios.post('api/v1/events', this.state)
       .then(response => {
         this.props.history.push(`/events/${response.data.id}`);
       })
