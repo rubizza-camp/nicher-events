@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
 
-export default class ArticleInfo extends React.Component {
+export default class EventInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = { event: {} };

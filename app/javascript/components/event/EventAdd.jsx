@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 
-export default class ArticleAdd extends React.Component {
+export default class EventAdd extends React.Component {
   constructor(props) {
     super(props);
     this.state = { name: '', description: '', status: '', date: '' };
