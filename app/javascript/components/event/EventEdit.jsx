@@ -11,7 +11,7 @@ export default class EventEdit extends React.Component {
   }
 
   componentDidMount() {
-    Axios.get(`api/events/${this.props.match.params.id}`)
+    Axios.get(`api/v1/events/${this.props.match.params.id}`)
       .then(res => {
         this.setState(res.data);
       })
@@ -20,7 +20,7 @@ export default class EventEdit extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    Axios.patch(`api/events/${this.props.match.params.id}`, this.state)
+    Axios.patch(`api/v1/events/${this.props.match.params.id}`, this.state)
       .then(response => console.log(response))
       .then(data => {
         this.props.history.push(`/events/${this.state.id}`);
@@ -41,6 +41,7 @@ export default class EventEdit extends React.Component {
     return (
       <div>
         <h1>Edit {this.state.title}</h1>
+        {/* < EventForm event={ } /> */}
         <form onSubmit={this.handleSubmit}>
         <div className="form-group">
             <label htmlFor='name'>Name</label> <br/>

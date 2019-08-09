@@ -10,7 +10,7 @@ export default class EventInfo extends React.Component {
   }
 
   componentDidMount() {
-    Axios.get(`api/events/${this.props.match.params.id}`)
+    Axios.get(`api/v1/events/${this.props.match.params.id}`)
       .then(res => {
         this.setState({ event: res.data });
       })
@@ -18,7 +18,7 @@ export default class EventInfo extends React.Component {
   }
 
   handleDelete() {
-    Axios.delete(`api/events/${this.props.match.params.id}`)
+    Axios.delete(`api/v1/events/${this.props.match.params.id}`)
       .then(() => {
         this.props.history.push("/events")
       })

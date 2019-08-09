@@ -9,7 +9,7 @@ export default class EventList extends React.Component {
   }
 
   componentDidMount() {
-    Axios.get('api/events')
+    Axios.get('api/v1/events')
       .then(res => {
         this.setState({ events: res.data });
       })
