@@ -1,7 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 
-export default class SignIn extends React.Component {
+export default class SigInForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { };
@@ -26,7 +26,7 @@ export default class SignIn extends React.Component {
       }));
         this.props.history.push('/');
       }).catch(error => {
-        this.props.history.push(`/#/sign_in`);
+        this.props.history.push(`/sign_in`);
       })
   };
 

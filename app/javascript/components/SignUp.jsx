@@ -1,7 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 
-export default class SignUp extends React.Component {
+export default class SignUpForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { };
@@ -15,7 +15,7 @@ export default class SignUp extends React.Component {
       method: 'post',
       url: '/auth',
       data: this.state
-    }).then(function (response) {
+    }).then(response => {
       sessionStorage.setItem('user',
       JSON.stringify({
         'access-token': response.request.getResponseHeader('access-token'),
@@ -25,8 +25,8 @@ export default class SignUp extends React.Component {
         uid: response.headers["uid"]
       }));
         this.props.history.push(`/`);
-      }).catch(function(error) {
-        this.props.history.push(`/#/sign_up`);
+      }).catch(error => {
+        this.props.history.push(`/sign_up`);
       })
   };
 
