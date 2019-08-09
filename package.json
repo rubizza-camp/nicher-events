@@ -1,5 +1,6 @@
 {
   "name": "nicher-events",
+  "version": "8.10.0",
   "private": true,
   "dependencies": {
     "@babel/preset-react": "^7.0.0",
@@ -12,5 +13,10 @@
   },
   "devDependencies": {
     "webpack-dev-server": "^3.7.2"
+  },
+  "scripts": {
+    "build": "yarn --cwd client install && yarn --cwd client build",
+    "deploy": "cp -a client/build/. public/",
+    "heroku-postbuild": "yarn build && yarn deploy"
   }
 }
