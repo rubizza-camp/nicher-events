@@ -78,6 +78,15 @@ ActiveRecord::Schema.define(version: 2019_08_24_184940) do
   end
 
   add_foreign_key "events", "users"
+
+  create_table "venues", force: :cascade do |t|
+    t.string "address", default: "", null: false
+    t.text "description", default: ""
+    t.integer "people_capacity", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "user_organizations", "organizations"
   add_foreign_key "user_organizations", "users"
 end
