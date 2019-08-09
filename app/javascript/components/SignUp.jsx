@@ -9,7 +9,7 @@ export default class SignUpForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleSignUp = (e) =>{
+  handleSignUp = (e) => {
     e.preventDefault();
     Axios({
       method: 'post',
@@ -34,21 +34,36 @@ export default class SignUpForm extends React.Component {
 
   handleChange = (user) => {
     this.setState({ [user.target.name]: user.target.value });
-  };
+  }
 
   render() {
     return (
-        <div>
-          <form onSubmit={this.handleSignUp}>
-            <div>
-              <label htmlFor='email'>E-mail</label><br />
-              <input type="text" name="email" value={this.state.email} onChange={this.handleChange} className="form-control" />
-            </div>
+      <div>
+        <form onSubmit={this.handleSignUp}>
+          <div>
+            <label htmlFor='first_name'>First name</label><br />
+            <input type="text" name="first_name" value={this.state.first_name} onChange={this.handleChange} className="form-control" />
+          </div>
 
-            <div>
-              <label htmlFor='password'>Password</label><br />
-              <input type="text" name="password" value={this.state.password} onChange={this.handleChange} className="form-control" />
-            </div>
+          <div>
+            <label htmlFor='last_name'>Last name</label><br />
+            <input type="text" name="last_name" value={this.state.last_name} onChange={this.handleChange} className="form-control" />
+          </div>
+
+          <div>
+            <label htmlFor='email'>E-mail</label><br />
+            <input type="text" name="email" value={this.state.email} onChange={this.handleChange} className="form-control" />
+          </div>
+
+          <div>
+            <label htmlFor='phone'>Phone</label><br />
+            <input type="text" name="phone" value={this.state.phone} onChange={this.handleChange} className="form-control" />
+          </div>
+
+          <div>
+            <label htmlFor='password'>Password</label><br />
+            <input type="text" name="password" value={this.state.password} onChange={this.handleChange} className="form-control" />
+          </div>
 
           <button type='submit' className='btn_sign_up' value={this.state.role = 'attendee'}>Sign up as attendee</button>
           <button type='submit' className='btn_sign_up' value={this.state.role = 'organizer'}>Sign up as organizer</button>

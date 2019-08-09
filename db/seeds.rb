@@ -40,7 +40,23 @@ organizations.each do |organization|
 end
 
 users = [
-    { email: 'user@gmail.com', password: '123456' }
+  {
+    first_name: 'Margo',
+    last_name: 'Omelchuk',
+    email: 'margosha20617@gmail.com',
+    phone: '+375291111111',
+    password: '123456'
+  },
+
+  {
+    first_name: 'Dima',
+    last_name: 'Kosikov',
+    email: 'dima.kosikov01@mail.ru',
+    phone: '+375291111111',
+    password: '123456789'
+  }
 ]
 
-User.create(users)
+users.each do |user|
+  User.create(user)
+end
