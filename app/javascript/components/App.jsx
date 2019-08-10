@@ -34,52 +34,74 @@ class App extends Component {
         window.location ='/'
       })
   };
-    componentDidMount () {
-        if(sessionStorage.user != null) {
-            Axios({
-                type: 'get',
-                url: `/api/v1/users`,
-                data: JSON.parse(sessionStorage.user)
-            }).then(res => {
-                let myMap = new Map();
-                myMap = res.data.find(o => o.uid === sessionStorage.email);
-                this.setState({ user: myMap } );
-            })
-        }
+  componentDidMount () {
+    if(sessionStorage.user != null) {
+        Axios({
+            type: 'get',
+            url: `/api/v1/users`,
+            data: JSON.parse(sessionStorage.user)
+        }).then(res => {
+            let myMap = new Map();
+            myMap = res.data.find(o => o.uid === sessionStorage.email);
+            this.setState({ user: myMap } );
+        })
     }
+  }
 
-    render() {
+  render() {
+    const isOrganizer = this.state.user['role'] == 'organizer';
+    let navigationForOrganizer;
+    let registerNavigation;
+
+    if (isOrganizer){
+      navigationForOrganizer = <NavigationForOrganizer />
+    }
+    if (sessionStorage.user == null){
+      registerNavigation = <RegisterNavigation />
+    }
     return (
       <div className="App">
         <Router>
           <div className="container">
             <Navigation />
+            {navigationForOrganizer}
+            {registerNavigation}
             <Main />
-              <h2>role: {this.state.user['role']}</h2>
-            <div className="jumbotron">
-              <form onSubmit={this.handleSignOut}>
-                <button type='submit' className='btn_sign_out'>Sign out</button>
-              </form>
-            </div>
+            <h2>role: {this.state.user['role']}</h2>
+            <form onSubmit={this.handleSignOut}>
+              <button type='submit' className='btn_sign_out'>Sign out</button>
+            </form>
           </div>
         </Router>
       </div>
     );
   }
 }
+const RegisterNavigation = () => (
+  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <ul className="navbar-nav mr-auto">
+      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_up">Sign up</NavLink></li>
+      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_in">Sign in</NavLink></li>
+    </ul>
+  </nav>
+)
+const NavigationForOrganizer = () => (
+  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <ul className="navbar-nav mr-auto">
+      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/events">Events</NavLink></li>
+      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/organizations">Organization</NavLink></li>
+    </ul>
+  </nav>
+);
 
 const Navigation = () => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
     <ul className="navbar-nav mr-auto">
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/home">Home</NavLink></li>
-      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/events">Events</NavLink></li>
-      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/organizations">Organization</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/venues/new">Create venue</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/venues/:id">Show venue</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/venues/:id/edit">Edit venue</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/">Back</NavLink></li>
-      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_up">Sign up</NavLink></li>
-      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_in">Sign in</NavLink></li>
     </ul>
   </nav>
 );
@@ -96,8 +118,6 @@ const Main = () => (
     <Route exact path='/organizations/new' component={OrganizationAdd} />
     <Route exact path='/organizations/:id/edit' component={OrganizationEdit} />
     <Route exact path='/organizations/:id' component={OrganizationInfo} />
-    <Route exact path="/" />
-    <Route path="/home" component={Home} />
     <Route path="/sign_up" component={SignUp} />
     <Route path="/sign_in" component={SignIn} />
     <Route exact path="/venues/new" component={VenueNew} />

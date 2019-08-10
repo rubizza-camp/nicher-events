@@ -17,7 +17,6 @@ class OrganizationList extends Component {
   }   
 
   render() {
-    debugger;
     return (
       <div>
         {this.state.organizations.map((organization) => {
