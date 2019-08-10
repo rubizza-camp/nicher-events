@@ -9,11 +9,16 @@ export default class EventList extends React.Component {
   }
 
   componentDidMount() {
+    if(sessionStorage.user != null) {
+      // const header = JSON.parse(sessionStorage.user)
+      // Axios.defaults.headers.common['access-token'] = header['access-token']
+      // Axios.defaults.headers.common['client'] = header['client']
+      // Axios.defaults.headers.common['uid'] = header['uid']
     Axios.get('api/v1/events')
-      .then(res => {
+      .then(res => {  debugger;
         this.setState({ events: res.data });
       })
-      .catch(error => console.log('error', error))
+      .catch(error => console.log('error', error))}
   }
 
   render() {

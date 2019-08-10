@@ -16,6 +16,9 @@ import VenueShow from './venue/VenueShow';
 import VenueEdit from './venue/VenueEdit';
 import {HashRouter as Router, Route, NavLink, Switch} from 'react-router-dom'
 
+import set_authorized_headers from 'utils/axios'
+set_authorized_headers();
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -34,28 +37,15 @@ class App extends Component {
         window.location ='/'
       })
   };
-  componentDidMount () {
-    if(sessionStorage.user != null) {
-        Axios({
-            type: 'get',
-            url: `/api/v1/users`,
-            data: JSON.parse(sessionStorage.user)
-        }).then(res => {
-            let myMap = new Map();
-            myMap = res.data.find(o => o.uid === sessionStorage.email);
-            this.setState({ user: myMap } );
-        })
-    }
-  }
 
   render() {
     const isOrganizer = this.state.user['role'] == 'organizer';
     let navigationForOrganizer;
     let registerNavigation;
 
-    if (isOrganizer){
-      navigationForOrganizer = <NavigationForOrganizer />
-    }
+    // if (isOrganizer){
+    //   navigationForOrganizer = <NavigationForOrganizer />
+    // }
     if (sessionStorage.user == null){
       registerNavigation = <RegisterNavigation />
     }
@@ -101,7 +91,8 @@ const Navigation = () => (
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/venues/new">Create venue</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/venues/:id">Show venue</NavLink></li>
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/venues/:id/edit">Edit venue</NavLink></li>
-      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/">Back</NavLink></li>
+      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/events">Events</NavLink></li>
+      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/organizations">Organization</NavLink></li>
     </ul>
   </nav>
 );
