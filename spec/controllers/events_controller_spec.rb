@@ -22,7 +22,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
     end
 
     context 'when invalid' do
-      it 'return not_found status' do
+      it 'returns not_found status' do
         get :show, params: { id: -1 }
         expect(json_response['status']).to eq('not_found')
       end
@@ -31,32 +31,22 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
   describe 'POST #create' do
     context 'when valid' do
-      let(:valid_params) do
-        { name: 'first event',
-          description: 'it is enough long description',
-          status: 'social',
-          date: '2019-11-08T05:00' }
-      end
+      let(:valid_event) { build(:event) }
 
-      it 'return json with params of created event' do
-        post :create, params: { event: valid_params }
+      it 'returns json with params of created event' do
+        post :create, params: { event: valid_event.attributes }
         event = assigns(:event)
-        expect(event.name).to eq(valid_params[:name])
-        expect(json_response.keys).to eq(event_attributes)
-        expect(json_response['name']).to eq(valid_params[:name])
+        expect(event.name).to eq(valid_event.name)
+        # expect(current_event.attributes.keys).to include(json_response.keys)
+        expect(json_response['name']).to eq(valid_event.name)
       end
     end
 
     context 'when invalid' do
-      let(:invalid_params) do
-        { name: nil,
-          description: 'so short',
-          status: 'social',
-          date: '2019-11-08T05:00' }
-      end
+      let(:invalid_event) { build(:event, name: nil, description: 'too short') }
 
-      it 'return message errors' do
-        post :create, params: { event: invalid_params }
+      it 'returns message errors' do
+        post :create, params: { event: invalid_event.attributes }
         event = assigns(:event)
         expect(event.errors.messages[:name].first).to eq('can\'t be blank')
         expect(event.errors.messages[:description].first).to eq('is too short (minimum is 10 characters)')
@@ -66,16 +56,17 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
   describe 'GET #destroy' do
     context 'when valid' do
-      let(:event_valid) { create(:event) }
+      let(:valid_event) { create(:event) }
 
-      it 'return params of deleted event' do
-        get :destroy, params: { id: event_valid.id }
+      it 'returns params of deleted event' do
+        get :destroy, params: { id: valid_event.id }
         event = assigns(:event)
-        expect(event_valid.name).to eq(event.name)
+        expect(valid_event.name).to eq(event.name)
       end
     end
+
     context 'when invalid' do
-      it 'return not_found status' do
+      it 'returns not_found status' do
         get :destroy, params: { id: -1 }
         expect(json_response['status']).to eq('not_found')
       end
