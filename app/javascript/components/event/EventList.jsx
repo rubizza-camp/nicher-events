@@ -18,14 +18,13 @@ export default class EventList extends React.Component {
 
   render() {
     const createEventUrl = '/events/new';
-    const infoEventUrl = `/events/${event.id}`;
     return (
       <div>
         <Link to={createEventUrl} className="btn btn-outline-primary">Create Event</Link>
         {this.state.events.map((event) => {
           return(
             <div key={event.id}>
-              <h2><Link to={infoEventUrl}>{event.name}</Link></h2>
+              <h2><Link to={`/events/${event.id}`}>{event.name}</Link></h2>
               <p>{event.status}</p>
               <hr/>
             </div>
