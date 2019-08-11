@@ -28,7 +28,7 @@ export default class EventInfo extends React.Component {
   render() {
     const eventInfo = <p>id: {this.state.event.id} - {this.state.event.status}</p>;
     const editEventUrl = `/events/${this.state.event.id}/edit`;
-    const listEventsUrl = 'events';
+    const listEventsUrl = '/events';
     return (
       <div>
         <h2>{this.state.event.name}</h2>
