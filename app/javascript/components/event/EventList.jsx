@@ -9,7 +9,7 @@ export default class EventList extends React.Component {
   }
 
   componentDidMount() {
-    Axios.get('api/v1/events')
+    Axios.get('/api/v1/events')
       .then(res => {
         this.setState({ events: res.data });
       })
@@ -17,17 +17,20 @@ export default class EventList extends React.Component {
   }
 
   render() {
+    const createEventUrl = '/events/new';
+    const infoEventUrl = `/events/${event.id}`;
     return (
       <div>
+        <Link to={createEventUrl} className="btn btn-outline-primary">Create Event</Link>
         {this.state.events.map((event) => {
           return(
             <div key={event.id}>
-              <h2><Link to={`/events/${event.id}`}>{event.name}</Link> - {event.status}</h2>
+              <h2><Link to={infoEventUrl}>{event.name}</Link></h2>
+              <p>{event.status}</p>
               <hr/>
             </div>
           )
-        })}
-        <Link to="/events/new" className="btn btn-outline-primary">Create Event</Link> 
+        })} 
       </div>
     );
   }
