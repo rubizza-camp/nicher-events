@@ -4,7 +4,6 @@ class Api::V1::VenuesController < ApplicationController
 
   def index
     @venues = Venue.all
-    binding.pry
     render json: @venues
   end
 
@@ -40,6 +39,7 @@ class Api::V1::VenuesController < ApplicationController
   private
 
   def venue_params
+    binding.pry
     params.require(:venue).permit(:address, :description, :people_capacity)
   end
 end

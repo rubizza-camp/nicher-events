@@ -1,33 +1,28 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import Axios from 'axios';
 
 export default class VenueNew extends Component {
   constructor(props) {
     super(props);
     
-    this.state = {
-      address: "",
-      decription: "",
-      people_capacity: "",
-      creationErrors: ""
-    };
+    this.state = { venue: { address: "", decription: "", people_capacity: "" } };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  handleChange(venue) {
     this.setState({
-      [event.target.name]: event.target.value
+      [venue.target.name]: venue.target.value
     });
   }
 
-  handleSubmit(event) {
+  handleSubmit(venue) {
     const { address, description, people_capacity } = this.state;
 
-    axios
+    Axios
       .post(
-        "/api/venues",
+        "/api/v1/venues",
         {
           address: address,
           description: description,
@@ -43,13 +38,24 @@ export default class VenueNew extends Component {
       .catch(error => {
         console.log("registration error", error);
       });
-    event.preventDefault();
+    venue.preventDefault();
   }
 
    render() {
+    let message;
+    if (this.state.errors) {
+      message = <div>
+                  {this.state.errors.map((error) => {
+                    return(
+                      <p>{error}</p>
+                    )
+                  })}
+                </div>
+    }
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+      {message}
+      <form onSubmit={this.handleSubmit}>
       <div className="form-group">
         Address:
         <p>
@@ -63,7 +69,6 @@ export default class VenueNew extends Component {
           />
           </p>
         </div>
-
       <div className="form-group">
           Description:
         <p>
@@ -77,7 +82,6 @@ export default class VenueNew extends Component {
           />
         </p>
       </div>
-
       <div className="form-group">
           People capacity:
       <p>

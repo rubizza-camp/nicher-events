@@ -35,8 +35,8 @@ const Main = () => (
     <Route exact path='/' />
     <Route path='/home' component={Home} />
     <Route exact path='/venues' component={VenueIndex} />
+    <Route exact path="/venues/new" component={VenueNew} />
     <Route exact path='/venues/:id' component={VenueShow} />
-    <Route exact path='/venues/new' component={VenueNew} />
     <Route exact path='/venues/:id/edit' component={VenueEdit} />
 
   </Switch>

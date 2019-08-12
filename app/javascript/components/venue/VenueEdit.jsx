@@ -5,28 +5,27 @@ export default class VenueEdit extends Component {
   constructor(props) {
     super(props);
     
-    this.state = { venue: { address: '', description: '', people_capacity: '' } };
+    this.state = { venue: { address: "", decription: "", people_capacity: "" } };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // componentDidMount() {
-  //   Axios.get(`/api/v1/venues/${this.props.match.params.id}`)
-  //     .then(res => this.setState({ venue: res.data }))
-  //     .catch(error => console.log('error', error))
-  // }
-
-  handleChange(venue) {
-    this.setState({
-      [venue.target.name]: venue.target.value
-    });
+  handleChange = (venue) => {
+    const currentVenue = this.props.event;
+    currentVenue[venue.target.name] = venue.target.value;
+    this.setState(currentVenue);
   }
 
   handleSubmit = (venue) => {
   venue.preventDefault();
   const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
-  Axios.patch(`/api/v1/venues/${this.props.match.params.id}`, this.state.venue, 
+  Axios.patch(`/api/v1/venues/${this.props.match.params.id}`,        {
+          address: address,
+          description: description,
+          people_capacity: people_capacity
+        },
+        { withCredentials: true }, 
               { headers: { 'X-CSRF-Token': csrf } })
     .then(data => this.props.history.push(`/venues/${this.state.venue.id}`))
     .catch(err => this.setState({ errors: err.response.data }))
@@ -47,7 +46,7 @@ export default class VenueEdit extends Component {
       <div>
       {message}
       <h2><strong>Edit venue:</strong></h2>
-        <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit}>
       <div className="form-group">
         Address:
         <p>

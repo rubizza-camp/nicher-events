@@ -17,10 +17,10 @@ export default class EventList extends React.Component {
   }
 
   render() {
-    const createEventUrl = '/venues/new';
+    const createVenueUrl = '/venues/new';
     return (
       <div>
-        <Link to={createEventUrl} className="btn btn-outline-primary">Add venue</Link>
+        <Link to={createVenueUrl} className="btn btn-outline-primary">Add venue</Link>
         {this.state.venues.map((venue) => {
           return(
             <div key={venue.id}>
