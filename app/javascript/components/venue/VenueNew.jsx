@@ -36,7 +36,7 @@ export default class VenueNew extends Component {
         { withCredentials: true }
       )
       .then(response => {
-        debugger; if (response.statusText === "Created") {
+        if (response.statusText === "Created") {
           this.props.handleSuccessfulAuth(response.data);
         }
       })

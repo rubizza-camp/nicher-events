@@ -24,7 +24,7 @@ export default class EventList extends React.Component {
         {this.state.venues.map((venue) => {
           return(
             <div key={venue.id}>
-              <h2><Link to={`/events/${venue.id}`}>{venue.address}</Link></h2>
+              <h2><Link to={`/venues/${venue.id}`}>{venue.address}</Link></h2>
               <p>{venue.description}</p>
               <hr/>
             </div>
