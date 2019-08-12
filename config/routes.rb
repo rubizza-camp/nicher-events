@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   root 'welcome#index'
-  
+
   namespace :api do
-    resources :venues, except: [:index]
+    namespace :v1 do
+      resources :venues
+    end
   end
 
   get '*page', to: 'static#index',

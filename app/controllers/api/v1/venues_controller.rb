@@ -4,9 +4,8 @@ class Api::V1::VenuesController < ApplicationController
 
   def index
     @venues = Venue.all
-    binding.pry
     render json: @venues
-  end
+  end  
 
   def show
     @venue = Venue.find(params[:id])
@@ -23,7 +22,7 @@ class Api::V1::VenuesController < ApplicationController
   end
 
   def update
-    @event = Venue.find(params[:id])
+    @venue = Venue.find(params[:id])
     if @venue.update_attributes(venue_params)
       render json: @venue, status: :updated
     else
