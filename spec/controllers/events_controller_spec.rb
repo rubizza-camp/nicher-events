@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::EventsController, type: :controller do
-  let(:event_attributes) { %w[id name date description status user_id] }
+  let!(:event_attributes) { %w[id name date description status user_id] }
 
   describe 'GET #index' do
     it 'should get index' do
@@ -35,9 +35,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
       it 'returns json with params of created event' do
         post :create, params: { event: valid_event.attributes }
-        event = assigns(:event)
-        expect(event.name).to eq(valid_event.name)
-        # expect(current_event.attributes.keys).to include(json_response.keys)
+        expect(json_response.keys).to eq(event_attributes)
         expect(json_response['name']).to eq(valid_event.name)
       end
     end
@@ -47,9 +45,8 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
       it 'returns message errors' do
         post :create, params: { event: invalid_event.attributes }
-        event = assigns(:event)
-        expect(event.errors.messages[:name].first).to eq('can\'t be blank')
-        expect(event.errors.messages[:description].first).to eq('is too short (minimum is 10 characters)')
+        expect(json_response[0]).to eq('Name can\'t be blank')
+        expect(json_response[1]).to eq('Description is too short (minimum is 10 characters)')
       end
     end
   end
