@@ -23,13 +23,13 @@ export default class EventForm extends React.Component {
       </div>
       <div className="form-group">
         <label htmlFor='date'>Date</label> <br/>
-        <input type="datetime-local" name="date" value={event.date} onChange={this.handleChange}/>
+        <input type="datetime-local" name="date" value={event.date} onChange={this.handleChange} />
       </div>
       <div className="form-group">
         <label htmlFor='status'>Status : </label> <br/>
-        <input type="radio" name="status" onChange={this.handleChange} value="social"  checked={(event.status  == 'social')}/>
+        <input type="radio" name="status" onChange={this.handleChange} value="social"  checked={(event.status  == 'social')} />
         <label>Social</label> <br/>
-        <input type="radio" name="status" onChange={this.handleChange} value="confidential" checked={(event.status  == 'confidential')}/>
+        <input type="radio" name="status" onChange={this.handleChange} value="confidential" checked={(event.status  == 'confidential')} />
         <label>Confidential</label>
       </div>
       <div className="form-group">

@@ -21,9 +21,9 @@ FactoryBot.define do
   end
 
   factory :event do
-    name { Faker::String.random(6) }
-    description { Faker::String.random(20) }
+    name { Faker::Lorem.word }
+    description { Faker::Lorem.sentence }
     date { Faker::Date.between(2.days.ago, Date.today) }
-    status { :social }
+    status { Event.statuses.keys.sample }
   end
 end
