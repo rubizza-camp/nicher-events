@@ -10,7 +10,7 @@ describe 'SignUp', type: :request do
     end
     it 'with right params' do
       post '/auth', params: { first_name: user.first_name, last_name: user.last_name, email: user.email,
-                              phone: user.phone, password: user.password }
+                              phone: user.phone, password: user.password, password_confirmation: user.password }
       expect(response).to have_http_status(:success)
     end
   end

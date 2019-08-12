@@ -4,7 +4,7 @@ import Axios from 'axios';
 export default class SigInForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { };
+    this.state = { user: {email: '', password: ''} };
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -14,7 +14,7 @@ export default class SigInForm extends React.Component {
     Axios({
       method: 'post',
       url: '/auth/sign_in',
-      data: this.state
+      data: this.state.user
     }).then(response => {
       sessionStorage.setItem('user',
       JSON.stringify({
@@ -31,7 +31,9 @@ export default class SigInForm extends React.Component {
   };
 
   handleChange = (user) => {
-    this.setState({ [user.target.name]: user.target.value });
+    const current_user = this.state.user;
+    current_user[user.target.name] = user.target.value;
+    this.setState(current_user);
   }
 
   render() {
@@ -40,12 +42,12 @@ export default class SigInForm extends React.Component {
         <form onSubmit={this.handleSignIn}>
           <div>
             <label htmlFor='email'>E-mail</label><br />
-            <input type="text" name="email" value={this.state.email} onChange={this.handleChange} className="form-control" />
+            <input type="text" name="email" value={this.state.user.email} onChange={this.handleChange} className="form-control" />
           </div>
 
           <div>
             <label htmlFor='password'>Password</label><br />
-            <input type="text" name="password" value={this.state.password} onChange={this.handleChange} className="form-control" />
+            <input type="text" name="password" value={this.state.user.password} onChange={this.handleChange} className="form-control" />
           </div>
 
           <button type='submit' className='btn_sign_in'>Sign in</button>

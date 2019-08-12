@@ -4,10 +4,13 @@ import SignUp from './SignUp';
 import SignIn from './SignIn';
 import Axios from 'axios';
 import {HashRouter as Router, Route, NavLink, Switch} from 'react-router-dom'
+import history from "../packs/history";
 
-class App extends Component {
+
+export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this.handleSignOut = this.handleSignOut.bind(this)
   }
 
   handleSignOut = (e) => {
@@ -16,9 +19,9 @@ class App extends Component {
       method: 'delete',
       url: '/auth/sign_out',
       data: JSON.parse(sessionStorage.user)
-    }).then(function (response) {
+    }).then(response => {
       this.props.history.push('/');
-    }).catch(function(error) {
+    }).catch(error => {
       this.props.history.push('/');
     })
   };
@@ -55,11 +58,9 @@ const Navigation = () => (
 
 const Main = () => (
   <Switch>
-    <Route exact path="/" />
+    <Route exact path="/"  />
     <Route path="/home" component={Home} />
     <Route path="/sign_up" component={SignUp} />
     <Route path="/sign_in" component={SignIn} />
   </Switch>
 );
-
-export default App;
