@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Axios from 'axios';
 import EventForm from './EventForm';
 
@@ -18,9 +18,11 @@ export default class UpdatedEvent extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    Axios.patch(`/api/v1/events/${this.props.match.params.id}`, this.state.event)
+    const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    Axios.patch(`/api/v1/events/${this.props.match.params.id}`, this.state.event, 
+                { headers: { 'X-CSRF-Token': csrf } })
       .then(data => this.props.history.push(`/events/${this.state.event.id}`))
-      .catch(error => console.log('error', error));
+      .catch(err => this.setState({ errors: err.response.data }))
   }
 
   handleCancel = () => {
@@ -28,9 +30,21 @@ export default class UpdatedEvent extends React.Component {
   }
 
   render() {
+    let message;
+    if (this.state.errors) {
+      message = <div>
+                  {this.state.errors.map((error) => {
+                    return(
+                      <p>{error}</p>
+                    )
+                  })}
+                </div>
+    }
+
     return (
       <div>
         <h1>Edit</h1>
+        {message}
         <EventForm event={this.state.event} handleSubmit={this.handleSubmit} handleCancel={this.handleCancel}/>
       </div>
     );

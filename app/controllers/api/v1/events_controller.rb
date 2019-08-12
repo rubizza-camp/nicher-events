@@ -2,7 +2,6 @@
 # :reek:InstanceVariableAssumption
 
 class Api::V1::EventsController < ApplicationController
-  skip_before_action :verify_authenticity_token
   before_action :set_event, only: %i[show update destroy]
 
   def index
@@ -23,7 +22,7 @@ class Api::V1::EventsController < ApplicationController
     if @event.save
       render json: @event, status: :created
     else
-      render json: @event.errors, status: :unprocessable_entity
+      render json: @event.errors.full_messages, status: :unprocessable_entity
     end
   end
 
@@ -31,7 +30,7 @@ class Api::V1::EventsController < ApplicationController
     if @event.update(event_params)
       render json: @event, status: :ok
     else
-      render json: @event.errors, status: :unprocessable_entity
+      render json: @event.errors.full_messages, status: :unprocessable_entity
     end
   end
 
