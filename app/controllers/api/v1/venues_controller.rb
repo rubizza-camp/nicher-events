@@ -3,7 +3,7 @@
 class Api::V1::VenuesController < ApplicationController
 
   def index
-    @venues = Venue.all
+    @venues = Venue.all.reverse
     render json: @venues
   end  
 
@@ -17,7 +17,7 @@ class Api::V1::VenuesController < ApplicationController
     if @venue.save
       render json: @venue, status: :created
     else
-      render json: @venue.errors, status: :unprocessable_entity
+      render json: @venue.errors.full_messages, status: :unprocessable_entity
     end
   end
 
@@ -26,14 +26,17 @@ class Api::V1::VenuesController < ApplicationController
     if @venue.update_attributes(venue_params)
       render json: @venue, status: :updated
     else
-      render json: @venue.errors, status: :unprocessable_entity
+      render json: @venue.errors.full_messages, status: :unprocessable_entity
     end
   end
 
   def destroy
     @venue = Venue.find(params[:id])
-    @venue.destroy
-    head :no_content
+    if @venue.destroy
+      render json: {status: :deleted}
+    else render 
+      render json: @venue.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   private

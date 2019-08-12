@@ -1,54 +1,52 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import Axios from 'axios';
 
 export default class VenueEdit extends Component {
   constructor(props) {
     super(props);
     
-    this.state = {
-      address: "",
-      decription: "",
-      people_capacity: "",
-      creationErrors: ""
-    };
+    this.state = { venue: { address: '', description: '', people_capacity: '' } };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  // componentDidMount() {
+  //   Axios.get(`/api/v1/venues/${this.props.match.params.id}`)
+  //     .then(res => this.setState({ venue: res.data }))
+  //     .catch(error => console.log('error', error))
+  // }
+
+  handleChange(venue) {
     this.setState({
-      [event.target.name]: event.target.value
+      [venue.target.name]: venue.target.value
     });
   }
 
-  handleSubmit(event) {
-    const { address, description, people_capacity } = this.state;
-
-    axios
-      .put(
-        `api/venues/${this.props.match.params.id}`,
-        {
-          address: address,
-          description: description,
-          people_capacity: people_capacity
-        },
-        { withCredentials: true }
-      )
-      .then(response => {
-        if (response.statusText === "Updated") {
-          this.props.handleSuccessfulAuth(response.data);
-        }
-      })
-      .catch(error => {
-        console.log("updating error", error);
-      });
-    event.preventDefault();
+  handleSubmit = (venue) => {
+  venue.preventDefault();
+  const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+  Axios.patch(`/api/v1/venues/${this.props.match.params.id}`, this.state.venue, 
+              { headers: { 'X-CSRF-Token': csrf } })
+    .then(data => this.props.history.push(`/venues/${this.state.venue.id}`))
+    .catch(err => this.setState({ errors: err.response.data }))
   }
 
    render() {
+   let message;
+    if (this.state.errors) {
+      message = <div>
+                  {this.state.errors.map((error) => {
+                    return(
+                      <p>{error}</p>
+                    )
+                  })}
+                </div>
+    }
     return (
       <div>
+      {message}
+      <h2><strong>Edit venue:</strong></h2>
         <form onSubmit={this.handleSubmit}>
       <div className="form-group">
         Address:
@@ -63,7 +61,6 @@ export default class VenueEdit extends Component {
           />
           </p>
         </div>
-
       <div className="form-group">
           Description:
         <p>
@@ -77,7 +74,6 @@ export default class VenueEdit extends Component {
           />
         </p>
       </div>
-
       <div className="form-group">
           People capacity:
       <p>

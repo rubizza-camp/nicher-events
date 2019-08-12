@@ -27,13 +27,13 @@ export default class VenueShow extends React.Component {
   render() {
     return (
       <div className="jumbotron">
-        <h2>{this.state.venue.id}</h2>
-        <p>{this.state.venue.address}</p>
-        <p>{this.state.venue.description}</p>
+        <h2>{this.state.venue.address}</h2>
+        <p> <strong> ID:</strong> {this.state.venue.id}</p>
+        <p><strong> Description:</strong>{this.state.venue.description}</p>
         <p>
           <Link to={`/venues/${this.state.venue.id}/edit`} className="btn btn-outline-dark">Edit</Link> 
           <button onClick={this.handleDelete} className="btn btn-outline-dark">Delete</button> 
-          <Link to="/events" className="btn btn-outline-dark">Close</Link>
+          <Link to="/venues" className="btn btn-outline-dark">Close</Link>
         </p>
         <hr/>
       </div>
