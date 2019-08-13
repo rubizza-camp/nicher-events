@@ -10,7 +10,7 @@ export default class VenueShow extends React.Component {
   }
 
   componentDidMount() {
-    Axios.get(`api/v1/venues/${this.props.match.params.id}`)
+    Axios.get(`/api/v1/venues/${this.props.match.params.id}`)
       .then(res => {
         const venue= res.data;
         this.setState({venue});
@@ -18,9 +18,9 @@ export default class VenueShow extends React.Component {
   }
 
   handleDelete() {
-    Axios.delete(`api/v1/venues/${this.props.match.params.id}`)
+    Axios.delete(`/api/v1/venues/${this.props.match.params.id}`)
       .then(() => {
-        this.props.history.push("/")
+        this.props.history.push("/venues")
       })
   }
 

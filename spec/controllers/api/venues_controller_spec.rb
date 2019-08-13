@@ -1,45 +1,57 @@
 require 'rails_helper'
+require 'pry'
 
-RSpec.describe Api::VenuesController, type: :controller do
+RSpec.describe Api::V1::VenuesController, type: :controller do
   describe 'GET #show' do
-    let(:venue_attributes) { %w[id address description people_capacity] }
+    let(:venue_attributes) { %w[id address description] }
 
     context 'when valid' do
       let(:venue) { create(:venue) }
       it 'returns json response with venue' do
         get :show, params: { id: venue.id }
         json_response
-
-        expect(json_response.keys).to eq(venue_attributes)
-        expect(json_response['address']).to eq(venue.address)
+        expect(json_response.keys).to include('id', 'address', 'description', 'people_capacity')
       end
     end
   end
 
-  describe 'GET #create' do
-    context 'when valid' do
-      let(:venue) { create(:venue) }
+  describe 'POST #create' do
+    context 'when params is valid' do
+      let(:valid_venue) { build(:venue) }
 
-      it 'increase count of venues in db' do
-        expect { create(:venue) }.to change { Venue.all.count }.by(1)
-      end
-
-      it 'object address the same as db record' do
-        expect(venue.address).to eq(Venue.find(venue.id).address)
+      it 'returns json with params of created venue' do
+        post :create, params: { venue: valid_venue.attributes }
+        expect(json_response.keys).to include('id', 'address', 'description', 'people_capacity')
       end
     end
 
-    context 'when invalid' do
-      it 'count of venues in db shouldn\'t change' do
-        expect { build(:venue, address: nil) }.to change { Venue.all.count }.by(0)
+    context 'when params is invalid' do
+      let(:invalid_venue) { build(:venue, address: nil) }
+
+      it 'returns message errors' do
+        post :create, params: { venue: invalid_venue.attributes }
+        expect(json_response.count).to eq(2)
       end
     end
-  end
 
-  describe 'GET #destroy' do
-    let!(:venue) { create(:venue) }
-    it 'decrease count of venues in db' do
-      expect { get :destroy, params: { id: venue.id } }.to change { Venue.all.count }.by(-1)
+    describe 'DELETE #destroy' do
+      context 'when params is valid' do
+        let(:valid_venue) { create(:venue) }
+
+        it 'returns no_content status' do
+          get :destroy, params: { id: valid_venue.id }
+          venue = assigns(:venue)
+          expect(valid_venue.address).to eq(venue.address)
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context 'when params is invalid' do
+        it 'returns not_found status' do
+          get :destroy, params: { id: -1 }
+          expect(response).to have_http_status(:not_found)
+        end
+      end
     end
   end
 end

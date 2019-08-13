@@ -26,7 +26,6 @@
 #  role                   :integer          default(0)
 #
 
-
 class User < ActiveRecord::Base
   # :trackable
   # Include default devise modules. Others available are:

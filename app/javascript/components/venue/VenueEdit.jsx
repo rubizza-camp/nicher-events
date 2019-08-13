@@ -5,7 +5,7 @@ export default class VenueEdit extends Component {
   constructor(props) {
     super(props);
     
-    this.state = { address: '', decription: '', people_capacity: '' };
+    this.state = { address: '', description: '', people_capacity: '' };
  
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

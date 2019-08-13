@@ -30,14 +30,8 @@ export default class VenueNew extends Component {
         },
         { withCredentials: true }
       )
-      .then(response => {
-        if (response.statusText === "Created") {
-          this.props.handleSuccessfulAuth(response.data);
-        }
-      })
-      .catch(error => {
-        console.log("registration error", error);
-      });
+      .then(data => this.props.history.push(`/venues`))
+      .catch(err => this.setState({ errors: err.response.data }))
     venue.preventDefault();
   }
 

@@ -1,12 +1,13 @@
 # :reek:InstanceVariableAssumption
 # rubocop:disable Style/ClassAndModuleChildren
 class Api::V1::VenuesController < ApplicationController
+  # before_action :authenticate_user!, only: %i[create update destroy]
   before_action :set_venue, only: %i[show update destroy]
 
   def index
     @venues = Venue.all.reverse
     render json: @venues, status: :created
-  end  
+  end
 
   def show
     if @venue
@@ -35,10 +36,12 @@ class Api::V1::VenuesController < ApplicationController
 
   def destroy
     if @venue.destroy
-      render json: {status: :deleted}
-    else render 
+      render json: { status: :deleted }
+    else
       render json: @venue.errors.full_messages, status: :unprocessable_entity
     end
+  rescue NoMethodError
+    render json: 'Venue not found', status: :not_found
   end
 
   private
