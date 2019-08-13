@@ -5,29 +5,32 @@ export default class VenueEdit extends Component {
   constructor(props) {
     super(props);
     
-    this.state = { venue: { address: "", decription: "", people_capacity: "" } };
-
+    this.state = { address: '', decription: '', people_capacity: '' };
+ 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange = (venue) => {
-    const currentVenue = this.props.event;
-    currentVenue[venue.target.name] = venue.target.value;
-    this.setState(currentVenue);
+    this.setState({
+      [venue.target.name]: venue.target.value
+    });
   }
 
-  handleSubmit = (venue) => {
-  venue.preventDefault();
+  handleSubmit = (event) => {
+  event.preventDefault();
+  const { address, description, people_capacity } = this.state;
   const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
-  Axios.patch(`/api/v1/venues/${this.props.match.params.id}`,        {
-          address: address,
-          description: description,
-          people_capacity: people_capacity
-        },
-        { withCredentials: true }, 
-              { headers: { 'X-CSRF-Token': csrf } })
-    .then(data => this.props.history.push(`/venues/${this.state.venue.id}`))
+  Axios
+    .patch(
+      `/api/v1/venues/${this.props.match.params.id}`, 
+      {
+        address: address,
+        description: description,
+        people_capacity: people_capacity},
+      { withCredentials: true }, 
+      { headers: { 'X-CSRF-Token': csrf } })
+    .then(data => this.props.history.push(`/venues`))
     .catch(err => this.setState({ errors: err.response.data }))
   }
 
@@ -37,7 +40,7 @@ export default class VenueEdit extends Component {
       message = <div>
                   {this.state.errors.map((error) => {
                     return(
-                      <p>{error}</p>
+                      <p key={Math.random()}>{error}</p>
                     )
                   })}
                 </div>
@@ -53,7 +56,7 @@ export default class VenueEdit extends Component {
           <input
             type="text"
             name="address"
-            placeholder="Address"
+            placeholder="address"
             value={this.state.address}
             onChange={this.handleChange}
             required
@@ -66,7 +69,7 @@ export default class VenueEdit extends Component {
           <input
             type="text"
             name="description"
-            placeholder="Description"
+            placeholder="description"
             value={this.state.description}
             onChange={this.handleChange}
             required
@@ -85,7 +88,7 @@ export default class VenueEdit extends Component {
           />
         </p>
       </div>
-          <button type="submit" className="btn btn-success">Create</button>
+          <button type="submit" className="btn btn-success">Update</button>
         </form>
       </div>
     );

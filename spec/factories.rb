@@ -7,6 +7,7 @@ FactoryBot.define do
     email { Faker::Internet.email }
     phone { Faker::PhoneNumber.phone_number }
     password { Faker::Internet.password }
+  end
 
   factory :venue do
     address { Faker::Address.full_address }
@@ -14,3 +15,4 @@ FactoryBot.define do
     people_capacity { rand(99) }
   end
 end
+

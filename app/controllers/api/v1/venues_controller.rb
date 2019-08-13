@@ -1,15 +1,19 @@
 # :reek:InstanceVariableAssumption
 # rubocop:disable Style/ClassAndModuleChildren
 class Api::V1::VenuesController < ApplicationController
+  before_action :set_venue, only: %i[show update destroy]
 
   def index
     @venues = Venue.all.reverse
-    render json: @venues
+    render json: @venues, status: :created
   end  
 
   def show
-    @venue = Venue.find(params[:id])
-    render json: @venue
+    if @venue
+      render json: @venue
+    else
+      render json: { status: :not_found }
+    end
   end
 
   def create
@@ -22,16 +26,14 @@ class Api::V1::VenuesController < ApplicationController
   end
 
   def update
-    @venue = Venue.find(params[:id])
     if @venue.update_attributes(venue_params)
-      render json: @venue, status: :updated
+      render json: @venue
     else
       render json: @venue.errors.full_messages, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @venue = Venue.find(params[:id])
     if @venue.destroy
       render json: {status: :deleted}
     else render 
@@ -40,6 +42,10 @@ class Api::V1::VenuesController < ApplicationController
   end
 
   private
+
+  def set_venue
+    @venue = Venue.find_by(id: params[:id])
+  end
 
   def venue_params
     params.require(:venue).permit(:address, :description, :people_capacity)

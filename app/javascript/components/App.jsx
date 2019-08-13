@@ -54,6 +54,8 @@ const SignOutNavigation = () => (
     <ul className="navbar-nav mr-auto">
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_out">Sign
         out</NavLink></li>
+      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/venues">Venues
+      </NavLink></li>
     </ul>
   </nav>
 );

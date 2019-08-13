@@ -3,7 +3,7 @@
 # Table name: venues
 #
 #  id              :bigint           not null, primary key
-#  address         :string           not null
+#  address         :string           default(""), not null
 #  description     :text             default("")
 #  people_capacity :integer          default(0)
 #  created_at      :datetime         not null

@@ -10,6 +10,14 @@ puts 'Created 20 venues'
 
 users = [
   {
+    first_name: 'Test',
+    last_name: 'Testuser',
+    email: 'test@test.com',
+    phone: '+375291111111',
+    password: 'testtest'
+  },
+
+  {
     first_name: 'Margo',
     last_name: 'Omelchuk',
     email: 'margosha20617@gmail.com',

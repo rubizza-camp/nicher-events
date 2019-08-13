@@ -13,7 +13,7 @@ export default class VenueShow extends React.Component {
     Axios.get(`api/v1/venues/${this.props.match.params.id}`)
       .then(res => {
         const venue= res.data;
-        this.setState({ venue});
+        this.setState({venue});
       })
   }
 
