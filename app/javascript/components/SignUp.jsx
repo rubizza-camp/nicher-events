@@ -4,7 +4,16 @@ import Axios from 'axios';
 export default class SignUpForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { user: { email: '', password: '', first_name: '', last_name: '', phone: '' } };
+    this.state = {
+      user: {
+        email: '',
+        password: '',
+        first_name: '',
+        last_name: '',
+        phone: '',
+        role: ''
+      }
+    };
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -24,7 +33,8 @@ export default class SignUpForm extends React.Component {
           expiry: response.headers["expiry"],
           uid: response.headers["uid"]
         }));
-      this.props.history.push('/');
+      sessionStorage.setItem('user_attributes', JSON.stringify(response.data.data));
+      this.props.history.push('/')
     }).catch(error => {
       this.setState({ errors: error.response.data.errors.full_messages })
     })
@@ -34,57 +44,70 @@ export default class SignUpForm extends React.Component {
     const currentUser = this.state.user;
     currentUser[user.target.name] = user.target.value;
     this.setState(currentUser);
-  }
+  };
 
   render() {
-    const { user } = this.state
+    const { user } = this.state;
     let errorMessages;
     if (this.state.errors) {
       errorMessages = <div>
-        { this.state.errors.map((error) => {
+        {this.state.errors.map((error) => {
           return (
-            <p>{ error }</p>
+            <p>{error}</p>
           )
-        }) }
+        })}
       </div>
     }
     return (
       <div>
-        <div className='errors'>
-          { errorMessages }
+        <div className="errors">
+          {errorMessages}
         </div>
-        <form onSubmit={ this.handleSignUp }>
+        <form onSubmit={this.handleSignUp}>
           <div>
-            <label htmlFor='first_name'>First name</label><br/>
-            <input type="text" name="first_name" value={ user.first_name } onChange={ this.handleChange }
+            <label htmlFor="first_name">First name</label><br/>
+            <input type="text"
+                   name="first_name"
+                   value={user.first_name}
+                   onChange={this.handleChange}
                    className="form-control"/>
           </div>
 
           <div>
-            <label htmlFor='last_name'>Last name</label><br/>
-            <input type="text" name="last_name" value={ user.last_name } onChange={ this.handleChange }
+            <label htmlFor="last_name">Last name</label><br/>
+            <input type="text" name="last_name" value={user.last_name} onChange={this.handleChange}
                    className="form-control"/>
           </div>
 
           <div>
-            <label htmlFor='email'>E-mail</label><br/>
-            <input type="text" name="email" value={ user.email } onChange={ this.handleChange }
+            <label htmlFor="email">E-mail</label><br/>
+            <input type="text" name="email" value={user.email} onChange={this.handleChange}
                    className="form-control"/>
           </div>
 
           <div>
-            <label htmlFor='phone'>Phone</label><br/>
-            <input type="text" name="phone" value={ user.phone } onChange={ this.handleChange }
+            <label htmlFor="phone">Phone</label><br/>
+            <input type="text" name="phone" value={user.phone} onChange={this.handleChange}
                    className="form-control"/>
           </div>
 
           <div>
-            <label htmlFor='password'>Password</label><br/>
-            <input type="password" name="password" value={ user.password } onChange={ this.handleChange }
+            <label htmlFor="password">Password</label><br/>
+            <input type="password"
+                   name="password"
+                   value={user.password}
+                   onChange={this.handleChange}
                    className="form-control"/>
           </div>
 
-          <button type='submit' className='btn_sign_up'>Sign up</button>
+          <button type="submit" className="btn_sign_up" onClick={() => {
+            user.role = 'organizer'
+          }}>Sign up as organizer
+          </button>
+          <button type="submit" className="btn_sign_up" onClick={() => {
+            user.role = 'attendee'
+          }}>Sign up as attendee
+          </button>
         </form>
       </div>
     );

@@ -4,7 +4,7 @@ import Axios from "axios";
 export default class SignOutForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {hasError: false};
+    this.state = { hasError: false };
   }
 
   componentDidMount() {
@@ -12,20 +12,21 @@ export default class SignOutForm extends React.Component {
       method: 'delete',
       url: '/auth/sign_out',
       data: JSON.parse(sessionStorage.user)
-    }).then(response => {
-      sessionStorage.removeItem('user');
-      this.props.history.push('/');
     }).catch(error => {
+      this.setState({ hasError: true })
+    }).finally(() => {
       sessionStorage.removeItem('user');
-      this.setState({hasError: true})
-    })
+      sessionStorage.removeItem('user_attributes');
+      this.props.history.push('/');
+    });
+
   };
 
   render() {
     if (this.state.hasError) {
-      return <div className='errors'>You must login at first</div>;
+      return <div className="errors">You must login at first</div>;
     } else {
-      return <div className='errors'>Success sign out</div>
+      return <div className="errors">Success sign out</div>
     }
   }
 
