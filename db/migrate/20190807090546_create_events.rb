@@ -9,8 +9,7 @@ class CreateEvents < ActiveRecord::Migration[5.2]
       t.integer :status, null: false, default: 0
       t.timestamps
 
-      t.integer :user_id
-      # t.references :user, foreign_key: true
+      t.references :user, foreign_key: true, null: false
     end
   end
 end

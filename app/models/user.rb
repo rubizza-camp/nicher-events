@@ -45,4 +45,5 @@ class User < ApplicationRecord
 
   has_one :user_organization
   has_one :organization, through: :user_organization
+  has_many :event
 end
