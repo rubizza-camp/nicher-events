@@ -12,10 +12,20 @@ export default class NewEvent extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
-    Axios.post('/api/v1/events', this.state.event, { headers: { 'X-CSRF-Token': csrf } })
+    let headers = {};
+    if (sessionStorage.user) {
+      headers = JSON.parse(sessionStorage.user);
+    }
+    headers['X-CSRF-Token'] = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    Axios.post('/api/v1/events', this.state.event, { headers: headers })
       .then(response => this.props.history.push(`/events/${response.data.id}`))
-      .catch(err => this.setState({ errors: err.response.data }))
+      .catch(err => {
+        if (err.response.statusText == 'Unprocessable Entity')
+          this.setState({ errors: err.response.data });
+        if (err.response.statusText == 'Unauthorized')
+          this.setState({ errors: err.response.data.errors });
+      }
+    )
   }
 
   handleCancel = () => {
@@ -23,22 +33,10 @@ export default class NewEvent extends React.Component {
   }
 
   render() {
-    let message;
-    if (this.state.errors) {
-      message = <div>
-                  {this.state.errors.map((error) => {
-                    return(
-                      <p>{error}</p>
-                    )
-                  })}
-                </div>
-    }
-
     return (
       <div>
         <h1>Create</h1>
-        {message}
-        <EventForm event={this.state.event} handleSubmit={this.handleSubmit} handleCancel={this.handleCancel}/>
+        <EventForm event={this.state.event} errors={this.state.errors} handleSubmit={this.handleSubmit} handleCancel={this.handleCancel}/>
       </div>
     );
   }

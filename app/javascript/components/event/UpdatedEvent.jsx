@@ -11,18 +11,34 @@ export default class UpdatedEvent extends React.Component {
   }
 
   componentDidMount() {
-    Axios.get(`/api/v1/events/${this.props.match.params.id}`)
+    let headers = {};
+    if (sessionStorage.user) {
+      headers = JSON.parse(sessionStorage.user);
+    }
+    Axios.get(`/api/v1/events/${this.props.match.params.id}`, {
+      headers: headers
+    })
       .then(res => this.setState({ event: res.data }))
       .catch(error => console.log('error', error))
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
-    Axios.patch(`/api/v1/events/${this.props.match.params.id}`, this.state.event, 
-                { headers: { 'X-CSRF-Token': csrf } })
+    let headers = {};
+    if (sessionStorage.user) {
+      headers = JSON.parse(sessionStorage.user);
+    }
+    headers['X-CSRF-Token'] = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    Axios.patch(`/api/v1/events/${this.props.match.params.id}`, this.state.event, { headers: headers })
       .then(data => this.props.history.push(`/events/${this.state.event.id}`))
-      .catch(err => this.setState({ errors: err.response.data }))
+      .catch(err => {
+        if (err.response.statusText == 'Unprocessable Entity')
+          this.setState({ errors: err.response.data });
+        if (err.response.statusText == 'Unauthorized')
+          this.setState({ errors: err.response.data.errors });
+        if (err.response.statusText == 'Not Found')
+          this.setState({ errors: ['You can\'t do this'] });
+      })
   }
 
   handleCancel = () => {
@@ -30,22 +46,10 @@ export default class UpdatedEvent extends React.Component {
   }
 
   render() {
-    let message;
-    if (this.state.errors) {
-      message = <div>
-                  {this.state.errors.map((error) => {
-                    return(
-                      <p>{error}</p>
-                    )
-                  })}
-                </div>
-    }
-
     return (
       <div>
         <h1>Edit</h1>
-        {message}
-        <EventForm event={this.state.event} handleSubmit={this.handleSubmit} handleCancel={this.handleCancel}/>
+        <EventForm event={this.state.event} errors={this.state.errors} handleSubmit={this.handleSubmit} handleCancel={this.handleCancel}/>
       </div>
     );
   }
