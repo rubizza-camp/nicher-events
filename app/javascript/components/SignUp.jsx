@@ -4,7 +4,7 @@ import Axios from 'axios';
 export default class SignUpForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { user: {email: '', password: '', first_name: '', last_name: '', phone: '' } };
+    this.state = { user: {email: '', password: '', first_name: '', last_name: '', phone: '', password_confirmation: '' } };
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -16,18 +16,18 @@ export default class SignUpForm extends React.Component {
       url: '/auth',
       data: this.state.user
     }).then(response => {
-      sessionStorage.setItem('user',
-      JSON.stringify({
-        'access-token': response.request.getResponseHeader('access-token'),
-        'token-type': response.request.getResponseHeader('token-type'),
-        client: response.headers["client"],
-        expiry: response.headers["expiry"],
-        uid: response.headers["uid"]
-      }));
+        sessionStorage.setItem('user',
+        JSON.stringify({
+          'access-token': response.request.getResponseHeader('access-token'),
+          'token-type': response.request.getResponseHeader('token-type'),
+          client: response.headers["client"],
+          expiry: response.headers["expiry"],
+          uid: response.headers["uid"]
+        }));
         this.props.history.push('/');
       }).catch(error => {
-      this.setState({ errors: error.response.data.errors.full_messages })
-      })
+          this.setState({ errors: error.response.data.errors.full_messages })
+        })
   };
 
   handleChange = (user) => {
@@ -77,6 +77,11 @@ export default class SignUpForm extends React.Component {
           <div>
             <label htmlFor='password'>Password</label><br />
             <input type="password" name="password" value={user.password} onChange={this.handleChange} className="form-control" />
+          </div>
+
+          <div>
+            <label htmlFor='password_confirmation'>Password confirmation</label><br />
+            <input type="text" name="password_confirmation" value={this.state.password_confirmation} onChange={this.handleChange} className="form-control" />
           </div>
 
           <button type='submit' className='btn_sign_up'>Sign up</button>
