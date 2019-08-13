@@ -48,6 +48,7 @@ group :development, :test do
   gem 'factory_bot_rails', '5.0.2'
   gem 'pry', '~> 0.12.2'
   gem 'rspec-rails', '~> 3.8'
+  gem 'letter_opener', '1.7.0'
 end
 
 group :development do
