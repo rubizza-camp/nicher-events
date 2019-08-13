@@ -20,5 +20,12 @@ console.log('Hello World from Webpacker')
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from '../components/App';
+import history from './history';
+import {Router, Route} from 'react-router-dom';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <Router history={ history }>
+    <Route path="/" component={ App }/>
+  </Router>,
+  document.getElementById('root')
+);
