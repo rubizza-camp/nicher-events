@@ -6,7 +6,6 @@ import Axios from 'axios';
 import {HashRouter as Router, Route, NavLink, Switch} from 'react-router-dom'
 import history from "../packs/history";
 
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -71,7 +70,7 @@ const Navigation = () => (
 
 const Main = () => (
   <Switch>
-    <Route exact path="/"  />
+    <Route exact path="/" />
     <Route path="/home" component={Home} />
     <Route path="/sign_up" component={SignUp} />
     <Route path="/sign_in" component={SignIn} />

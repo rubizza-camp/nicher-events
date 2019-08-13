@@ -24,16 +24,16 @@ export default class SigInForm extends React.Component {
         expiry: response.headers["expiry"],
         uid: response.headers["uid"]
       }));
-        this.props.history.push('/');
+      this.props.history.push('/');
       }).catch(error => {
-        this.setState({ errors: error.response.data.errors })
+      this.setState({ errors: error.response.data.errors })
       })
   };
 
   handleChange = (user) => {
-    const current_user = this.state.user;
-    current_user[user.target.name] = user.target.value;
-    this.setState(current_user);
+    const CurrentUser = this.state.user;
+    CurrentUser[user.target.name] = user.target.value;
+    this.setState(CurrentUser);
   }
 
   render() {
