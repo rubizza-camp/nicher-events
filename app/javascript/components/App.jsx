@@ -20,7 +20,6 @@ export default class App extends React.Component {
       url: '/auth/sign_out',
       data: JSON.parse(sessionStorage.user)
     }).then(response => {
-      debugger;
       this.props.history.push('/');
     }).catch(error => {
       this.setState({ errors: error.response.data.errors })

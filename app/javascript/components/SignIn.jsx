@@ -31,9 +31,9 @@ export default class SigInForm extends React.Component {
   };
 
   handleChange = (user) => {
-    const CurrentUser = this.state.user;
-    CurrentUser[user.target.name] = user.target.value;
-    this.setState(CurrentUser);
+    const currentUser = this.state.user;
+    currentUser[user.target.name] = user.target.value;
+    this.setState(currentUser);
   }
 
   render() {
