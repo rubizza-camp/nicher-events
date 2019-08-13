@@ -20,7 +20,7 @@ export default class SignUpForm extends React.Component {
 
   componentDidMount() {
     if (sessionStorage.user) {
-      this.props.history.push('/')
+      this.props.history.push('/');
     }
   }
 
@@ -35,15 +35,15 @@ export default class SignUpForm extends React.Component {
         JSON.stringify({
           'access-token': response.request.getResponseHeader('access-token'),
           'token-type': response.request.getResponseHeader('token-type'),
-          client: response.headers["client"],
-          expiry: response.headers["expiry"],
-          uid: response.headers["uid"]
+          client: response.headers['client'],
+          expiry: response.headers['expiry'],
+          uid: response.headers['uid']
         }));
       sessionStorage.setItem('user_attributes', JSON.stringify(response.data.data));
-      this.props.history.push('/')
+      this.props.history.push('/');
     }).catch(error => {
-      this.setState({ errors: error.response.data.errors.full_messages })
-    })
+      this.setState({ errors: error.response.data.errors.full_messages });
+    });
   };
 
   handleChange = (user) => {
@@ -57,12 +57,10 @@ export default class SignUpForm extends React.Component {
     let errorMessages;
     if (this.state.errors) {
       errorMessages = <div>
-        {this.state.errors.map((error) => {
-          return (
-            <p>{error}</p>
-          )
-        })}
-      </div>
+        {this.state.errors.map((error) => (
+          <p key={error.id}>{error}</p>
+        ))}
+      </div>;
     }
     return (
       <div>
@@ -73,37 +71,37 @@ export default class SignUpForm extends React.Component {
           <div>
             <label htmlFor="first_name">First name</label><br/>
             <input type="text" name="first_name" value={user.first_name} onChange={this.handleChange}
-                   className="form-control" />
+              className="form-control" />
           </div>
 
           <div>
             <label htmlFor="last_name">Last name</label><br/>
             <input type="text" name="last_name" value={user.last_name} onChange={this.handleChange}
-                   className="form-control" />
+              className="form-control" />
           </div>
 
           <div>
             <label htmlFor="email">E-mail</label><br/>
             <input type="text" name="email" value={user.email} onChange={this.handleChange}
-                   className="form-control" />
+              className="form-control" />
           </div>
 
           <div>
             <label htmlFor="phone">Phone</label><br/>
             <input type="text" name="phone" value={user.phone} onChange={this.handleChange}
-                   className="form-control" />
+              className="form-control" />
           </div>
 
           <div>
             <label htmlFor="password">Password</label><br/>
             <input type="password" name="password" value={user.password} onChange={this.handleChange}
-                   className="form-control" />
+              className="form-control" />
           </div>
 
-          <button type="submit" className="btn_sign_up" onClick={() => {user.role = 'organizer'}}>
+          <button type="submit" className="btn_sign_up" onClick={() => user.role = 'organizer'}>
             Sign up as organizer
           </button>
-          <button type="submit" className="btn_sign_up" onClick={() => {user.role = 'attendee'}}>
+          <button type="submit" className="btn_sign_up" onClick={() => user.role = 'attendee'}>
             Sign up as attendee
           </button>
         </form>

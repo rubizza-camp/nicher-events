@@ -1,8 +1,9 @@
 import React from 'react';
 import Axios from 'axios';
-import { FormButton } from '../ui/Buttons'
-import { FormTextField } from '../ui/TextFileds'
+import { FormButton } from '../ui/Buttons';
+import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
+
 
 export default class SigInForm extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ export default class SigInForm extends React.Component {
 
   componentDidMount() {
     if (sessionStorage.user){
-      this.props.history.push('/')
+      this.props.history.push('/');
     }
   }
 
@@ -51,12 +52,10 @@ export default class SigInForm extends React.Component {
     let errorMessages;
     if (this.state.errors) {
       errorMessages = <div>
-        {this.state.errors.map((error) => {
-          return (
-            <p>{error}</p>
-          )
-        })}
-      </div>
+        {this.state.errors.map((error) => (
+          <p key={error.id}>{error}</p>
+        ))}
+      </div>;
     }
 
     return (
@@ -66,18 +65,18 @@ export default class SigInForm extends React.Component {
         </div>
         <form onSubmit={this.handleSignIn}>
           <Grid container direction="column" justify="center"
-                alignItems="center">
+            alignItems="center">
             <FormTextField type="text"
-                           name="email"
-                           label="Email"
-                           value={this.state.user.email}
-                           onChange={this.handleChange} />
+              name="email"
+              label="Email"
+              value={this.state.user.email}
+              onChange={this.handleChange} />
 
             <FormTextField type="password"
-                           name="password"
-                           label="Password"
-                           value={this.state.user.password}
-                           onChange={this.handleChange} />
+              name="password"
+              label="Password"
+              value={this.state.user.password}
+              onChange={this.handleChange} />
             <FormButton text="Sign in" />
           </Grid>
         </form>
