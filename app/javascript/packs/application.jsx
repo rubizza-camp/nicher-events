@@ -23,7 +23,6 @@ import App from '../components/App';
 import history from './history';
 import { Router, Route } from 'react-router-dom';
 
-// const history = createBrowserHistory();
 ReactDOM.render(
     <Router history={history}>
         <Route path="/" component={App} />

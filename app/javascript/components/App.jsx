@@ -10,6 +10,7 @@ import history from "../packs/history";
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state ={};
     this.handleSignOut = this.handleSignOut.bind(this)
   }
 
@@ -20,15 +21,27 @@ export default class App extends React.Component {
       url: '/auth/sign_out',
       data: JSON.parse(sessionStorage.user)
     }).then(response => {
+      debugger;
       this.props.history.push('/');
     }).catch(error => {
-      this.props.history.push('/');
+      this.setState({ errors: error.response.data.errors })
     })
   };
 
   render() {
+    let message;
+    if (this.state.errors) {
+      message = <div>
+        {this.state.errors.map((error) => {
+          return(
+              <p>{error}</p>
+          )
+        })}
+      </div>
+    }
     return (
       <div className="App">
+        {message}
         <Router>
           <div className="container">
             <Navigation />

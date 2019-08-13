@@ -26,7 +26,7 @@ export default class SigInForm extends React.Component {
       }));
         this.props.history.push('/');
       }).catch(error => {
-        this.props.history.push('/sign_in');
+        this.setState({ errors: error.response.data.errors })
       })
   };
 
@@ -37,8 +37,21 @@ export default class SigInForm extends React.Component {
   }
 
   render() {
+    let message;
+    if (this.state.errors) {
+      message = <div>
+        {this.state.errors.map((error) => {
+          return(
+              <p>{error}</p>
+          )
+        })}
+      </div>
+    }
     return (
       <div>
+        <div>
+          {message}
+        </div>
         <form onSubmit={this.handleSignIn}>
           <div>
             <label htmlFor='email'>E-mail</label><br />
@@ -47,7 +60,7 @@ export default class SigInForm extends React.Component {
 
           <div>
             <label htmlFor='password'>Password</label><br />
-            <input type="text" name="password" value={this.state.user.password} onChange={this.handleChange} className="form-control" />
+            <input type="password" name="password" value={this.state.user.password} onChange={this.handleChange} className="form-control" />
           </div>
 
           <button type='submit' className='btn_sign_in'>Sign in</button>

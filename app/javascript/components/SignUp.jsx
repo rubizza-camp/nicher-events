@@ -26,19 +26,33 @@ export default class SignUpForm extends React.Component {
       }));
         this.props.history.push('/');
       }).catch(error => {
-        this.props.history.push('/sign_up');
+        debugger;
+      this.setState({ errors: error.response.data.errors.full_messages })
       })
   };
 
   handleChange = (user) => {
-    const current_user = this.state.user;
-    current_user[user.target.name] = user.target.value;
-    this.setState(current_user);
+    const CurrentUser = this.state.user;
+    CurrentUser[user.target.name] = user.target.value;
+    this.setState(CurrentUser);
   }
 
   render() {
+    let message;
+    if (this.state.errors) {
+      message = <div>
+        {this.state.errors.map((error) => {
+          return(
+              <p>{error}</p>
+          )
+        })}
+      </div>
+    }
     return (
       <div>
+        <div>
+          {message}
+        </div>
         <form onSubmit={this.handleSignUp}>
           <div>
             <label htmlFor='first_name'>First name</label><br />
@@ -62,7 +76,7 @@ export default class SignUpForm extends React.Component {
 
           <div>
             <label htmlFor='password'>Password</label><br />
-            <input type="text" name="password" value={this.state.user.password} onChange={this.handleChange} className="form-control" />
+            <input type="password" name="password" value={this.state.user.password} onChange={this.handleChange} className="form-control" />
           </div>
 
           <button type='submit' className='btn_sign_up'>Sign up</button>
