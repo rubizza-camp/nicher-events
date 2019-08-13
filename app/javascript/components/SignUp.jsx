@@ -4,7 +4,7 @@ import Axios from 'axios';
 export default class SignUpForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { user: {email: '', password: '', first_name: '', last_name: '', phone: '' } };
+    this.state = { user: { email: '', password: '', first_name: '', last_name: '', phone: '' } };
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -17,17 +17,17 @@ export default class SignUpForm extends React.Component {
       data: this.state.user
     }).then(response => {
       sessionStorage.setItem('user',
-      JSON.stringify({
-        'access-token': response.request.getResponseHeader('access-token'),
-        'token-type': response.request.getResponseHeader('token-type'),
-        client: response.headers["client"],
-        expiry: response.headers["expiry"],
-        uid: response.headers["uid"]
-      }));
-        this.props.history.push('/');
-      }).catch(error => {
+        JSON.stringify({
+          'access-token': response.request.getResponseHeader('access-token'),
+          'token-type': response.request.getResponseHeader('token-type'),
+          client: response.headers["client"],
+          expiry: response.headers["expiry"],
+          uid: response.headers["uid"]
+        }));
+      this.props.history.push('/');
+    }).catch(error => {
       this.setState({ errors: error.response.data.errors.full_messages })
-      })
+    })
   };
 
   handleChange = (user) => {
@@ -38,50 +38,55 @@ export default class SignUpForm extends React.Component {
 
   render() {
     const { user } = this.state
-    let message;
+    let errorMessages;
     if (this.state.errors) {
-      message = <div>
-        {this.state.errors.map((error) => {
-          return(
-              <p>{error}</p>
+      errorMessages = <div>
+        { this.state.errors.map((error) => {
+          return (
+            <p>{ error }</p>
           )
-        })}
+        }) }
       </div>
     }
     return (
       <div>
-        <div>
-          {message}
+        <div className='errors'>
+          { errorMessages }
         </div>
-        <form onSubmit={this.handleSignUp}>
+        <form onSubmit={ this.handleSignUp }>
           <div>
-            <label htmlFor='first_name'>First name</label><br />
-            <input type="text" name="first_name" value={user.first_name} onChange={this.handleChange} className="form-control" />
+            <label htmlFor='first_name'>First name</label><br/>
+            <input type="text" name="first_name" value={ user.first_name } onChange={ this.handleChange }
+                   className="form-control"/>
           </div>
 
           <div>
-            <label htmlFor='last_name'>Last name</label><br />
-            <input type="text" name="last_name" value={user.last_name} onChange={this.handleChange} className="form-control" />
+            <label htmlFor='last_name'>Last name</label><br/>
+            <input type="text" name="last_name" value={ user.last_name } onChange={ this.handleChange }
+                   className="form-control"/>
           </div>
 
           <div>
-            <label htmlFor='email'>E-mail</label><br />
-            <input type="text" name="email" value={user.email} onChange={this.handleChange} className="form-control" />
+            <label htmlFor='email'>E-mail</label><br/>
+            <input type="text" name="email" value={ user.email } onChange={ this.handleChange }
+                   className="form-control"/>
           </div>
 
           <div>
-            <label htmlFor='phone'>Phone</label><br />
-            <input type="text" name="phone" value={user.phone} onChange={this.handleChange} className="form-control" />
+            <label htmlFor='phone'>Phone</label><br/>
+            <input type="text" name="phone" value={ user.phone } onChange={ this.handleChange }
+                   className="form-control"/>
           </div>
 
           <div>
-            <label htmlFor='password'>Password</label><br />
-            <input type="password" name="password" value={user.password} onChange={this.handleChange} className="form-control" />
+            <label htmlFor='password'>Password</label><br/>
+            <input type="password" name="password" value={ user.password } onChange={ this.handleChange }
+                   className="form-control"/>
           </div>
 
           <button type='submit' className='btn_sign_up'>Sign up</button>
         </form>
       </div>
     );
-   }
+  }
 }
