@@ -14,9 +14,20 @@ export default class EventForm extends React.Component {
   }
 
   render () {
-    const { event } = this.props
+    let errorsMessage;
+    if (this.props.errors)  {
+      errorsMessage = <ul>
+                        {this.props.errors.map((error) => {
+                          return(
+                            <li>{error}</li>
+                          );
+                        })}
+                      </ul>
+    }
+    const { event } = this.props;
     return (
     <form onSubmit={this.props.handleSubmit}>
+      {errorsMessage}
       <div className="form-group">
         <label htmlFor='name'>Name</label> <br/>
         <input type="text" name="name" value={event.name} onChange={this.handleChange} className="form-control" />
@@ -41,6 +52,6 @@ export default class EventForm extends React.Component {
         <button type="button" onClick={this.props.handleCancel} className="btn btn-secondary">Cancel</button>
       </div>
     </form>
-    )
+    );
   }
 }

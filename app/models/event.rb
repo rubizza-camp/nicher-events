@@ -6,5 +6,5 @@ class Event < ApplicationRecord
   validates :date, presence: true
   validates :status, inclusion: { in: %w[social confidential] }
 
-  # belongs_to :user
+  belongs_to :user
 end

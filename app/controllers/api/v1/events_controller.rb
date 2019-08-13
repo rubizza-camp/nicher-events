@@ -2,23 +2,29 @@
 # :reek:InstanceVariableAssumption
 
 class Api::V1::EventsController < ApplicationController
-  before_action :set_event, only: %i[show update destroy]
+  before_action :authenticate_user!, only: %i[create update destroy]
+  before_action :set_current_user, only: %i[index show]
+  before_action :set_event_of_current_user, only: %i[update destroy]
 
   def index
-    @events = Event.all
+    @events = if params[:is_user_authenticate] == 'true'
+                Event.all
+              else
+                Event.where(status: :social)
+              end
     render json: @events
   end
 
   def show
-    if @event
-      render json: @event
-    else
-      render json: { status: :not_found }
-    end
+    return render json: {}, status: :not_found unless event
+
+    return render json: {}, status: :unauthorized if unavailable_event?
+
+    render json: event
   end
 
   def create
-    @event = Event.new(event_params)
+    @event = current_user.event.new(event_params)
     if @event.save
       render json: @event, status: :created
     else
@@ -27,26 +33,42 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def update
-    if @event.update(event_params)
-      render json: @event, status: :ok
+    return render json: {}, status: :not_found unless @event_of_current_user
+
+    if @event_of_current_user.update(event_params)
+      render json: @event_of_current_user, status: :ok
     else
-      render json: @event.errors.full_messages, status: :unprocessable_entity
+      render json: @event_of_current_user.errors.full_messages, status: :unprocessable_entity
     end
   end
 
   def destroy
-    if @event
-      @event.destroy
-      head :no_content
-    else
-      render json: { status: :not_found }
-    end
+    return render json: {}, status: :not_found unless @event_of_current_user
+
+    @event_of_current_user.destroy
+    head :no_content
   end
 
   private
 
-  def set_event
-    @event = Event.find_by(id: params[:id])
+  def set_current_user
+    authenticate_user! if params[:is_user_authenticate] == 'true'
+  end
+
+  def unavailable_event?
+    if !event.blank?
+      (event.status == 'confidential') && current_user.blank?
+    else
+      true
+    end
+  end
+
+  def event
+    @event ||= Event.find_by(id: params[:id])
+  end
+
+  def set_event_of_current_user
+    @event_of_current_user = current_user.event.find_by(id: params[:id])
   end
 
   def event_params

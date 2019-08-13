@@ -49,6 +49,22 @@ Organization.create([
   }
 
 events = Event.create([
-    {name: 'First Event', date: '2019-08-10T11:10:25', description:'here can be info about speekers, schedule etc.', status: :confidential, user_id:1},
-    {name: 'Second Event', date: '2019-08-10T22:00:25', description:'here can be info about speekers, schedule etc.', status: :social, user_id:1}
+  { name: 'First Event',
+    date: '2019-08-10T11:10:25',
+    description: 'here can be info about speekers, schedule etc.',
+    status: :confidential,
+    user_id:1
+  },
+  { name: 'Second Event',
+    date: '2019-08-10T22:00:25',
+    description: 'here can be info about speekers, schedule etc.',
+    status: :social,
+    user_id: 1
+  },
+  { name: 'Third Event',
+    date: '2019-08-14T00:18:25',
+    description: 'here can be info about speekers, schedule etc.',
+    status: :social,
+    user_id: 2
+  }
 ])
