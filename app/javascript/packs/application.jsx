@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from '../components/App';
 import history from './history';
-import SignUp from '../components/SignUp';
-import SignIn from '../components/SignIn';
-import SignOut from '../components/SignOut';
-import { Router, Route, NavLink, Switch } from 'react-router-dom';
+import SignUp from "../components/SignUp";
+import SignIn from "../components/SignIn";
+import SignOut from "../components/SignOut";
+import ForgotPassword from '../components/ForgotPassword';
+import ResetPassword from '../components/ResetPassword';
+import {Router, Route, NavLink, Switch} from 'react-router-dom';
 
 const RegisterNavigation = () => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -70,9 +72,11 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
 const Main = () => (
   <Switch>
     <DefaultLayout exact path="/" component={App} />
-    <DefaultLayout path="/sign_up" component={SignUp} />
-    <DefaultLayout path="/sign_in" component={SignIn} />
-    <DefaultLayout path="/sign_out" component={SignOut} />
+    <DefaultLayout path="/sign_up" component={SignUp}/>
+    <DefaultLayout path="/sign_in" component={SignIn}/>
+    <DefaultLayout path="/sign_out" component={SignOut}/>
+    <DefaultLayout path="/forgot_password" component={ForgotPassword}/>
+    <DefaultLayout path="/reset_password" component={ResetPassword}/>
   </Switch>
 );
 

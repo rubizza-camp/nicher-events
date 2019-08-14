@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import {HashRouter as Router, Route, NavLink, Switch} from 'react-router-dom'
 
 export default class SigInForm extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ export default class SigInForm extends React.Component {
       url: '/auth/sign_in',
       data: this.state.user
     }).then(response => {
-      sessionStorage.setItem('user',
+        sessionStorage.setItem('user',
         JSON.stringify({
           'access-token': response.request.getResponseHeader('access-token'),
           'token-type': response.request.getResponseHeader('token-type'),
@@ -65,6 +66,8 @@ export default class SigInForm extends React.Component {
 
           <div>
             <label htmlFor="password">Password</label><br/>
+            <NavLink exact className="nav-link" activeClassName="active" to="/forgot_password"> (Forgot password?)</NavLink>
+            <br />
             <input type="password" name="password" value={this.state.user.password} onChange={this.handleChange}
                    className="form-control" />
           </div>
