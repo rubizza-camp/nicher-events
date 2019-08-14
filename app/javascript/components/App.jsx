@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
 import Home from './Home';
+import VenueIndex from './venue/VenueIndex';
+import VenueNew from './venue/VenueNew';
+import VenueShow from './venue/VenueShow';
+import VenueEdit from './venue/VenueEdit';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
 import SignOut from './SignOut';
@@ -50,6 +54,8 @@ const SignOutNavigation = () => (
     <ul className="navbar-nav mr-auto">
       <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_out">Sign
         out</NavLink></li>
+      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/venues">Venues
+      </NavLink></li>
     </ul>
   </nav>
 );
@@ -72,5 +78,9 @@ const Main = () => (
     <Route path="/sign_up" component={SignUp}/>
     <Route path="/sign_in" component={SignIn}/>
     <Route path="/sign_out" component={SignOut}/>
+    <Route exact path='/venues' component={VenueIndex} />
+    <Route exact path="/venues/new" component={VenueNew} />
+    <Route exact path='/venues/:id' component={VenueShow} />
+    <Route exact path='/venues/:id/edit' component={VenueEdit} />
   </Switch>
 );
