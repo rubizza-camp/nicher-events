@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
 
-export default class EventList extends React.Component {  
+export default class VenueIndex extends React.Component {  
   constructor(props) {
     super(props);
     this.state = { venues: [] };

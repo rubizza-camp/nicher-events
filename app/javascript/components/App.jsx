@@ -42,20 +42,24 @@ export default class App extends React.Component {
 const RegisterNavigation = () => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
     <ul className="navbar-nav mr-auto">
-      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_up">Sign
-        up</NavLink></li>
-      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_in">Sign
-        in</NavLink></li>
+      <li className="nav-item">
+        <NavLink exact className="nav-link" activeClassName="active" to="/sign_up">Sign up</NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink exact className="nav-link" activeClassName="active" to="/sign_in">Sign in</NavLink>
+      </li>
     </ul>
   </nav>
 );
 const SignOutNavigation = () => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
     <ul className="navbar-nav mr-auto">
-      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/sign_out">Sign
-        out</NavLink></li>
-      <li className="nav-item"><NavLink exact className="nav-link" activeClassName="active" to="/venues">Venues
-      </NavLink></li>
+      <li className="nav-item">
+        <NavLink exact className="nav-link" activeClassName="active" to="/sign_out">Sign out</NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink exact className="nav-link" activeClassName="active" to="/venues">Venues</NavLink>
+      </li>
     </ul>
   </nav>
 );

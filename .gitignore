@@ -10,6 +10,7 @@ capybara-*.html
 .rspec
 /db/*.pg
 /spec/tmp
+spec/.factories.rb.swp
 /vendor/bundle
 
 # Ignore all logfiles and tempfiles.
