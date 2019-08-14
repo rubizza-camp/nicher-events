@@ -5,6 +5,8 @@ import history from './history';
 import SignUp from '../components/SignUp';
 import SignIn from '../components/SignIn';
 import SignOut from '../components/SignOut';
+import ForgotPassword from '../components/ForgotPassword';
+import ResetPassword from '../components/ResetPassword';
 import Box from '@material-ui/core/Box';
 import { NavButtons } from '../ui/Buttons'
 import AppBar from '@material-ui/core/AppBar';
@@ -60,9 +62,11 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
 const Main = () => (
   <Switch>
     <DefaultLayout exact path="/" component={App} />
-    <DefaultLayout path="/sign_up" component={SignUp} />
-    <DefaultLayout path="/sign_in" component={SignIn} />
-    <DefaultLayout path="/sign_out" component={SignOut} />
+    <DefaultLayout path="/sign_up" component={SignUp}/>
+    <DefaultLayout path="/sign_in" component={SignIn}/>
+    <DefaultLayout path="/sign_out" component={SignOut}/>
+    <DefaultLayout path="/forgot_password" component={ForgotPassword}/>
+    <DefaultLayout path="/reset_password" component={ResetPassword}/>
   </Switch>
 );
 
