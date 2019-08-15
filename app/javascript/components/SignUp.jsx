@@ -67,31 +67,31 @@ export default class SignUpForm extends React.Component {
           <div>
             <label htmlFor="first_name">First name</label><br/>
             <input type="text" name="first_name" value={user.first_name} onChange={this.handleChange}
-                   className="form-control"/>
+                   className="form-control" />
           </div>
 
           <div>
             <label htmlFor="last_name">Last name</label><br/>
             <input type="text" name="last_name" value={user.last_name} onChange={this.handleChange}
-                   className="form-control"/>
+                   className="form-control" />
           </div>
 
           <div>
             <label htmlFor="email">E-mail</label><br/>
             <input type="text" name="email" value={user.email} onChange={this.handleChange}
-                   className="form-control"/>
+                   className="form-control" />
           </div>
 
           <div>
             <label htmlFor="phone">Phone</label><br/>
             <input type="text" name="phone" value={user.phone} onChange={this.handleChange}
-                   className="form-control"/>
+                   className="form-control" />
           </div>
 
           <div>
             <label htmlFor="password">Password</label><br/>
             <input type="password" name="password" value={user.password} onChange={this.handleChange}
-                   className="form-control"/>
+                   className="form-control" />
           </div>
 
           <button type="submit" className="btn_sign_up" onClick={() => {user.role = 'organizer'}}>
