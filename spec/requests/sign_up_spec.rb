@@ -4,7 +4,7 @@ describe 'SignUp', type: :request do
   let!(:user) { build(:user) }
 
   it 'return sign_up page' do
-    get '/#/sign_up'
+    get '/sign_up'
     expect(response).to have_http_status(:success)
   end
 

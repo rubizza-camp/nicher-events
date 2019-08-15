@@ -1,7 +1,7 @@
 import React from 'react';
 import Axios from "axios";
 
-export default class SignOut extends React.Component {
+export default class SignOutForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {hasError: false};
