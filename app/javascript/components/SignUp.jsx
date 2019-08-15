@@ -32,7 +32,7 @@ export default class SignUpForm extends React.Component {
       url: '/auth',
       data: this.state.user
     }).then(response => {
-        sessionStorage.setItem('user',
+      sessionStorage.setItem('user',
         JSON.stringify({
           'access-token': response.request.getResponseHeader('access-token'),
           'token-type': response.request.getResponseHeader('token-type'),
