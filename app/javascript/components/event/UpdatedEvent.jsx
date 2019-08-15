@@ -30,14 +30,19 @@ export default class UpdatedEvent extends React.Component {
     }
     headers['X-CSRF-Token'] = document.querySelector("meta[name='csrf-token']").getAttribute("content");
     Axios.patch(`/api/v1/events/${this.props.match.params.id}`, this.state.event, { headers: headers })
-      .then(data => this.props.history.push(`/events/${this.state.event.id}`))
-      .catch(err => {
-        if (err.response.statusText == 'Unprocessable Entity')
-          this.setState({ errors: err.response.data });
-        if (err.response.statusText == 'Unauthorized')
-          this.setState({ errors: err.response.data.errors });
-        if (err.response.statusText == 'Not Found')
-          this.setState({ errors: ['You can\'t do this'] });
+      .then(() => this.props.history.push(`/events/${this.state.event.id}`))
+      .catch(error => {
+        switch (error.response.statusText) {
+          case 'Unprocessable Entity':
+            this.setState({ errors: error.response.data });
+            break;
+          case 'Unauthorized':
+            this.setState({ errors: error.response.data.errors });
+            break;
+          case 'Not Found':
+            this.setState({ errors: ['You can\'t do this'] });
+            break;
+        }
       })
   }
 
