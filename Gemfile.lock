@@ -266,7 +266,7 @@ DEPENDENCIES
   devise (= 4.6.2)
   devise_token_auth (= 1.1.0)
   factory_bot_rails (~> 5.0)
-  faker (~> 1.8)
+  faker (= 2.1.0)
   foreman (~> 0.85.0)
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
