@@ -5,7 +5,7 @@ export default class VenueNew extends Component {
   constructor(props) {
     super(props);
     
-    this.state = { venue: { address: "", decription: "", people_capacity: "" } };
+    this.state = { venue: { address: '', description: '', people_capacity: '' } };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,8 +18,9 @@ export default class VenueNew extends Component {
   }
 
   handleSubmit(venue) {
+    event.preventDefault();
     const { address, description, people_capacity } = this.state;
-
+    const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
     Axios
       .post(
         "/api/v1/venues",

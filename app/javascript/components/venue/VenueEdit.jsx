@@ -27,9 +27,11 @@ export default class VenueEdit extends Component {
       {
         address: address,
         description: description,
-        people_capacity: people_capacity},
+        people_capacity: people_capacity
+      },
       { withCredentials: true }, 
-      { headers: { 'X-CSRF-Token': csrf } })
+      { headers: { 'X-CSRF-Token': csrf } }
+      )
     .then(data => this.props.history.push(`/venues`))
     .catch(err => this.setState({ errors: err.response.data }))
   }
