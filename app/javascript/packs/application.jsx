@@ -45,13 +45,13 @@ const MainNavigation = () => (
 
 const DefaultLayout = ({ component: Component, ...rest }) => {
   let userInfo = '';
-  if (sessionStorage.user_attributes != null) {
-    const { first_name, last_name, role }   = JSON.parse(sessionStorage.user_attributes);
+  if (sessionStorage.user_attributes !== undefined) {
+    const { first_name, last_name, role } = JSON.parse(sessionStorage.user_attributes);
     userInfo = `${first_name} ${last_name} ${role}`;
   }
 
   let navbarComponent;
-  if (sessionStorage.user == null) {
+  if (sessionStorage.user === undefined) {
     navbarComponent = <RegisterNavigation />;
   } else {
     navbarComponent = <SignOutNavigation />;

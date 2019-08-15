@@ -19,7 +19,6 @@ export default class SignOutForm extends React.Component {
       sessionStorage.removeItem('user_attributes');
       this.props.history.push('/');
     });
-
   }
 
   render() {
