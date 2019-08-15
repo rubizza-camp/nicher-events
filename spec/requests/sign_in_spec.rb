@@ -5,7 +5,7 @@ describe 'SignIn', type: :request do
   let(:user) { create(:user) }
 
   it 'get sign_in form' do
-    get '/#/sign_in'
+    get '/sign_in'
     expect(response).to have_http_status(:success)
   end
 
