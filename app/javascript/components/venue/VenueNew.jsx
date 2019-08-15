@@ -12,29 +12,26 @@ export default class VenueNew extends Component {
   }
 
   handleChange(venue) {
+    const params = this.state;
+    params['venue'][venue.target.name] = venue.target.value;
     this.setState({
-      [venue.target.name]: venue.target.value
+      params
     });
   }
 
   handleSubmit(venue) {
-    event.preventDefault();
-    const { address, description, people_capacity } = this.state;
+    venue.preventDeffault();
+    const { venue: { address, description, people_capacity } } = this.state;
     const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
     Axios
       .post(
         "/api/v1/venues",
-        {
-          address: address,
-          description: description,
-          people_capacity: people_capacity
-        },
+        this.state.venue,
         { withCredentials: true },
         { headers: { 'X-CSRF-Token': csrf } }
       )
       .then(data => this.props.history.push(`/venues`))
       .catch(err => this.setState({ errors: err.response.data }))
-    venue.preventDefault();
   }
 
    render() {
@@ -43,11 +40,13 @@ export default class VenueNew extends Component {
       message = <div>
                   {this.state.errors.map((error) => {
                     return(
-                      <p>{error}</p>
+                      <p key={Math.random()}>{error}</p>
                     )
                   })}
                 </div>
     }
+
+    const { venue } = this.state
     return (
       <div>
       {message}
@@ -59,7 +58,7 @@ export default class VenueNew extends Component {
             type="text"
             name="address"
             placeholder="Address"
-            value={this.state.address}
+            value={venue.address}
             onChange={this.handleChange}
             required
           />
@@ -72,7 +71,7 @@ export default class VenueNew extends Component {
             type="text"
             name="description"
             placeholder="Description"
-            value={this.state.description}
+            value={venue.description}
             onChange={this.handleChange}
             required
           />
@@ -84,7 +83,7 @@ export default class VenueNew extends Component {
           <input
             type="number"
             name="people_capacity"
-            value={this.state.people_capacity}
+            value={venue.people_capacity}
             onChange={this.handleChange}
             required
           />

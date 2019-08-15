@@ -12,14 +12,16 @@ export default class VenueEdit extends Component {
   }
 
   handleChange = (venue) => {
+    const params = this.state;
+    params['venue'][venue.target.name] = venue.target.value;
     this.setState({
-      [venue.target.name]: venue.target.value
+      params
     });
   }
 
-  handleSubmit = (event) => {
-  event.preventDefault();
-  const { address, description, people_capacity } = this.state;
+  handleSubmit = (venue) => {
+  venue.preventDefault();
+  const { venue: { address, description, people_capacity } } = this.state;
   const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
   Axios
     .patch(
@@ -37,7 +39,7 @@ export default class VenueEdit extends Component {
   }
 
    render() {
-   let message;
+    let message;
     if (this.state.errors) {
       message = <div>
                   {this.state.errors.map((error) => {
@@ -47,10 +49,11 @@ export default class VenueEdit extends Component {
                   })}
                 </div>
     }
+
+    const { venue } = this.state
     return (
       <div>
       {message}
-      <h2><strong>Edit venue:</strong></h2>
       <form onSubmit={this.handleSubmit}>
       <div className="form-group">
         Address:
@@ -58,8 +61,8 @@ export default class VenueEdit extends Component {
           <input
             type="text"
             name="address"
-            placeholder="address"
-            value={this.state.address}
+            placeholder="Address"
+            value={venue.address}
             onChange={this.handleChange}
             required
           />
@@ -71,8 +74,8 @@ export default class VenueEdit extends Component {
           <input
             type="text"
             name="description"
-            placeholder="description"
-            value={this.state.description}
+            placeholder="Description"
+            value={venue.description}
             onChange={this.handleChange}
             required
           />
@@ -84,13 +87,13 @@ export default class VenueEdit extends Component {
           <input
             type="number"
             name="people_capacity"
-            value={this.state.people_capacity}
+            value={venue.people_capacity}
             onChange={this.handleChange}
             required
           />
         </p>
       </div>
-          <button type="submit" className="btn btn-success">Update</button>
+          <button type="submit" className="btn btn-success">Create</button>
         </form>
       </div>
     );
