@@ -38,8 +38,8 @@ export default class EventInfo extends React.Component {
       .then(() => {
         this.props.history.push('/events');
       })
-      .catch(err => {
-        if (err.response.statusText == 'Not Found')
+      .catch(error => {
+        if (error.response.statusText == 'Not Found')
           this.setState({ errors: ['You can\'t do this'] });
       });
   }
@@ -58,8 +58,13 @@ export default class EventInfo extends React.Component {
       </div>
     );
 
+    let userRole;
+    if (sessionStorage.user !== undefined) {
+      userRole = JSON.parse(sessionStorage.user_attributes).role;
+    }
+
     let eventPanel;
-    if (sessionStorage.user != null) {
+    if (userRole == 'organizer') {
       eventPanel = <EventPanel />;
     }
 

@@ -19,8 +19,8 @@ export default class EventList extends React.Component {
       params: { is_user_authenticate: isUserAuthenticate },
       headers: headers,
     })
-      .then(res => {
-        this.setState({ events: res.data });
+      .then(response => {
+        this.setState({ events: response.data });
       })
       .catch(error => console.log('error', error));
   }
@@ -31,8 +31,12 @@ export default class EventList extends React.Component {
 
   render() {
     const createEventUrl = '/events/new';
+    let userRole;
+    if (sessionStorage.user !== undefined) {
+      userRole = JSON.parse(sessionStorage.user_attributes).role;
+    }
     let createdButton;
-    if (sessionStorage.user != null) {
+    if (userRole == 'organizer') {
       createdButton = <Link to={createEventUrl} className="btn btn-outline-primary">Create Event</Link>;
     }
 
