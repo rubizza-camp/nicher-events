@@ -72,10 +72,10 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
 const Main = () => (
   <Switch>
     <DefaultLayout exact path="/" component={App} />
-    <DefaultLayout path="/sign_up" component={SignUp}/>
-    <DefaultLayout path="/sign_in" component={SignIn}/>
-    <DefaultLayout path="/sign_out" component={SignOut}/>
-    <DefaultLayout path="/forgot_password" component={ForgotPassword}/>
+    <DefaultLayout exact path="/sign_up" component={SignUp}/>
+    <DefaultLayout exact path="/sign_in" component={SignIn}/>
+    <DefaultLayout exact path="/sign_out" component={SignOut}/>
+    <DefaultLayout exact path="/forgot_password" component={ForgotPassword}/>
     <DefaultLayout path="/reset_password" component={ResetPassword}/>
   </Switch>
 );
