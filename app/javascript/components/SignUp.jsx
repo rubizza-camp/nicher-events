@@ -66,10 +66,7 @@ export default class SignUpForm extends React.Component {
         <form onSubmit={this.handleSignUp}>
           <div>
             <label htmlFor="first_name">First name</label><br/>
-            <input type="text"
-                   name="first_name"
-                   value={user.first_name}
-                   onChange={this.handleChange}
+            <input type="text" name="first_name" value={user.first_name} onChange={this.handleChange}
                    className="form-control"/>
           </div>
 
@@ -93,20 +90,15 @@ export default class SignUpForm extends React.Component {
 
           <div>
             <label htmlFor="password">Password</label><br/>
-            <input type="password"
-                   name="password"
-                   value={user.password}
-                   onChange={this.handleChange}
+            <input type="password" name="password" value={user.password} onChange={this.handleChange}
                    className="form-control"/>
           </div>
 
-          <button type="submit" className="btn_sign_up" onClick={() => {
-            user.role = 'organizer'
-          }}>Sign up as organizer
+          <button type="submit" className="btn_sign_up" onClick={() => {user.role = 'organizer'}}>
+            Sign up as organizer
           </button>
-          <button type="submit" className="btn_sign_up" onClick={() => {
-            user.role = 'attendee'
-          }}>Sign up as attendee
+          <button type="submit" className="btn_sign_up" onClick={() => {user.role = 'attendee'}}>
+            Sign up as attendee
           </button>
         </form>
       </div>

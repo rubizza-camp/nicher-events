@@ -65,10 +65,7 @@ export default class SigInForm extends React.Component {
 
           <div>
             <label htmlFor="password">Password</label><br/>
-            <input type="password"
-                   name="password"
-                   value={this.state.user.password}
-                   onChange={this.handleChange}
+            <input type="password" name="password" value={this.state.user.password} onChange={this.handleChange}
                    className="form-control"/>
           </div>
 

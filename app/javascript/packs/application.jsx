@@ -5,7 +5,7 @@ import history from './history';
 import SignUp from "../components/SignUp";
 import SignIn from "../components/SignIn";
 import SignOut from "../components/SignOut";
-import {Router, Route, NavLink, Switch} from 'react-router-dom';
+import { Router, Route, NavLink, Switch } from 'react-router-dom';
 
 const RegisterNavigation = () => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -24,7 +24,9 @@ const SignOutNavigation = () => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
     <ul className="navbar-nav mr-auto">
       <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active" to="/sign_out">Sign out</NavLink>
+        <NavLink exact className="nav-link" activeClassName="active" to="/sign_out">
+          Sign out
+        </NavLink>
       </li>
     </ul>
   </nav>
@@ -40,7 +42,11 @@ const MainNavigation = () => (
   </nav>
 );
 
-const DefaultLayout = ({component: Component, ...rest}) => {
+const DefaultLayout = ({ component: Component, ...rest }) => {
+  let user_name = { first_name: '', last_name: '', role: '' };
+  if (sessionStorage.user_attributes != null) {
+    user_name = JSON.parse(sessionStorage.user_attributes);
+  }
   let navbarComponent;
   if (sessionStorage.user == null) {
     navbarComponent = <RegisterNavigation/>
@@ -50,16 +56,19 @@ const DefaultLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
       <div className="DefaultLayout">
+        {user_name.first_name + ' '}
+        {user_name.last_name + ' '}
+        {' ' + user_name.role}
         <div className="Header">{navbarComponent}<MainNavigation/></div>
         <Component {...matchProps} />
       </div>
-    )} />
+    )}/>
   )
 };
 
 const Main = () => (
   <Switch>
-    <DefaultLayout exact path="/" component={App} />
+    <DefaultLayout exact path="/" component={App}/>
     <DefaultLayout path="/sign_up" component={SignUp}/>
     <DefaultLayout path="/sign_in" component={SignIn}/>
     <DefaultLayout path="/sign_out" component={SignOut}/>
@@ -67,7 +76,7 @@ const Main = () => (
 );
 
 ReactDOM.render(
-  <Router history={ history }>
+  <Router history={history}>
     <Main/>
   </Router>,
   document.getElementById('root')
