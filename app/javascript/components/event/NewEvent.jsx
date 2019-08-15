@@ -19,11 +19,15 @@ export default class NewEvent extends React.Component {
     headers['X-CSRF-Token'] = document.querySelector("meta[name='csrf-token']").getAttribute("content");
     Axios.post('/api/v1/events', this.state.event, { headers: headers })
       .then(response => this.props.history.push(`/events/${response.data.id}`))
-      .catch(err => {
-        if (err.response.statusText == 'Unprocessable Entity')
-          this.setState({ errors: err.response.data });
-        if (err.response.statusText == 'Unauthorized')
-          this.setState({ errors: err.response.data.errors });
+      .catch(error => {
+        switch (error.response.statusText) {
+          case 'Unprocessable Entity':
+            this.setState({ errors: error.response.data });
+            break;
+          case 'Unauthorized':
+            this.setState({ errors: error.response.data.errors });
+            break;
+        }
       }
     )
   }

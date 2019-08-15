@@ -7,7 +7,7 @@ class Api::V1::EventsController < ApplicationController
   before_action :set_event_of_current_user, only: %i[update destroy]
 
   def index
-    @events = if params[:is_user_authenticate] == 'true'
+    @events = if organizer?
                 Event.all
               else
                 Event.where(status: :social)
@@ -24,6 +24,8 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def create
+    return render json: {}, status: :not_found unless organizer?
+
     @event = current_user.event.new(event_params)
     if @event.save
       render json: @event, status: :created
@@ -57,10 +59,14 @@ class Api::V1::EventsController < ApplicationController
 
   def unavailable_event?
     if !event.blank?
-      (event.status == 'confidential') && current_user.blank?
+      (event.status == 'confidential') && !organizer?
     else
       true
     end
+  end
+
+  def organizer?
+    !current_user.blank? && (current_user.role == 'organizer')
   end
 
   def event

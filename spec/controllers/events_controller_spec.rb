@@ -2,20 +2,37 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::EventsController, type: :controller do
   let!(:event_attributes) { %w[id name date description status user_id] }
-  let(:organizer) { create(:user) }
+  let(:organizer) { create(:user, role: :organizer) }
+  let(:attendee) { create(:user, role: :attendee) }
   let(:event_of_current_user) { create(:event, user_id: organizer.id) }
+  let(:confidential_event) { create(:event, status: :confidential, user_id: organizer.id) }
+  let(:social_event) { create(:event, status: :social, user_id: organizer.id) }
 
   describe 'GET #index' do
     let!(:social_events) { create_list(:event, 3, status: :social, user_id: organizer.id) }
-    let!(:confidential_events) { create_list(:event, 3, status: :confidential, user_id: organizer.id) }
+    let!(:confidential_events) { create_list(:event, 2, status: :confidential, user_id: organizer.id) }
 
     context 'when user is organizer' do
+      before do
+        @auth_token = organizer.create_new_auth_token
+        request.headers.merge!(@auth_token)
+      end
       it 'returns json with list of all events' do
+        get :index
+        expect(json_response.first.keys).to eq(event_attributes)
+        expect(json_response.count).to eq(social_events.count + confidential_events.count)
       end
     end
 
     context 'when user is attendee' do
+      before do
+        @auth_token = attendee.create_new_auth_token
+        request.headers.merge!(@auth_token)
+      end
       it 'returns json with list of social and conforming confidential events' do
+        get :index
+        expect(json_response.first.keys).to eq(event_attributes)
+        expect(json_response.count).to eq(social_events.count)
       end
     end
 
@@ -33,20 +50,38 @@ RSpec.describe Api::V1::EventsController, type: :controller do
   end
 
   describe 'GET #show' do
-    context 'when params is valid' do
-      context 'status event is social' do
-        let(:event) { create(:event, status: :social, user_id: organizer.id) }
-
-        it 'returns json response with event' do
-          get :show, params: { id: event.id }
-          expect(json_response.keys).to eq(event_attributes)
-          expect(json_response['name']).to eq(event.name)
-          expect(json_response['description']).to eq(event.description)
-          expect(json_response['date']).to eq(Time.parse(event.date.to_s).strftime('%Y-%m-%dT%H:%M'))
-          expect(json_response['status']).to eq(event.status)
+    context 'when status event is social' do
+      it 'returns json response with event' do
+        get :show, params: { id: social_event.id }
+        expect(json_response.keys).to eq(event_attributes)
+        expect(json_response['name']).to eq(social_event.name)
+        expect(json_response['description']).to eq(social_event.description)
+        expect(json_response['date']).to eq(Time.parse(social_event.date.to_s).strftime('%Y-%m-%dT%H:%M'))
+        expect(json_response['status']).to eq(social_event.status)
+      end
+    end
+    context 'when status event is confidential' do
+      context 'user is\'t organizer' do
+        before do
+          @auth_token = attendee.create_new_auth_token
+          request.headers.merge!(@auth_token)
+        end
+        it 'returns unauthorized status' do
+          get :show, params: { id: confidential_event.id }
+          expect(response).to have_http_status(:unauthorized)
         end
       end
-      context 'status event is confidential' do
+
+      context 'when user is organizer' do
+        before do
+          @auth_token = organizer.create_new_auth_token
+          request.headers.merge!(@auth_token)
+        end
+        it 'returns json response with event' do
+          get :show, params: { id: confidential_event.id }
+          expect(json_response.keys).to eq(event_attributes)
+          expect(json_response['name']).to eq(confidential_event.name)
+        end
       end
     end
 
@@ -59,26 +94,25 @@ RSpec.describe Api::V1::EventsController, type: :controller do
   end
 
   describe 'POST #create' do
-    let(:valid_event) { create(:event, user_id: organizer.id) }
-    context 'when user is registered' do
+    let(:valid_params) { build(:event, user_id: organizer.id) }
+    context 'when user is organizer' do
       before do
-        @user = create(:user)
-        @header = @user.create_new_auth_token
+        @header = organizer.create_new_auth_token
         request.headers.merge!(@header)
       end
       context 'when params is valid' do
         it 'returns json with params of created event' do
-          post :create, params: { event: valid_event.attributes }
+          post :create, params: { event: valid_params.attributes }
           expect(json_response.keys).to eq(event_attributes)
-          expect(json_response['name']).to eq(valid_event.name)
+          expect(json_response['name']).to eq(valid_params.name)
         end
       end
 
       context 'when params is invalid' do
-        let(:invalid_event) { build(:event, name: nil, description: 'too short', date: nil, status: nil) }
+        let(:invalid_params) { build(:event, name: nil, description: 'too short', date: nil, status: nil) }
 
         it 'returns message errors' do
-          post :create, params: { event: invalid_event.attributes }
+          post :create, params: { event: invalid_params.attributes }
           expect(json_response[0]).to eq('Name can\'t be blank')
           expect(json_response[1]).to eq('Description is too short (minimum is 10 characters)')
           expect(json_response[2]).to eq('Date can\'t be blank')
@@ -87,9 +121,20 @@ RSpec.describe Api::V1::EventsController, type: :controller do
       end
     end
 
+    context 'when user is attendee' do
+      before do
+        @header = attendee.create_new_auth_token
+        request.headers.merge!(@header)
+      end
+      it 'returns not_found status' do
+        post :create, params: { event: valid_params.attributes }
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
     context 'when user is unregistered' do
       it 'can\'t be enable' do
-        post :create, params: { event: valid_event.attributes }
+        post :create, params: { event: valid_params.attributes }
         expect(response).to have_http_status(:unauthorized)
       end
     end
