@@ -10,6 +10,16 @@ export default class NewEvent extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
   }
 
+  componentDidMount() {
+    let userRole;
+    if (sessionStorage.user !== undefined) {
+      userRole = JSON.parse(sessionStorage.user_attributes).role;
+    }
+    if (userRole != 'organizer') {
+      this.props.history.push('/events');
+    }
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
     let headers = {};
