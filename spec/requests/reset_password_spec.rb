@@ -1,5 +1,4 @@
 require 'rails_helper'
-Dotenv.load
 
 describe 'ResetPassword', type: :request do
   let(:user) { create(:user) }
@@ -16,7 +15,7 @@ describe 'ResetPassword', type: :request do
 
   context 'right params when send letter' do
     it 'return deliveries.size = 1' do
-      post '/auth/password', params: { email: user.email, redirect_url: ENV['PRODUCTION_HOST'] + '/reset_password' }
+      post '/auth/password', params: { email: user.email, redirect_url: 'http://localhost:3000/reset_password' }
       expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
   end
@@ -31,7 +30,7 @@ describe 'ResetPassword', type: :request do
   context 'right params when get /auth/password/edit' do
     it 'return found message' do
       get '/auth/password/edit', params: { reset_password_token: user.send(:set_reset_password_token),
-                                           redirect_url: ENV['PRODUCTION_HOST'] + '/reset_password' }
+                                           redirect_url: 'http://localhost:3000/reset_password' }
       expect(response).to have_http_status(:found)
     end
   end
@@ -46,7 +45,7 @@ describe 'ResetPassword', type: :request do
   context 'right params when reset password' do
     it 'return success message' do
       get '/auth/password/edit', params: { reset_password_token: user.send(:set_reset_password_token),
-                                           redirect_url: ENV['PRODUCTION_HOST'] + '/reset_password' }
+                                           redirect_url: 'http://localhost:3000/reset_password' }
       access_token = response.headers['location'].match(/access-token=(.+)&client=/)[1]
       client = response.headers['location'].match(/client=(.+)&client_id=/)[1]
       put '/auth/password', params: { password: user.password, password_confirmation: user.password,
