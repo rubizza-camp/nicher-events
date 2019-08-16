@@ -66,6 +66,11 @@ Things you may want to cover:
   $ eslint [options] file.js [file.js] [dir]
   ```
 
+7.  Install query-string for parse in react
+
+  ```sh
+  npm install query-string
+  ```
 # Compatibility
 
 * Ruby 2.6.3

@@ -1,14 +1,16 @@
 import React from 'react';
 import Axios from 'axios';
+const queryString = require('query-string');
 
 export default class ResetPasswordForm extends React.Component {
   constructor(props) {
     super(props);
+    const parsed = queryString.parse(this.props.location.search);
     this.state = { user: { password: '',
                            password_confirmation: '',
-                           "access-token": this.props.location.search.match(/access-token=(.+)&client=/)[1],
-                           client: this.props.location.search.match(/client=(.+)&client_id=/)[1],
-                           uid: unescape(this.props.location.search.match(/uid=(.+)$/)[1])
+                           'access-token': parsed['access-token'],
+                           client: parsed.client,
+                           uid: parsed.uid
                           }
                   };
     this.handleResetPassword = this.handleResetPassword.bind(this);
