@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-<<<<<<< HEAD
 # == Schema Information
 #
 # Table name: users
@@ -27,10 +26,7 @@
 #  role                   :integer          default(0)
 #
 
-class User < ActiveRecord::Base
-=======
 class User < ApplicationRecord
->>>>>>> Add organizations:
   # :trackable
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

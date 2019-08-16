@@ -69,9 +69,9 @@ export default class EventInfo extends React.Component {
     let errorsMessage;
     if (this.state.errors)  {
       errorsMessage = <div>
-        {this.state.errors.map((error) => {
+        {this.state.errors.map((error, index) => {
           return(
-            <p>{error}</p>
+            <p key={index}>{error}</p>
           );
         })}
       </div>;

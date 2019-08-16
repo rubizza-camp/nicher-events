@@ -18,9 +18,9 @@ export default class EventForm extends React.Component {
     let errorsMessage;
     if (this.props.errors)  {
       errorsMessage = <ul>
-                        {this.props.errors.map((error) => {
+                        {this.props.errors.map((error, index) => {
                           return(
-                            <li>{error}</li>
+                            <li key={index}>{error}</li>
                           );
                         })}
                       </ul>

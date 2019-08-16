@@ -23,7 +23,7 @@ User.create([
     email: 'margosha20617@gmail.com',
     phone: '+375291111111',
     password: '123456',
-    role: :attendee,
+    role: 1,
   },
 
   {
@@ -32,7 +32,7 @@ User.create([
     email: 'dima.kosikov01@mail.ru',
     phone: '+375291111111',
     password: '123456789',
-    role: :attendee,
+    role: 1,
   }
 ])
 
@@ -70,11 +70,7 @@ UserOrganization.create([
   {
     user_id:2,
     organization_id:2
-  }
-users.each do |user|
-  User.create(user)
-end 
-
+  }])
 
 organizer_params = User.create({
   first_name: Faker::Name.first_name,

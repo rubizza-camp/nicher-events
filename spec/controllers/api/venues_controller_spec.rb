@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'pry'
 
 RSpec.describe Api::V1::VenuesController, type: :controller do
   let(:organizer) { create(:user, role: :organizer) }
