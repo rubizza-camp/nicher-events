@@ -15,9 +15,9 @@ export default class EventInfo extends React.Component {
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);
     }
-    const isUserAuthenticate = !!sessionStorage.user;
+    const authenticationRequired = !!sessionStorage.user;
     Axios.get(`/api/v1/events/${this.props.match.params.id}`, {
-      params: { is_user_authenticate: isUserAuthenticate },
+      params: { authentication_required: authenticationRequired },
       headers: headers,
     })
       .then(response => this.setState({ event: response.data }))
@@ -39,7 +39,7 @@ export default class EventInfo extends React.Component {
         this.props.history.push('/events');
       })
       .catch(error => {
-        if (error.response.statusText == 'Not Found')
+        if (error.response.statusText === 'Not Found')
           this.setState({ errors: ['You can\'t do this'] });
       });
   }
@@ -48,9 +48,7 @@ export default class EventInfo extends React.Component {
     const { event } = this.state;
     const editEventUrl = `/events/${event.id}/edit`;
     const listEventsUrl = '/events';
-    const EventInfo = () => (
-      <p>Info: id: {event.id} - {event.status}</p>
-    );
+    const eventInfo =  `${event.id} - ${event.status}`;
     const EventPanel = () => (
       <div>
         <p><Link to={editEventUrl} className="btn btn-outline-dark">Edit</Link></p> 
@@ -83,7 +81,7 @@ export default class EventInfo extends React.Component {
       <div>
         {errorsMessage}
         <h2>{event.name}</h2>
-        <EventInfo />
+        <p>Info: {eventInfo}</p>
         <p>Date: {event.date}</p>
         <p>Description: {event.description}</p>
         {eventPanel}

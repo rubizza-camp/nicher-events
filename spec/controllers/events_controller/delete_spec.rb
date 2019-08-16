@@ -40,7 +40,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
     end
 
     context 'when user is unregistered' do
-      it 'returns unauthorized statu' do
+      it 'returns unauthorized status' do
         post :create, params: { event: event_of_current_user.attributes }
         expect(response).to have_http_status(:unauthorized)
       end
