@@ -1,5 +1,6 @@
 Rails.application.configure do
-  config.action_mailer.default_url_options = { host: 'myherokuapp.herokuapp.com' }
+  Dotenv.load
+  config.action_mailer.default_url_options = { host: ENV['PRODUCTION_HOST' }
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
