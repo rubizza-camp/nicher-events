@@ -74,4 +74,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise', '4.6.2'
 gem 'devise_token_auth', '1.1.0'
+gem 'dotenv', '2.7.4'
 gem 'rack-cors', '1.0.3', require: 'rack/cors'
