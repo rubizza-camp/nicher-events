@@ -5,6 +5,10 @@ import history from './history';
 import SignUp from '../components/SignUp';
 import SignIn from '../components/SignIn';
 import SignOut from '../components/SignOut';
+import VenueIndex from '../components/venue/VenueIndex';
+import VenueNew from '../components/venue/VenueNew';
+import VenueShow from '../components/venue/VenueShow';
+import VenueEdit from '../components/venue/VenueEdit';
 import { Router, Route, NavLink, Switch } from 'react-router-dom';
 
 const RegisterNavigation = () => (
@@ -26,6 +30,11 @@ const SignOutNavigation = () => (
       <li className="nav-item">
         <NavLink exact className="nav-link" activeClassName="active" to="/sign_out">
           Sign out
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink exact className="nav-link" activeClassName="active" to="/venues">
+          Venues
         </NavLink>
       </li>
     </ul>
@@ -73,6 +82,10 @@ const Main = () => (
     <DefaultLayout path="/sign_up" component={SignUp} />
     <DefaultLayout path="/sign_in" component={SignIn} />
     <DefaultLayout path="/sign_out" component={SignOut} />
+    <DefaultLayout exact path='/venues' component={VenueIndex} />
+    <DefaultLayout exact path="/venues/new" component={VenueNew} />
+    <DefaultLayout exact path='/venues/:id' component={VenueShow} />
+    <DefaultLayout exact path='/venues/:id/edit' component={VenueEdit} />
   </Switch>
 );
 

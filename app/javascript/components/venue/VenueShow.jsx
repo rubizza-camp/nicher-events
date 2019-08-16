@@ -17,23 +17,30 @@ export default class VenueShow extends React.Component {
       })
   }
 
-  handleDelete() {
-    Axios.delete(`/api/v1/venues/${this.props.match.params.id}`)
+  handleDelete = () => {
+    let headers = {};
+    if (sessionStorage.user) {
+      headers = JSON.parse(sessionStorage.user);
+    }
+    headers['X-CSRF-Token'] = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    Axios.delete(`/api/v1/venues/${this.props.match.params.id}`, { headers: headers })
       .then(() => {
         this.props.history.push("/venues")
       })
   }
 
   render() {
+    const editVenueUrl = `/venues/${this.state.venue.id}/edit`
+    const showVenuesUrl = `/venues`
     return (
       <div className="jumbotron">
         <h2>{this.state.venue.address}</h2>
         <p> <strong> ID:</strong> {this.state.venue.id}</p>
         <p><strong> Description:</strong>{this.state.venue.description}</p>
         <p>
-          <Link to={`/venues/${this.state.venue.id}/edit`} className="btn btn-outline-dark">Edit</Link> 
+          <Link to={editVenueUrl} className="btn btn-outline-dark">Edit</Link> 
           <button onClick={this.handleDelete} className="btn btn-outline-dark">Delete</button> 
-          <Link to="/venues" className="btn btn-outline-dark">Close</Link>
+          <Link to={showVenuesUrl} className="btn btn-outline-dark">Close</Link>
         </p>
         <hr/>
       </div>

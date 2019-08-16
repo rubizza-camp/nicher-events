@@ -20,16 +20,15 @@ export default class VenueNew extends Component {
   }
 
   handleSubmit(venue) {
-    venue.preventDeffault();
+    venue.preventDefault();
     const { venue: { address, description, people_capacity } } = this.state;
-    const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    let headers = {};
+      if (sessionStorage.user) {
+        headers = JSON.parse(sessionStorage.user);
+      }
+      headers['X-CSRF-Token'] = document.querySelector("meta[name='csrf-token']").getAttribute("content");
     Axios
-      .post(
-        "/api/v1/venues",
-        this.state.venue,
-        { withCredentials: true },
-        { headers: { 'X-CSRF-Token': csrf } }
-      )
+      .post("/api/v1/venues", this.state.venue, { headers: headers })
       .then(data => this.props.history.push(`/venues`))
       .catch(err => this.setState({ errors: err.response.data }))
   }

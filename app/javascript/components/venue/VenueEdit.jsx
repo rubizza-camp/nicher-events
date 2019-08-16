@@ -4,9 +4,7 @@ import Axios from 'axios';
 export default class VenueEdit extends Component {
   constructor(props) {
     super(props);
-    
     this.state = { venue: { address: '', description: '', people_capacity: '' } };
- 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -22,38 +20,33 @@ export default class VenueEdit extends Component {
   handleSubmit = (venue) => {
   venue.preventDefault();
   const { venue: { address, description, people_capacity } } = this.state;
-  const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+  let headers = {};
+    if (sessionStorage.user) {
+      headers = JSON.parse(sessionStorage.user);
+    }
+    headers['X-CSRF-Token'] = document.querySelector("meta[name='csrf-token']").getAttribute("content");
   Axios
-    .patch(
-      `/api/v1/venues/${this.props.match.params.id}`, 
-      {
-        address: address,
-        description: description,
-        people_capacity: people_capacity
-      },
-      { withCredentials: true }, 
-      { headers: { 'X-CSRF-Token': csrf } }
-      )
+    .patch(`/api/v1/venues/${this.props.match.params.id}`, this.state.venue, { headers: headers } )
     .then(data => this.props.history.push(`/venues`))
-    .catch(err => this.setState({ errors: err.response.data }))
+    .catch(err => this.setState({ errors: error.response.data.errors }))
   }
 
    render() {
-    let message;
+    let errorMessages;
     if (this.state.errors) {
-      message = <div>
-                  {this.state.errors.map((error) => {
-                    return(
-                      <p key={Math.random()}>{error}</p>
-                    )
-                  })}
-                </div>
+      errorMessages = <div>
+        {this.state.errors.map((error) => {
+          return (
+            <p>{error}</p>
+          )
+        })}
+      </div>
     }
 
     const { venue } = this.state
     return (
       <div>
-      {message}
+      {errorMessages}
       <form onSubmit={this.handleSubmit}>
       <div className="form-group">
         Address:

@@ -1,7 +1,7 @@
 # :reek:InstanceVariableAssumption
 # rubocop:disable Style/ClassAndModuleChildren
 class Api::V1::VenuesController < ApplicationController
-  # before_action :authenticate_user!, only: %i[create update destroy]
+  before_action :authenticate_user!, only: %i[create update destroy]
   before_action :set_venue, only: %i[show update destroy]
 
   def index
