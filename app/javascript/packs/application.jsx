@@ -17,6 +17,8 @@ import EventList from '../components/event/EventList';
 import UpdatedEvent from '../components/event/UpdatedEvent';
 import EventInfo from '../components/event/EventInfo';
 import NewEvent from '../components/event/NewEvent';
+import ForgotPassword from '../components/ForgotPassword';
+import ResetPassword from '../components/ResetPassword';
 import {Router, Route, NavLink, Switch} from 'react-router-dom';
 
 const RegisterNavigation = () => (
@@ -122,6 +124,8 @@ const Main = () => (
     <DefaultLayout exact path='/events/:id/edit' component={UpdatedEvent} />
     <DefaultLayout exact path='/events' component={EventList} />
     <DefaultLayout exact path='/events/:id' component={EventInfo} />
+    <DefaultLayout exact path="/forgot_password" component={ForgotPassword}/>
+    <DefaultLayout path="/reset_password" component={ResetPassword}/>
   </Switch>
 );
 

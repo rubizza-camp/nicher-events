@@ -55,6 +55,12 @@ Things you may want to cover:
   ```sh
   $ foreman start -f Procfile.dev -p 3000
   ```
+
+6.  Install query-string for parse in react
+
+  ```sh
+  npm install query-string
+  ```
 # Compatibility
 
 * Ruby 2.6.3

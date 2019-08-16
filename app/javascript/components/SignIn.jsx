@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import { NavLink } from 'react-router-dom'
 
 export default class SigInForm extends React.Component {
   constructor(props) {
@@ -65,6 +66,8 @@ export default class SigInForm extends React.Component {
 
           <div>
             <label htmlFor="password">Password</label><br/>
+            <NavLink exact className="nav-link" activeClassName="active" to="/forgot_password"> (Forgot password?)</NavLink>
+            <br />
             <input type="password" name="password" value={this.state.user.password} onChange={this.handleChange}
                    className="form-control" />
           </div>
