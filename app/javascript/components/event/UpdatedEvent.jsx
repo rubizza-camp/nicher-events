@@ -8,9 +8,21 @@ export default class UpdatedEvent extends React.Component {
     this.state = { event: {name: '', description: '', status: '', date: ''} };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.hadleRedirect = this.hadleRedirect.bind(this);
+  }
+
+  hadleRedirect() {
+    let userRole;
+    if (sessionStorage.user !== undefined) {
+      userRole = JSON.parse(sessionStorage.user_attributes).role;
+    }
+    if (userRole != 'organizer') {
+      this.props.history.push('/events');
+    }
   }
 
   componentDidMount() {
+    this.hadleRedirect();
     let headers = {};
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);
