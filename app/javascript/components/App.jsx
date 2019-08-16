@@ -1,3 +1,4 @@
+import React from 'react';
 import React, {Component} from 'react';
 import Home from './Home';
 import VenueIndex from './venue/VenueIndex';
@@ -16,24 +17,10 @@ export default class App extends React.Component {
   }
 
   render() {
-    let navbarComponent;
-    if (sessionStorage.user == null) {
-      navbarComponent = <RegisterNavigation/>
-    } else {
-      navbarComponent = <SignOutNavigation/>
-    }
-
     return (
       <div className="App">
-        <Router>
-          <div className="container">
-            <Navigation/>
-            {navbarComponent}
-            <Main/>
-            <div>
-            </div>
-          </div>
-        </Router>
+        <div className="container">
+        </div>
       </div>
     );
   }

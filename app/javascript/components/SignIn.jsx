@@ -4,7 +4,7 @@ import Axios from 'axios';
 export default class SigInForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {user: {email: '', password: ''}};
+    this.state = { user: { email: '', password: '' } };
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -24,9 +24,10 @@ export default class SigInForm extends React.Component {
           expiry: response.headers["expiry"],
           uid: response.headers["uid"]
         }));
-      this.props.history.push('/');
+      sessionStorage.setItem('user_attributes', JSON.stringify(response.data.data));
+      this.props.history.push('/')
     }).catch(error => {
-      this.setState({errors: error.response.data.errors})
+      this.setState({ errors: error.response.data.errors })
     })
   };
 
@@ -34,7 +35,7 @@ export default class SigInForm extends React.Component {
     const currentUser = this.state.user;
     currentUser[user.target.name] = user.target.value;
     this.setState(currentUser);
-  }
+  };
 
   render() {
     let errorMessages;
@@ -49,23 +50,26 @@ export default class SigInForm extends React.Component {
     }
     return (
       <div>
-        <div className='errors'>
+        <div className="errors">
           {errorMessages}
         </div>
         <form onSubmit={this.handleSignIn}>
           <div>
-            <label htmlFor='email'>E-mail</label><br/>
-            <input type="text" name="email" value={this.state.user.email} onChange={this.handleChange}
+            <label htmlFor="email">E-mail</label><br/>
+            <input type="text"
+                   name="email"
+                   value={this.state.user.email}
+                   onChange={this.handleChange}
                    className="form-control"/>
           </div>
 
           <div>
-            <label htmlFor='password'>Password</label><br/>
+            <label htmlFor="password">Password</label><br/>
             <input type="password" name="password" value={this.state.user.password} onChange={this.handleChange}
-                   className="form-control"/>
+                   className="form-control" />
           </div>
 
-          <button type='submit' className='btn_sign_in'>Sign in</button>
+          <button type="submit" className="btn_sign_in">Sign in</button>
         </form>
       </div>
     );

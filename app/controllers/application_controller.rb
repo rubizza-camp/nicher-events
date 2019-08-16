@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name phone])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name phone role])
   end
   protect_from_forgery with: :null_session
 end
