@@ -13,5 +13,5 @@ class User < ActiveRecord::Base
   validates :last_name, presence: true
   validates :phone, presence: true, length: { minimum: 5 }
 
-  has_many :event
+  has_many :events
 end

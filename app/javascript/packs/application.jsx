@@ -77,9 +77,9 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
 const Main = () => (
   <Switch>
     <DefaultLayout exact path="/" component={App} />
-    <DefaultLayout path="/sign_up" component={SignUp}/>
-    <DefaultLayout path="/sign_in" component={SignIn}/>
-    <DefaultLayout path="/sign_out" component={SignOut}/>
+    <DefaultLayout path="/sign_up" component={SignUp} />
+    <DefaultLayout path="/sign_in" component={SignIn} />
+    <DefaultLayout path="/sign_out" component={SignOut} />
     <DefaultLayout exact path="/events/new" component={NewEvent} />
     <DefaultLayout exact path='/events/:id/edit' component={UpdatedEvent} />
     <DefaultLayout exact path='/events' component={EventList} />

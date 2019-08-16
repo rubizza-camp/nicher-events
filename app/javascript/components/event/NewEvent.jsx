@@ -15,7 +15,7 @@ export default class NewEvent extends React.Component {
     if (sessionStorage.user !== undefined) {
       userRole = JSON.parse(sessionStorage.user_attributes).role;
     }
-    if (userRole != 'organizer') {
+    if (userRole !== 'organizer') {
       this.props.history.push('/events');
     }
   }
@@ -50,7 +50,7 @@ export default class NewEvent extends React.Component {
     return (
       <div>
         <h1>Create</h1>
-        <EventForm event={this.state.event} errors={this.state.errors} handleSubmit={this.handleSubmit} handleCancel={this.handleCancel}/>
+        <EventForm event={this.state.event} errors={this.state.errors} handleSubmit={this.handleSubmit} handleCancel={this.handleCancel} />
       </div>
     );
   }

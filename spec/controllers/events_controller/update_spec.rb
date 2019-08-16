@@ -29,13 +29,13 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
         it 'returns not_found status' do
           patch :update, params: { id: event_of_current_user.id, event: new_invalid_event.attributes }
-          expect(json_response[0]).to eq('Name can\'t be blank')
+          expect(json_response).to include('Name can\'t be blank')
         end
       end
     end
 
     context 'when user is unregistered' do
-      it 'returns unauthorized statu' do
+      it 'returns unauthorized status' do
         patch :update, params: { id: valid_event.id, event: valid_event.attributes }
         expect(response).to have_http_status(:unauthorized)
       end

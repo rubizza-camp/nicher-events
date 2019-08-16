@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'set'
 
 RSpec.describe Api::V1::EventsController, type: :controller do
   describe 'GET #index' do
@@ -12,6 +13,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         @auth_token = organizer.create_new_auth_token
         request.headers.merge!(@auth_token)
       end
+
       it 'returns json with list of all events' do
         get :index
         expect(json_response.first.keys).to eq(event_attributes)
@@ -26,6 +28,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         @auth_token = attendee.create_new_auth_token
         request.headers.merge!(@auth_token)
       end
+
       it 'returns json with list of social and conforming confidential events' do
         get :index
         expect(json_response.first.keys).to eq(event_attributes)
@@ -38,9 +41,11 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         get :index
         expect(json_response.first.keys).to eq(event_attributes)
         expect(json_response.count).to eq(social_events.count)
-        expect(json_response.dig(0, 'name')). to eq(social_events[0].name)
-        expect(json_response.dig(1, 'name')). to eq(social_events[1].name)
-        expect(json_response.dig(2, 'name')). to eq(social_events[2].name)
+        @response_event_status = json_response.map { |event| event['status'] }
+        expect(@response_event_status).to all(be == 'social')
+        @response_event_names = json_response.map { |event| event['name'] }
+        @event_names = social_events.map { |event| event['name'] }
+        expect(@response_event_names.to_set).to eq(@event_names.to_set)
         expect(response).to have_http_status(:success)
       end
     end

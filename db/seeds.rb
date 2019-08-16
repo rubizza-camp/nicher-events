@@ -7,7 +7,8 @@ users = [
     last_name: 'Omelchuk',
     email: 'margosha20617@gmail.com',
     phone: '+375291111111',
-    password: '123456'
+    password: '123456',
+    role: :attendee,
   },
 
   {
@@ -15,31 +16,34 @@ users = [
     last_name: 'Kosikov',
     email: 'dima.kosikov01@mail.ru',
     phone: '+375291111111',
-    password: '123456789'
+    password: '123456789',
+    role: :attendee,
   }
 ]
 
 users.each do |user|
   User.create(user)
-end
+end 
 
-events = Event.create([
-  { name: 'First Event',
-    date: '2019-08-10T11:10:25',
-    description: 'here can be info about speekers, schedule etc.',
-    status: :confidential,
-    user_id:1
+
+organizer_params = User.create({
+  first_name: Faker::Name.first_name,
+  last_name: Faker::Name.last_name,
+  email: Faker::Internet.email,
+  phone: Faker::PhoneNumber.phone_number,
+  password: Faker::Internet.password,
+  role: :organizer,
+})
+
+User.last.events.create([
+  { name: Faker::Lorem.word,
+    date: Faker::Date.between(from: 2.days.ago, to: Date.today),
+    description: Faker::Lorem.sentence,
+    status: Event.statuses.keys.sample,
   },
-  { name: 'Second Event',
-    date: '2019-08-10T22:00:25',
-    description: 'here can be info about speekers, schedule etc.',
-    status: :social,
-    user_id: 1
-  },
-  { name: 'Third Event',
-    date: '2019-08-14T00:18:25',
-    description: 'here can be info about speekers, schedule etc.',
-    status: :social,
-    user_id: 2
+  { name: Faker::Lorem.word,
+    date: Faker::Date.between(from: 2.days.ago, to: Date.today),
+    description: Faker::Lorem.sentence,
+    status: Event.statuses.keys.sample,
   }
 ])

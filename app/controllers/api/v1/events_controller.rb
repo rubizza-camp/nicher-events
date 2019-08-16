@@ -1,13 +1,14 @@
 # rubocop:disable Style/ClassAndModuleChildren
 # :reek:InstanceVariableAssumption
+# :reek:NilCheck
 
 class Api::V1::EventsController < ApplicationController
   before_action :authenticate_user!, only: %i[create update destroy]
   before_action :set_current_user, only: %i[index show]
-  before_action :set_event_of_current_user, only: %i[update destroy]
+  before_action :set_current_user_event, only: %i[update destroy]
 
   def index
-    @events = if organizer?
+    @events = if current_user&.organizer?
                 Event.all
               else
                 Event.where(status: :social)
@@ -16,17 +17,16 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def show
-    return render json: {}, status: :not_found unless event
-
-    return render json: {}, status: :unauthorized if unavailable_event?
+    return head :not_found unless event
+    return render json: {}, status: :unauthorized unless event_available?
 
     render json: event
   end
 
   def create
-    return render json: {}, status: :not_found unless organizer?
+    return head :not_found unless current_user&.organizer?
 
-    @event = current_user.event.new(event_params)
+    @event = current_user.events.new(event_params)
     if @event.save
       render json: @event, status: :created
     else
@@ -35,46 +35,38 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def update
-    return render json: {}, status: :not_found unless @event_of_current_user
+    return head :not_found unless @current_user_event
 
-    if @event_of_current_user.update(event_params)
-      render json: @event_of_current_user, status: :ok
+    if @current_user_event.update(event_params)
+      render json: @current_user_event
     else
-      render json: @event_of_current_user.errors.full_messages, status: :unprocessable_entity
+      render json: @current_user_event.errors.full_messages, status: :unprocessable_entity
     end
   end
 
   def destroy
-    return render json: {}, status: :not_found unless @event_of_current_user
+    return head :not_found unless @current_user_event
 
-    @event_of_current_user.destroy
+    @current_user_event.destroy
     head :no_content
   end
 
   private
 
   def set_current_user
-    authenticate_user! if params[:is_user_authenticate] == 'true'
+    authenticate_user! if params[:authentication_required] == 'true'
   end
 
-  def unavailable_event?
-    if !event.blank?
-      (event.status == 'confidential') && !organizer?
-    else
-      true
-    end
-  end
-
-  def organizer?
-    !current_user.blank? && (current_user.role == 'organizer')
+  def event_available?
+    event&.social? || current_user&.organizer?
   end
 
   def event
     @event ||= Event.find_by(id: params[:id])
   end
 
-  def set_event_of_current_user
-    @event_of_current_user = current_user.event.find_by(id: params[:id])
+  def set_current_user_event
+    @current_user_event = current_user.events.find_by(id: params[:id])
   end
 
   def event_params

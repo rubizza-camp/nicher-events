@@ -39,9 +39,9 @@ export default class EventForm extends React.Component {
       </div>
       <div className="form-group">
         <label htmlFor='status'>Status : </label> <br/>
-        <input type="radio" name="status" onChange={this.handleChange} value="social"  checked={(event.status  == 'social')} />
+        <input type="radio" name="status" onChange={this.handleChange} value="social"  checked={(event.status  === 'social')} />
         <label>Social</label> <br/>
-        <input type="radio" name="status" onChange={this.handleChange} value="confidential" checked={(event.status  == 'confidential')} />
+        <input type="radio" name="status" onChange={this.handleChange} value="confidential" checked={(event.status  === 'confidential')} />
         <label>Confidential</label>
       </div>
       <div className="form-group">

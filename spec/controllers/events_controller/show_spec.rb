@@ -27,6 +27,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
           @auth_token = attendee.create_new_auth_token
           request.headers.merge!(@auth_token)
         end
+
         it 'returns unauthorized status' do
           get :show, params: { id: confidential_event.id }
           expect(response).to have_http_status(:unauthorized)
@@ -38,6 +39,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
           @auth_token = organizer.create_new_auth_token
           request.headers.merge!(@auth_token)
         end
+
         it 'returns json response with event' do
           get :show, params: { id: confidential_event.id }
           expect(json_response.keys).to eq(event_attributes)
