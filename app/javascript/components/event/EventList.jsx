@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
 
-export default class EventList extends React.Component {  
+export default class EventList extends React.Component {
   constructor(props) {
     super(props);
     this.state = { events: [] };
@@ -14,15 +14,14 @@ export default class EventList extends React.Component {
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);
     }
-    const isUserAuthenticate = !!sessionStorage.user;
+    const authenticationRequired = !!sessionStorage.user;
     Axios.get('/api/v1/events', {
-      params: { is_user_authenticate: isUserAuthenticate },
+      params: { authentication_required: authenticationRequired },
       headers: headers,
     })
       .then(response => {
         this.setState({ events: response.data });
-      })
-      .catch(error => console.log('error', error));
+      });
   }
 
   componentDidMount() {
@@ -43,15 +42,13 @@ export default class EventList extends React.Component {
     return (
       <div>
         {createdButton}
-        {this.state.events.map((event) => {
-          return(
-            <div key={event.id}>
-              <h2><Link to={`/events/${event.id}`}>{event.name}</Link></h2>
-              <p>{event.status}</p>
-              <hr/>
-            </div>
-          );
-        })} 
+        {this.state.events.map((event) => (
+          <div key={event.id}>
+            <h2><Link to={`/events/${event.id}`}>{event.name}</Link></h2>
+            <p>{event.status}</p>
+            <hr />
+          </div>
+        ))}
       </div>
     );
   }

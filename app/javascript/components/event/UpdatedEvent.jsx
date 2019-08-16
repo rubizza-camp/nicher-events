@@ -16,7 +16,7 @@ export default class UpdatedEvent extends React.Component {
     if (sessionStorage.user !== undefined) {
       userRole = JSON.parse(sessionStorage.user_attributes).role;
     }
-    if (userRole != 'organizer') {
+    if (userRole !== 'organizer') {
       this.props.history.push('/events');
     }
   }
@@ -30,8 +30,7 @@ export default class UpdatedEvent extends React.Component {
     Axios.get(`/api/v1/events/${this.props.match.params.id}`, {
       headers: headers
     })
-      .then(res => this.setState({ event: res.data }))
-      .catch(error => console.log('error', error))
+      .then(res => this.setState({ event: res.data }));
   }
 
   handleSubmit = (event) => {
@@ -40,22 +39,22 @@ export default class UpdatedEvent extends React.Component {
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);
     }
-    headers['X-CSRF-Token'] = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     Axios.patch(`/api/v1/events/${this.props.match.params.id}`, this.state.event, { headers: headers })
       .then(() => this.props.history.push(`/events/${this.state.event.id}`))
       .catch(error => {
         switch (error.response.statusText) {
-          case 'Unprocessable Entity':
-            this.setState({ errors: error.response.data });
-            break;
-          case 'Unauthorized':
-            this.setState({ errors: error.response.data.errors });
-            break;
-          case 'Not Found':
-            this.setState({ errors: ['You can\'t do this'] });
-            break;
+        case 'Unprocessable Entity':
+          this.setState({ errors: error.response.data });
+          break;
+        case 'Unauthorized':
+          this.setState({ errors: error.response.data.errors });
+          break;
+        case 'Not Found':
+          this.setState({ errors: ['You can\'t do this'] });
+          break;
         }
-      })
+      });
   }
 
   handleCancel = () => {
@@ -66,7 +65,7 @@ export default class UpdatedEvent extends React.Component {
     return (
       <div>
         <h1>Edit</h1>
-        <EventForm event={this.state.event} errors={this.state.errors} handleSubmit={this.handleSubmit} handleCancel={this.handleCancel}/>
+        <EventForm event={this.state.event} errors={this.state.errors} handleSubmit={this.handleSubmit} handleCancel={this.handleCancel} />
       </div>
     );
   }

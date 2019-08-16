@@ -12,6 +12,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         @header = organizer.create_new_auth_token
         request.headers.merge!(@header)
       end
+
       context 'when params is valid' do
         it 'returns json with params of created event' do
           post :create, params: { event: valid_params.attributes }
@@ -25,10 +26,11 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
         it 'returns message errors' do
           post :create, params: { event: invalid_params.attributes }
-          expect(json_response[0]).to eq('Name can\'t be blank')
-          expect(json_response[1]).to eq('Description is too short (minimum is 10 characters)')
-          expect(json_response[2]).to eq('Date can\'t be blank')
-          expect(json_response[3]).to eq('Status is not included in the list')
+          @errors = ['Name can\'t be blank',
+                     'Description is too short (minimum is 10 characters)',
+                     'Date can\'t be blank',
+                     'Status is not included in the list']
+          expect(json_response).to eq(@errors)
         end
       end
     end
@@ -40,6 +42,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         @header = attendee.create_new_auth_token
         request.headers.merge!(@header)
       end
+
       it 'returns not_found status' do
         post :create, params: { event: valid_params.attributes }
         expect(response).to have_http_status(:not_found)

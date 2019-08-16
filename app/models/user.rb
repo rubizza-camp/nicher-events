@@ -17,5 +17,5 @@ class User < ApplicationRecord
   has_one :organization, through: :user_organization
   accepts_nested_attributes_for :user_organization
   accepts_nested_attributes_for :organization
-  has_many :event
+  has_many :events
 end

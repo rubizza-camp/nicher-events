@@ -15,7 +15,7 @@ export default class NewEvent extends React.Component {
     if (sessionStorage.user !== undefined) {
       userRole = JSON.parse(sessionStorage.user_attributes).role;
     }
-    if (userRole != 'organizer') {
+    if (userRole !== 'organizer') {
       this.props.history.push('/events');
     }
   }
@@ -26,31 +26,31 @@ export default class NewEvent extends React.Component {
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);
     }
-    headers['X-CSRF-Token'] = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     Axios.post('/api/v1/events', this.state.event, { headers: headers })
       .then(response => this.props.history.push(`/events/${response.data.id}`))
       .catch(error => {
         switch (error.response.statusText) {
-          case 'Unprocessable Entity':
-            this.setState({ errors: error.response.data });
-            break;
-          case 'Unauthorized':
-            this.setState({ errors: error.response.data.errors });
-            break;
+        case 'Unprocessable Entity':
+          this.setState({ errors: error.response.data });
+          break;
+        case 'Unauthorized':
+          this.setState({ errors: error.response.data.errors });
+          break;
         }
       }
-    )
+      );
   }
 
   handleCancel = () => {
-    this.props.history.push("/events");
+    this.props.history.push('/events');
   }
 
   render() {
     return (
       <div>
         <h1>Create</h1>
-        <EventForm event={this.state.event} errors={this.state.errors} handleSubmit={this.handleSubmit} handleCancel={this.handleCancel}/>
+        <EventForm event={this.state.event} errors={this.state.errors} handleSubmit={this.handleSubmit} handleCancel={this.handleCancel} />
       </div>
     );
   }
