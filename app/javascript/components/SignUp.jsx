@@ -97,7 +97,7 @@ export default class SignUpForm extends React.Component {
 
           <div>
             <label htmlFor='password_confirmation'>Password confirmation</label><br />
-            <input type="text" name="password_confirmation" value={this.state.password_confirmation} onChange={this.handleChange} className="form-control" />
+            <input type="password" name="password_confirmation" value={this.state.password_confirmation} onChange={this.handleChange} className="form-control" />
           </div>
 
           <button type="submit" className="btn_sign_up" onClick={() => {user.role = 'organizer'}}>
