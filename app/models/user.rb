@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # == Schema Information
-#
+
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
