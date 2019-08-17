@@ -1,5 +1,8 @@
 import React from 'react';
 import Axios from 'axios';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
 export default class SignUpForm extends React.Component {
   constructor(props) {
@@ -59,53 +62,70 @@ export default class SignUpForm extends React.Component {
         })}
       </div>
     }
+
     return (
       <div>
         <div className="errors">
           {errorMessages}
         </div>
         <form onSubmit={this.handleSignUp}>
-          <div>
-            <label htmlFor="first_name">First name</label><br/>
-            <input type="text" name="first_name" value={user.first_name} onChange={this.handleChange}
-                   className="form-control" />
-          </div>
+          <Grid container direction="column" justify="center" style={{height: 700}}
+                alignItems="center">
+          <TextField type="text" name="first_name"
+                     label="First name"
+                     value={user.first_name}
+                     onChange={this.handleChange}
+                     margin="normal"
+                     variant="outlined"/>
 
-          <div>
-            <label htmlFor="last_name">Last name</label><br/>
-            <input type="text" name="last_name" value={user.last_name} onChange={this.handleChange}
-                   className="form-control" />
-          </div>
 
-          <div>
-            <label htmlFor="email">E-mail</label><br/>
-            <input type="text" name="email" value={user.email} onChange={this.handleChange}
-                   className="form-control" />
-          </div>
+          <TextField type="text" name="last_name"
+                     label="Last name"
+                     value={user.last_name}
+                     onChange={this.handleChange}
+                     className="form-control" margin="normal"
+                     variant="outlined"/>
 
-          <div>
-            <label htmlFor="phone">Phone</label><br/>
-            <input type="text" name="phone" value={user.phone} onChange={this.handleChange}
-                   className="form-control" />
-          </div>
 
-          <div>
-            <label htmlFor="password">Password</label><br/>
-            <input type="password" name="password" value={user.password} onChange={this.handleChange}
-                   className="form-control" />
-          </div>
+          <TextField type="text" name="email"
+                     label="Email name"
+                     value={user.email}
+                     onChange={this.handleChange}
+                     className="form-control" margin="normal"
+                     variant="outlined"/>
 
-          <div>
-            <label htmlFor='password_confirmation'>Password confirmation</label><br />
-            <input type="password" name="password_confirmation" value={this.state.password_confirmation} onChange={this.handleChange} className="form-control" />
-          </div>
 
-          <button type="submit" className="btn_sign_up" onClick={() => {user.role = 'organizer'}}>
-            Sign up as organizer
-          </button>
-          <button type="submit" className="btn_sign_up" onClick={() => {user.role = 'attendee'}}>
-            Sign up as attendee
-          </button>
+          <TextField type="text" name="phone"
+                     label="Phone"
+                     value={user.phone}
+                     onChange={this.handleChange}
+                     className="form-control" margin="normal"
+                     variant="outlined"/>
+
+
+          <TextField type="password" name="password"
+                     label="Password"
+                     value={user.password}
+                     onChange={this.handleChange}
+                     className="form-control" margin="normal"
+                     variant="outlined"/>
+
+          <TextField type="password" name="password_confirmation"
+                     label="Password confirmation"
+                     value={this.state.password_confirmation}
+                     onChange={this.handleChange}
+                     className="form-control" margin="normal"
+                     variant="outlined"/>
+
+          <Button type="submit" className="btn_sign_in" size="large"
+                  variant="outlined" color="inherit" onClick={() => {
+            user.role = 'organizer';
+          }}>Sign up as organizer</Button>
+          <Button type="submit" className="btn_sign_in" size="large"
+                  variant="outlined" color="inherit" onClick={() => {
+            user.role = 'attendee';
+          }}> Sign up as attendee</Button>
+          </Grid>
         </form>
       </div>
     );

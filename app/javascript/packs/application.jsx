@@ -20,58 +20,73 @@ import NewEvent from '../components/event/NewEvent';
 import ForgotPassword from '../components/ForgotPassword';
 import ResetPassword from '../components/ResetPassword';
 import {Router, Route, NavLink, Switch} from 'react-router-dom';
-
-const RegisterNavigation = () => (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-    <ul className="navbar-nav mr-auto">
-      <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active" to="/sign_up">Sign up</NavLink>
-      </li>
-      <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active" to="/sign_in">Sign in</NavLink>
-      </li>
-    </ul>
-  </nav>
-);
-
-const SignOutNavigation = () => (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-    <ul className="navbar-nav mr-auto">
-      <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active" to="/sign_out">
-          Sign out
-        </NavLink>
-      </li>
-      <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active" to="/venues">
-          Venues
-        </NavLink>
-      </li>
-    </ul>
-  </nav>
-);
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import AppBar from '@material-ui/core/AppBar';
+import { Toolbar } from '@material-ui/core';
 
 const MainNavigation = () => (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-    <ul className="navbar-nav mr-auto">
-      <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active" to="/">Main</NavLink>
-      </li>
-      <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active" to="/events">Event</NavLink>
-      </li>
-    </ul>
-  </nav>
+  <div>
+    <Button component={NavLink} to="/"  size="large" color="inherit">
+      Main page
+    </Button>
+    <Button component={NavLink} to="/events"  size="large" color="inherit">
+      Event
+    </Button>
+  </div>
+
 );
 
+const RegisterNavigation = () => (
+  <AppBar >
+    <Toolbar>
+      <MainNavigation/>
+      <Button component={NavLink} to="/sign_in"  size="large" color="inherit">
+        Sign in
+      </Button>
+      <Button component={NavLink} to="/sign_up"  size="large" color="inherit">
+        Sign up
+      </Button>
+    </Toolbar>
+  </AppBar>
+);
+
+const SignOutStruct = () => {
+ return <div>
+    <Button component={NavLink} to="/sign_out" color="inherit"
+            size="large" >
+      Sign Out
+    </Button>
+  </div>
+}
+
+const SignOutNavigation = () => (
+  <AppBar >
+    <Toolbar>
+      <MainNavigation/>
+      <SignOutStruct />
+    </Toolbar>
+  </AppBar>
+);
+
+
+
 const OrganizationNavigation = () => (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-    <ul>
-      <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active" to="/organizations">Organizations</NavLink>
-      </li>
-    </ul>
-  </nav>
+  <AppBar >
+    <Toolbar>
+      <MainNavigation/>
+      <Button component={NavLink} to="/organizations" color="inherit"
+              size="large">
+        Organizations
+      </Button>
+      <Button component={NavLink} to="/venues" color="inherit"
+              size="large">
+        Venues
+      </Button>
+      <SignOutStruct/>
+    </Toolbar>
+  </AppBar>
 );
 
 
@@ -86,20 +101,19 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
   if (sessionStorage.user === undefined) {
     navbarComponent = <RegisterNavigation />;
   } else {
-    navbarComponent = <SignOutNavigation />;
-  }
-  let organizationComponent;
-  if (sessionStorage.user != null) {
     const userRole = JSON.parse(sessionStorage.user_attributes).role;
     if(userRole === 'organizer') {
-      organizationComponent = <OrganizationNavigation />;
-    }
+      navbarComponent = <OrganizationNavigation />;
+    } else
+    navbarComponent = <SignOutNavigation />;
   }
+
   return (
     <Route {...rest} render={matchProps => (
       <div className="DefaultLayout">
-        {userInfo}
-        <div className="Header">{navbarComponent} {organizationComponent}<MainNavigation /></div>
+        <Box pb={10}>
+          {navbarComponent}
+        </Box>
         <Component {...matchProps} />
       </div>
     )}/>

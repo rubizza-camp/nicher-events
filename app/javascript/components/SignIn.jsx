@@ -1,6 +1,11 @@
 import React from 'react';
 import Axios from 'axios';
 import { NavLink } from 'react-router-dom'
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+
 
 export default class SigInForm extends React.Component {
   constructor(props) {
@@ -49,30 +54,57 @@ export default class SigInForm extends React.Component {
         })}
       </div>
     }
+
+    const useStyles = makeStyles(theme => ({
+      button: {
+        margin: theme.spacing(1),
+      },
+      input: {
+        width: 350,
+      },
+    }));
+
+    const SubmitButton = () => {
+      const classes = useStyles();
+      return <Button type="submit" className={classes.button} size="large"
+                     variant="outlined" color="inherit">Sign in
+      </Button>;
+
+    };
+
     return (
       <div>
         <div className="errors">
           {errorMessages}
         </div>
         <form onSubmit={this.handleSignIn}>
-          <div>
-            <label htmlFor="email">E-mail</label><br/>
-            <input type="text"
-                   name="email"
-                   value={this.state.user.email}
-                   onChange={this.handleChange}
-                   className="form-control"/>
-          </div>
+          <Grid style={{height: 500}} container direction="column" justify="center"
+                alignItems="center" spacing={0} >
+            <TextField type="text"
+                       name="email"
+                       label="Email"
+                       value={this.state.user.email}
+                       onChange={this.handleChange}
+                       className="form-control"
+                       margin="normal"
+                       variant="outlined"/>
 
           <div>
-            <label htmlFor="password">Password</label><br/>
-            <NavLink exact className="nav-link" activeClassName="active" to="/forgot_password"> (Forgot password?)</NavLink>
-            <br />
-            <input type="password" name="password" value={this.state.user.password} onChange={this.handleChange}
-                   className="form-control" />
+            <NavLink exact
+                     className="nav-link"
+                     activeClassName="active"
+                     to="/forgot_password"> (Forgot password?)</NavLink>
+            <br/>
+            <TextField type="password" name="password"
+                       label="Password"
+                       value={this.state.user.password}
+                       onChange={this.handleChange}
+                       className="form-control" margin="normal"
+                       variant="outlined"/>
           </div>
 
-          <button type="submit" className="btn_sign_in">Sign in</button>
+          <SubmitButton />
+          </Grid>
         </form>
       </div>
     );
