@@ -1,6 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 export default class EventList extends React.Component {
   constructor(props) {
@@ -30,28 +39,70 @@ export default class EventList extends React.Component {
   }
 
   render() {
+    const useStyles = makeStyles(theme => ({
+      root: {
+        width: '98%',
+        marginTop: theme.spacing(3),
+        overflowX: 'auto',
+
+      },
+      table: {
+        minWidth: 650,
+      },
+      button: {
+        margin: theme.spacing(1),
+        width: 165,
+      },
+    }));
+
     const createEventUrl = '/events/new';
     let userRole;
     if (sessionStorage.user !== undefined) {
       userRole = JSON.parse(sessionStorage.user_attributes).role;
     }
+    const CreatedButton = () => {
+      const classes = useStyles();
+      return <Button component={Link} to={createEventUrl} type="submit" variant="contained" color="primary" className={classes.button}>Create Event</Button>;
+    }
     let createdButton;
     if (userRole == 'organizer') {
-      createdButton = <Link to={createEventUrl} className="btn btn-outline-primary">Create Event</Link>;
+      createdButton = <CreatedButton />;
     }
 
+const TableEvent = () => {
+    const classes = useStyles();
+  return (
+    <Paper className={classes.root}>
+      <Table className={classes.table}>
+        <TableHead  className={classes.head}>
+          <TableRow>
+            <TableCell><h3>Name</h3></TableCell>
+            <TableCell align="right"><h3>Date and time</h3></TableCell>
+            <TableCell align="right"><h3>Status</h3></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {this.state.events.map(event => (
+            <TableRow key={event.name}>
+              <TableCell component="th" scope="row">
+                <h2><Link to={`/events/${event.id}`}>{event.name}</Link></h2>
+              </TableCell>
+              <TableCell align="right"><h3>{event.date}</h3></TableCell>
+              <TableCell align="right"><h3>{event.status}</h3></TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </Paper>
+  );}
+
+  
     return (
       <div>
         {createdButton}
-        {this.state.events.map((event) => {
-          return (
-            <div key={event.id}>
-              <h2><Link to={`/events/${event.id}`}>{event.name}</Link></h2>
-              <p>{event.status}</p>
-              <hr />
-            </div>
-          );
-        })}
+        <Grid container direction="column" justify="center" alignItems="center">
+          <TableEvent />
+        </Grid>
       </div>
     );
   }

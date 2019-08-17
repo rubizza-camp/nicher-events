@@ -20,7 +20,6 @@ import NewEvent from '../components/event/NewEvent';
 import ForgotPassword from '../components/ForgotPassword';
 import ResetPassword from '../components/ResetPassword';
 import {Router, Route, NavLink, Switch} from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';

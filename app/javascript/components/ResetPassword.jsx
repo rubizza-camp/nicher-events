@@ -1,5 +1,9 @@
 import React from 'react';
 import Axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
 const queryString = require('query-string');
 
 export default class ResetPasswordForm extends React.Component {
@@ -47,22 +51,42 @@ export default class ResetPasswordForm extends React.Component {
                   })}
                 </div>
     }
+    const useStyles = makeStyles(theme => ({
+      button: {
+        margin: theme.spacing(1),
+        width: 165,
+      },
+    }));
+    const SaveButton = () => {
+      const classes = useStyles();
+      return <Button type="submit" variant="contained" color="primary" className={classes.button}>Submit</Button>;
+    }
     return (
       <div>
         {message}
         <form onSubmit={this.handleResetPassword}>
-          <h1>Reset password</h1>
-          <div>
-            <label htmlFor='email'>Password</label><br />
-            <input type="password" name="password" value={this.state.password} onChange={this.handleChange} className="form-control" />
-          </div>
-
-          <div>
-            <label htmlFor='password_confirmation'>Password confirmation</label><br />
-            <input type="password" name="password_confirmation" value={this.state.password_confirmation} onChange={this.handleChange} className="form-control" />
-          </div>
-
-          <button type='submit' className='btn_forgot_password'>Submit</button>
+          <Grid container direction="column" justify="center" alignItems="center">
+            <h1>Reset password</h1>
+            <div>
+              <TextField style={{width: 350}}
+                name="password" value={this.state.password} onChange={this.handleChange}
+                id="outlined-name"
+                label="Password"
+                margin="normal"
+                variant="outlined"
+              />
+            </div>
+            <div>
+              <TextField style={{width: 350}}
+                  name="password_confirmation" value={this.state.password_confirmation} onChange={this.handleChange}
+                  id="outlined-name"
+                  label="Password_confirmation"
+                  margin="normal"
+                  variant="outlined"
+                />
+            </div>
+            <SaveButton />
+          </Grid>
         </form>
       </div>
     );

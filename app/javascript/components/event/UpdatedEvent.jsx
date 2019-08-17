@@ -65,7 +65,6 @@ export default class UpdatedEvent extends React.Component {
   render() {
     return (
       <div>
-        <h1>Edit</h1>
         <EventForm event={this.state.event} errors={this.state.errors} handleSubmit={this.handleSubmit} handleCancel={this.handleCancel} />
       </div>
     );

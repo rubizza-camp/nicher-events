@@ -1,5 +1,9 @@
 import React from 'react';
 import Axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
 
 export default class ForgotPasswordForm extends React.Component {
   constructor(props) {
@@ -31,6 +35,17 @@ export default class ForgotPasswordForm extends React.Component {
   }
 
   render() {
+    const useStyles = makeStyles(theme => ({
+      button: {
+        margin: theme.spacing(1),
+        width: 165,
+      },
+    }));
+
+    const SaveButton = () => {
+      const classes = useStyles();
+      return <Button type="submit" variant="contained" color="primary" className={classes.button}>Submit</Button>;
+    }
     let message;
     if (this.state.errors) {
       message = <div>
@@ -50,12 +65,18 @@ export default class ForgotPasswordForm extends React.Component {
       <div>
         {message}
         <form onSubmit={this.handleForgotPassword}>
+        <Grid container direction="column" justify="center" alignItems="center">
           <div>
-            <label htmlFor='email'>E-mail</label><br />
-            <input type="text" name="email" value={this.state.email} onChange={this.handleChange} className="form-control" />
+            <TextField style={{width: 350}}
+              name="email" value={this.state.email} onChange={this.handleChange}
+              id="outlined-name"
+              label="E-mail"
+              margin="normal"
+              variant="outlined"
+            />
           </div>
-
-          <button type='submit' className='btn_forgot_password'>Submit</button>
+          <SaveButton />
+          </Grid>
         </form>
       </div>
     );

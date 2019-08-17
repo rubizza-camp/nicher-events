@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 
 export default class EventInfo extends React.Component {
   constructor(props) {
@@ -45,14 +48,32 @@ export default class EventInfo extends React.Component {
   }
 
   render() {
+    const useStyles = makeStyles(theme => ({
+      button: {
+        margin: theme.spacing(1),
+        width: 165,
+      },
+    }));
     const { event } = this.state;
     const editEventUrl = `/events/${event.id}/edit`;
     const listEventsUrl = '/events';
+    const SaveButton = () => {
+      const classes = useStyles();
+      return <Button component={Link} to={editEventUrl}  type="submit" variant="contained" color="primary" className={classes.button}>Edit</Button>;
+    }
+    const DeleteButton = () => {
+      const classes = useStyles();
+      return <Button onClick={this.handleDelete} variant="contained" color="secondary" className={classes.button}>Delete</Button>;
+    }
+    const CancelButton = () => {
+      const classes = useStyles();
+      return <Button component={Link} to={listEventsUrl} onClick={this.handleDelete} variant="contained" className={classes.button}>Cancel</Button>;
+    }
     const eventInfo =  `${event.id} - ${event.status}`;
     const EventPanel = () => (
       <div>
-        <p><Link to={editEventUrl} className="btn btn-outline-dark">Edit</Link></p> 
-        <button onClick={this.handleDelete} className="btn btn-outline-dark">Delete</button>
+        <SaveButton />
+        <DeleteButton />
       </div>
     );
 
@@ -78,18 +99,18 @@ export default class EventInfo extends React.Component {
     }
 
     return (
-      <div>
+      <Grid container direction="column" justify="center" alignItems="center">
         {errorsMessage}
         <h2>{event.name}</h2>
         <p>Info: {eventInfo}</p>
         <p>Date: {event.date}</p>
         <p>Description: {event.description}</p>
-        {eventPanel}
-        <p>
-          <Link to={listEventsUrl} className="btn btn-outline-dark">Close</Link>
-        </p>
+        <Grid container direction="row" justify="center">
+          {eventPanel}
+          <CancelButton />
+        </Grid>
         <hr/>
-      </div>
+      </Grid>
     );
   }
 }
