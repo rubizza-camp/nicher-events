@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
+import Grid from '@material-ui/core/Grid';
+import { FormButton } from '../../ui/Buttons';
 
 export default class EventInfo extends React.Component {
   constructor(props) {
@@ -51,8 +53,8 @@ export default class EventInfo extends React.Component {
     const eventInfo =  `${event.id} - ${event.status}`;
     const EventPanel = () => (
       <div>
-        <p><Link to={editEventUrl} className="btn btn-outline-dark">Edit</Link></p> 
-        <button onClick={this.handleDelete} className="btn btn-outline-dark">Delete</button>
+        <FormButton component={Link} to={editEventUrl} color="primary" text="Edit" />
+        <FormButton color="secondary" onClick={this.handleDelete} text="Delete" />
       </div>
     );
 
@@ -76,18 +78,18 @@ export default class EventInfo extends React.Component {
     }
 
     return (
-      <div>
+      <Grid container direction="column" justify="center" alignItems="center">
         {errorsMessage}
         <h2>{event.name}</h2>
         <p>Info: {eventInfo}</p>
         <p>Date: {event.date}</p>
         <p>Description: {event.description}</p>
-        {eventPanel}
-        <p>
-          <Link to={listEventsUrl} className="btn btn-outline-dark">Close</Link>
-        </p>
+        <Grid container direction="row" justify="center">
+          {eventPanel}
+          <FormButton component={Link} to={listEventsUrl} text='Cancel' />
+        </Grid>
         <hr/>
-      </div>
+      </Grid>
     );
   }
 }

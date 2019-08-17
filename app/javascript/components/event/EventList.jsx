@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
+import Grid from '@material-ui/core/Grid';
+import { FormButton } from '../../ui/Buttons';
+import { EventsList } from '../../ui/EventsList';
 
 export default class EventList extends React.Component {
   constructor(props) {
@@ -34,21 +37,18 @@ export default class EventList extends React.Component {
     if (sessionStorage.user !== undefined) {
       userRole = JSON.parse(sessionStorage.user_attributes).role;
     }
+
     let createdButton;
     if (userRole == 'organizer') {
-      createdButton = <Link to={createEventUrl} className="btn btn-outline-primary">Create Event</Link>;
+      createdButton =  <FormButton component={Link} to={createEventUrl} color="primary" text='Create Event'/>;
     }
 
     return (
       <div>
         {createdButton}
-        {this.state.events.map((event) => (
-          <div key={event.id}>
-            <h2><Link to={`/events/${event.id}`}>{event.name}</Link></h2>
-            <p>{event.status}</p>
-            <hr />
-          </div>
-        ))}
+        <Grid container direction="column" justify="center" alignItems="center">
+          <EventsList events={this.state.events} />
+        </Grid>
       </div>
     );
   }

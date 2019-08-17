@@ -49,7 +49,6 @@ export default class NewEvent extends React.Component {
   render() {
     return (
       <div>
-        <h1>Create</h1>
         <EventForm event={this.state.event} errors={this.state.errors} handleSubmit={this.handleSubmit} handleCancel={this.handleCancel} />
       </div>
     );

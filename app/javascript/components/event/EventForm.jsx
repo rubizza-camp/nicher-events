@@ -1,4 +1,9 @@
 import React from 'react';
+import Grid from '@material-ui/core/Grid';
+import { FormButton } from '../../ui/Buttons';
+import { RadioGroupStatus } from '../../ui/RadioGroupStatus';
+import { FormTextField } from '../../ui/FormTextField';
+import MaterialUIPickers from '../../ui/DateAndTime';
 
 export default class EventForm extends React.Component {
   constructor(props) {
@@ -26,29 +31,29 @@ export default class EventForm extends React.Component {
     return (
       <form onSubmit={this.props.handleSubmit}>
         {errorsMessage}
-        <div className="form-group">
-          <label htmlFor='name'>Name</label> <br/>
-          <input type="text" name="name" value={event.name} onChange={this.handleChange} className="form-control" />
-        </div>
-        <div className="form-group">
-          <label htmlFor='date'>Date</label> <br/>
-          <input type="datetime-local" name="date" value={event.date} onChange={this.handleChange} />
-        </div>
-        <div className="form-group">
-          <label htmlFor='status'>Status : </label> <br/>
-          <input type="radio" name="status" onChange={this.handleChange} value="social"  checked={(event.status  === 'social')} />
-          <label>Social</label> <br/>
-          <input type="radio" name="status" onChange={this.handleChange} value="confidential" checked={(event.status  === 'confidential')} />
-          <label>Confidential</label>
-        </div>
-        <div className="form-group">
-          <label htmlFor='description'>Description</label> <br/>
-          <textarea name="description" rows="5" value={event.description} onChange={this.handleChange} className="form-control" />
-        </div>
-        <div className="btn-group">
-          <button type="submit" className="btn btn-dark">Save</button>
-          <button type="button" onClick={this.props.handleCancel} className="btn btn-secondary">Cancel</button>
-        </div>
+        <Grid container direction="column" justify="center" alignItems="center">
+          <h1>Event</h1>
+          <FormTextField
+            value={event.name}
+            name="name" 
+            label="Name"
+            onChange={this.handleChange}
+          />
+          <MaterialUIPickers onChange={this.handleChange} event_date={event.date} />
+          <RadioGroupStatus onChange={this.handleChange} event_status={event.status} />
+          <FormTextField
+            value={event.description}
+            name="description"
+            label="Description"
+            multiline
+            rows="3"
+            onChange={this.handleChange}
+          />
+          <div className="btn-group">
+            <FormButton text='Save' color="primary" />
+            <FormButton text='Cancel' onClick={this.props.handleCancel} />
+          </div>
+        </Grid>
       </form>
     );
   }
