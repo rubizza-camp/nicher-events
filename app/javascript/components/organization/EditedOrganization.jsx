@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import OrganizationForm from './OrganizationForm'
+import OrganizationForm from './OrganizationForm';
+import Grid from '@material-ui/core/Grid';
 
 class EditedOrganization extends Component {
   constructor(props) {
@@ -39,10 +40,10 @@ class EditedOrganization extends Component {
     headers['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     axios.patch(`/api/v1/organizations/${this.props.match.params.id}`, this.state.organization,
                 { headers: headers })
-      .then(res => {
+      .then(res => {debugger;
         this.props.history.push(`/organizations/${this.state.organization.id}`)
       })
-      .catch(error => {
+      .catch(error => {debugger;
         if(error.response.statusText == 'Unauthorized') {
           this.setState({ errors: error.response.statusText });
         }
@@ -66,10 +67,14 @@ class EditedOrganization extends Component {
       }
     }
     return (
-      <div>
-        <h1>Edit</h1>
-        {organizationForm}
-      </div>
+      <Grid container direction="column" justify="center" alignItems="center">
+        <div>
+          <Grid container direction="column" justify="center" alignItems="center">
+            <h1>Organization</h1>
+          </Grid>
+          {organizationForm}
+        </div>
+      </Grid>
     );
   }
 }

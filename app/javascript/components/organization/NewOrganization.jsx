@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import OrganizationForm from './OrganizationForm';
+import Grid from '@material-ui/core/Grid';
 
 class NewOrganization extends Component {
   constructor(props) {
@@ -51,10 +52,12 @@ class NewOrganization extends Component {
       }
     }
     return(
-      <div>
-        <h1>Create new organization</h1>
-        {organizationForm}
-      </div>
+      <Grid container direction="column" justify="center" alignItems="center">
+        <div>
+          <h1>Create new organization</h1>
+          {organizationForm}
+        </div>
+      </Grid>
     );
   }
 }
