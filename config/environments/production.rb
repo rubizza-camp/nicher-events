@@ -1,6 +1,6 @@
 Rails.application.configure do
   Dotenv.load
-  config.action_mailer.default_url_options = { host: ENV['PRODUCTION_HOST' }
+  config.action_mailer.default_url_options = { host: ENV['PRODUCTION_HOST'] }
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.

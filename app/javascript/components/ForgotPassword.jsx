@@ -1,10 +1,11 @@
 import React from 'react';
 import Axios from 'axios';
+require('dotenv').config();
 
 export default class ForgotPasswordForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { user: { email: '', redirect_url: 'http://localhost:3000/reset_password' } };
+    this.state = { user: { email: '', redirect_url: process.env.PRODUCTION_HOST + '/reset_password' } };
     this.handleForgotPassword = this.handleForgotPassword.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
