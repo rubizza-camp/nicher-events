@@ -5,48 +5,37 @@ import history from './history';
 import SignUp from '../components/SignUp';
 import SignIn from '../components/SignIn';
 import SignOut from '../components/SignOut';
+import Box from '@material-ui/core/Box';
+import { NavButtons } from '../ui/Buttons'
+import AppBar from '@material-ui/core/AppBar';
 import { Router, Route, NavLink, Switch } from 'react-router-dom';
+import { Toolbar } from '@material-ui/core';
 
 const RegisterNavigation = () => (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-    <ul className="navbar-nav mr-auto">
-      <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active" to="/sign_up">Sign up</NavLink>
-      </li>
-      <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active" to="/sign_in">Sign in</NavLink>
-      </li>
-    </ul>
-  </nav>
+  <AppBar >
+    <Toolbar>
+    <NavButtons text='Main page' to="/"  />
+    <NavButtons to="/sign_in" text='Sign in' />
+    <NavButtons  to="/sign_up" text='Sign up' />
+    </Toolbar>
+  </AppBar>
 );
 
 const SignOutNavigation = () => (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-    <ul className="navbar-nav mr-auto">
-      <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active" to="/sign_out">
-          Sign out
-        </NavLink>
-      </li>
-    </ul>
-  </nav>
-);
-
-const MainNavigation = () => (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-    <ul className="navbar-nav mr-auto">
-      <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active" to="/">Main</NavLink>
-      </li>
-    </ul>
-  </nav>
+  <AppBar >
+    <Toolbar>
+    <NavButtons to="/" text='Main page' />
+    <NavButtons to="/sign_out" text='Sign Out' />
+    </Toolbar>
+  </AppBar>
 );
 
 
 const DefaultLayout = ({ component: Component, ...rest }) => {
   let userInfo = '';
   if (sessionStorage.user_attributes !== undefined) {
-    const { first_name, last_name, role } = JSON.parse(sessionStorage.user_attributes);
+    const { first_name, last_name, role } = JSON.parse(
+      sessionStorage.user_attributes);
     userInfo = `${first_name} ${last_name} ${role}`;
   }
 
@@ -59,8 +48,9 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
   return (
     <Route {...rest} render={matchProps => (
       <div className="DefaultLayout">
-        {userInfo}
-        <div className="Header">{navbarComponent}<MainNavigation /></div>
+        <Box pb={10}>
+          {navbarComponent}
+        </Box>
         <Component {...matchProps} />
       </div>
     )}/>

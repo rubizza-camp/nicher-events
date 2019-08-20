@@ -1,5 +1,8 @@
 import React from 'react';
 import Axios from 'axios';
+import { FormButton } from '../ui/Buttons'
+import { FormTextField } from '../ui/TextFileds'
+import Grid from '@material-ui/core/Grid';
 
 export default class SigInForm extends React.Component {
   constructor(props) {
@@ -20,15 +23,16 @@ export default class SigInForm extends React.Component {
         JSON.stringify({
           'access-token': response.request.getResponseHeader('access-token'),
           'token-type': response.request.getResponseHeader('token-type'),
-          client: response.headers["client"],
-          expiry: response.headers["expiry"],
-          uid: response.headers["uid"]
+          client: response.headers['client'],
+          expiry: response.headers['expiry'],
+          uid: response.headers['uid']
         }));
-      sessionStorage.setItem('user_attributes', JSON.stringify(response.data.data));
-      this.props.history.push('/')
+      sessionStorage.setItem('user_attributes',
+        JSON.stringify(response.data.data));
+      this.props.history.push('/');
     }).catch(error => {
-      this.setState({ errors: error.response.data.errors })
-    })
+      this.setState({ errors: error.response.data.errors });
+    });
   };
 
   handleChange = (user) => {
@@ -48,28 +52,28 @@ export default class SigInForm extends React.Component {
         })}
       </div>
     }
+
     return (
       <div>
         <div className="errors">
           {errorMessages}
         </div>
         <form onSubmit={this.handleSignIn}>
-          <div>
-            <label htmlFor="email">E-mail</label><br/>
-            <input type="text"
-                   name="email"
-                   value={this.state.user.email}
-                   onChange={this.handleChange}
-                   className="form-control"/>
-          </div>
+          <Grid container direction="column" justify="center"
+                alignItems="center">
+            <FormTextField type="text"
+                           name="email"
+                           label="Email"
+                           value={this.state.user.email}
+                           onChange={this.handleChange} />
 
-          <div>
-            <label htmlFor="password">Password</label><br/>
-            <input type="password" name="password" value={this.state.user.password} onChange={this.handleChange}
-                   className="form-control" />
-          </div>
-
-          <button type="submit" className="btn_sign_in">Sign in</button>
+            <FormTextField type="password"
+                           name="password"
+                           label="Password"
+                           value={this.state.user.password}
+                           onChange={this.handleChange} />
+            <FormButton text="Sign in" />
+          </Grid>
         </form>
       </div>
     );
