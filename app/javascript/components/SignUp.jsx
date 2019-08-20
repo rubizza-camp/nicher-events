@@ -18,6 +18,12 @@ export default class SignUpForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidMount() {
+    if (sessionStorage.user) {
+      this.props.history.push('/')
+    }
+  }
+
   handleSignUp = (e) => {
     e.preventDefault();
     Axios({
