@@ -9,6 +9,12 @@ export default class SigInForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidMount() {
+    if (sessionStorage.user){
+      this.props.history.push('/')
+    }
+  }
+
   handleSignIn = (e) => {
     e.preventDefault();
     Axios({
