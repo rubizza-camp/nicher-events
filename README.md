@@ -55,6 +55,17 @@ Things you may want to cover:
   ```sh
   $ foreman start -f Procfile.dev -p 3000
   ```
+6. Install eslint for checking react and js files
+
+  ```sh
+  $ npm install -g eslint
+  $ npm install eslint-plugin-react@latest --save-dev
+  ```
+  Then run:
+  ```sh
+  $ eslint [options] file.js [file.js] [dir]
+  ```
+
 # Compatibility
 
 * Ruby 2.6.3
