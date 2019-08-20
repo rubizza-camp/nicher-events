@@ -5,28 +5,11 @@ class Api::V1::OrganizationsController < ApplicationController
   before_action :authenticate_user!
   before_action :unauthorized_user, only: %i[create update]
 
-  def index
-    if current_user[:role] == 'organizer'
-      @organizations = Organization.all
-      render json: @organizations
-    else
-      head :unauthorized
-    end
-  end
-
   def show
-    if @organization && current_user[:role] == 'organizer'
+    if @organization && current_user[:role] == 'organizer' && @organization.id == current_user.organization.id
       render json: @organization
     else
       head :not_found
-    end
-  end
-
-  def create
-    if !current_user.organization
-      save_organization
-    else
-      render json: current_user.organization.errors.full_messages, status: :unprocessable_entity
     end
   end
 
@@ -61,7 +44,7 @@ class Api::V1::OrganizationsController < ApplicationController
   end
 
   def organization_owner?
-    @organization.id == @current_user.organization.id
+    @organization.id = @current_user.organization.id
   end
 
   def organization_params

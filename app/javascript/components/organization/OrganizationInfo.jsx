@@ -9,6 +9,7 @@ class OrganizationInfo extends Component {
   }
 
   componentDidMount() {
+    debugger;
     let headers = {};
     let organizationInfo;
     if(sessionStorage.user) {
@@ -32,6 +33,7 @@ class OrganizationInfo extends Component {
   }
 
   render() {
+    debugger;
     const editOrganizationUrl = `/organizations/${this.state.organization.id}/edit`
     const organizationListUrl = '/organizations';
     let errorsMessage;
@@ -44,6 +46,14 @@ class OrganizationInfo extends Component {
         })}
         </div>
       }
+    if(sessionStorage.user != null) {
+      const userRole = JSON.parse(sessionStorage.user_attributes).role;
+      const userOrganization = JSON.parse(sessionStorage.user_attributes).user_organization_attributes.organization_attributes;
+      debugger;
+      if(userRole === 'organizer'  && userOrganization === null) {
+        createOrganizaton = <Link to={newOrganizationUrl} className="btn btn-outline-primary">Create Organization</Link>
+      }
+    }
     return (
       <div>
         <p>{errorsMessage}</p>
@@ -55,6 +65,7 @@ class OrganizationInfo extends Component {
           <Link to={organizationListUrl}
            className='btn btn-outline-dark'>Cancel</Link>
         </p>
+        {createOrganizaton}
       </div>
     );
   }

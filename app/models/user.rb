@@ -13,6 +13,8 @@ class User < ApplicationRecord
   validates :last_name, presence: true
   validates :phone, presence: true, length: { minimum: 5 }
 
-  has_one :user_organization
+  has_one :user_organization, inverse_of: :user
   has_one :organization, through: :user_organization
+  accepts_nested_attributes_for :user_organization
+  accepts_nested_attributes_for :organization
 end

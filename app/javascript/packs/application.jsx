@@ -5,11 +5,21 @@ import history from './history';
 import SignUp from '../components/SignUp';
 import SignIn from '../components/SignIn';
 import SignOut from '../components/SignOut';
+<<<<<<< HEAD
 import ForgotPassword from '../components/ForgotPassword';
 import ResetPassword from '../components/ResetPassword';
+=======
+<<<<<<< HEAD
+>>>>>>> Add signup
 import Box from '@material-ui/core/Box';
 import { NavButtons } from '../ui/Buttons'
 import AppBar from '@material-ui/core/AppBar';
+=======
+import SignUpOrganizer from '../components/SignUpOrganizer';
+import SignUpAttendee from '../components/SignUpAttendee';
+import EditedOrganization from '../components/organization/EditedOrganization';
+import OrganizationInfo from '../components/organization/OrganizationInfo';
+>>>>>>> Add signup
 import { Router, Route, NavLink, Switch } from 'react-router-dom';
 import { Toolbar } from '@material-ui/core';
 
@@ -33,10 +43,11 @@ const SignOutNavigation = () => (
 );
 
 const OrganizationNavigation = () => (
+
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
     <ul>
       <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active" to="/organizations">Organizations</NavLink>
+        <NavLink exact className="nav-link" activeClassName="active">Organization</NavLink>
       </li>
     </ul>
   </nav>
@@ -45,6 +56,7 @@ const OrganizationNavigation = () => (
 
 const DefaultLayout = ({ component: Component, ...rest }) => {
   let userInfo = '';
+
   if (sessionStorage.user_attributes !== undefined) {
     const { first_name, last_name, role } = JSON.parse(
       sessionStorage.user_attributes);
@@ -81,6 +93,7 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
 const Main = () => (
   <Switch>
     <DefaultLayout exact path="/" component={App} />
+<<<<<<< HEAD
     <DefaultLayout exact path="/sign_up" component={SignUp}/>
     <DefaultLayout exact path="/sign_in" component={SignIn}/>
     <DefaultLayout exact path="/sign_out" component={SignOut}/>
@@ -88,6 +101,13 @@ const Main = () => (
     <DefaultLayout path="/reset_password" component={ResetPassword}/>
     <DefaultLayout exact path='/organizations' component={OrganizationList}  />
     <DefaultLayout exact path='/organizations/new' component={NewOrganization} />
+=======
+    <DefaultLayout exact path="/sign_up" component={SignUp} />
+    <DefaultLayout exact path="/sign_up" component={SignUpOrganizer} />
+    <DefaultLayout exact path="/sign_up" component={SignUpAttendee} />
+    <DefaultLayout path="/sign_in" component={SignIn} />
+    <DefaultLayout path="/sign_out" component={SignOut} />
+>>>>>>> Add signup
     <DefaultLayout exact path='/organizations/:id/edit' component={EditedOrganization} />
     <DefaultLayout exact path='/organizations/:id' component={OrganizationInfo} />
   </Switch>

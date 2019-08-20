@@ -1,9 +1,21 @@
 import React from 'react';
 import Axios from 'axios';
+import SignUpAttendee from './SignUpAttendee';
+import SignUpOrganizer from './SignUpOrganizer';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
-export default class SignUpForm extends React.Component {
+
+export default class SignUp extends React.Component {
   constructor(props) {
     super(props);
+<<<<<<< HEAD
     this.state = {
       user: {
         email: '',
@@ -18,87 +30,76 @@ export default class SignUpForm extends React.Component {
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-
-  componentDidMount() {
-    if (sessionStorage.user) {
-      this.props.history.push('/');
-    }
-  }
-
-  handleSignUp = (e) => {
-    e.preventDefault();
-    Axios({
-      method: 'post',
-      url: '/auth',
-      data: this.state.user
-    }).then(response => {
-      sessionStorage.setItem('user',
-        JSON.stringify({
-          'access-token': response.request.getResponseHeader('access-token'),
-          'token-type': response.request.getResponseHeader('token-type'),
-          client: response.headers['client'],
-          expiry: response.headers['expiry'],
-          uid: response.headers['uid']
-        }));
-      sessionStorage.setItem('user_attributes', JSON.stringify(response.data.data));
-      this.props.history.push('/');
-    }).catch(error => {
-      this.setState({ errors: error.response.data.errors.full_messages });
-    });
-  };
-
-  handleChange = (user) => {
-    const currentUser = this.state.user;
-    currentUser[user.target.name] = user.target.value;
-    this.setState(currentUser);
-  };
+=======
+    console.log(this.props);
+  } 
+>>>>>>> Add signup
 
   render() {
-    const { user } = this.state;
-    let errorMessages;
-    if (this.state.errors) {
-      errorMessages = <div>
-        {this.state.errors.map((error) => (
-          <p key={error.id}>{error}</p>
-        ))}
-      </div>;
+    const useStyles = makeStyles(theme => ({
+      root: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.paper,
+      },
+    }));
+
+    function TabPanel(props) {
+      const { children, value, index, ...other } = props;
+
+      return (
+        <Typography
+          component="div"
+          role="tabpanel"
+          hidden={value !== index}
+          id={`simple-tabpanel-${index}`}
+          aria-labelledby={`simple-tab-${index}`}
+          {...other}
+        >
+          <Box p={3}>{children}</Box>
+        </Typography>
+      );
     }
-    return (
-      <div>
-        <div className="errors">
-          {errorMessages}
-        </div>
-        <form onSubmit={this.handleSignUp}>
-          <div>
-            <label htmlFor="first_name">First name</label><br/>
-            <input type="text" name="first_name" value={user.first_name} onChange={this.handleChange}
-              className="form-control" />
-          </div>
 
-          <div>
-            <label htmlFor="last_name">Last name</label><br/>
-            <input type="text" name="last_name" value={user.last_name} onChange={this.handleChange}
-              className="form-control" />
-          </div>
+    TabPanel.propTypes = {
+      children: PropTypes.node,
+      index: PropTypes.any.isRequired,
+      value: PropTypes.any.isRequired,
+    };
 
-          <div>
-            <label htmlFor="email">E-mail</label><br/>
-            <input type="text" name="email" value={user.email} onChange={this.handleChange}
-              className="form-control" />
-          </div>
+    function a11yProps(index) {
+      return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+      };
+    }
 
-          <div>
-            <label htmlFor="phone">Phone</label><br/>
-            <input type="text" name="phone" value={user.phone} onChange={this.handleChange}
-              className="form-control" />
-          </div>
+    const TabSign = () => {
+      const classes = useStyles();
+      const [value, setValue] = React.useState(0);
 
-          <div>
-            <label htmlFor="password">Password</label><br/>
-            <input type="password" name="password" value={user.password} onChange={this.handleChange}
-              className="form-control" />
-          </div>
+      function handleChange(event, newValue) {
+        setValue(newValue);
+      }
 
+      return(
+        <div className={classes.root}>
+          <AppBar position="static">
+            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+              <Tab label="Sign up as Attendee" {...a11yProps(0)}/>
+              <Tab label="Sign up as Organizer" {...a11yProps(1)}/>
+            </Tabs>
+          </AppBar>
+          <TabPanel value={value} index={0}>
+            <SignUpAttendee history={this.props.history} />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <SignUpOrganizer history={this.props.history} />
+          </TabPanel>
+         </div>
+      );
+    }    
+
+<<<<<<< HEAD
           <div>
             <label htmlFor='password_confirmation'>Password confirmation</label><br />
             <input type="password" name="password_confirmation" value={this.state.password_confirmation} onChange={this.handleChange} className="form-control" />
@@ -111,7 +112,12 @@ export default class SignUpForm extends React.Component {
             Sign up as attendee
           </button>
         </form>
+=======
+    return(
+      <div>
+        <TabSign />
+>>>>>>> Add signup
       </div>
-    );
+      );
   }
 }
