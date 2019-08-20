@@ -1,11 +1,14 @@
 import React from 'react';
 import Axios from 'axios';
+import { FormButton } from '../ui/Buttons';
+import { FormTextField } from '../ui/TextFileds';
+import Grid from '@material-ui/core/Grid';
 require('dotenv').config();
 
 export default class ForgotPasswordForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { user: { email: '', redirect_url: process.env.PRODUCTION_HOST + '/reset_password' } };
+    this.state = { user: { email: '', redirect_url: `${process.env.PRODUCTION_HOST}/reset_password` } };
     this.handleForgotPassword = this.handleForgotPassword.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -19,10 +22,10 @@ export default class ForgotPasswordForm extends React.Component {
       url: '/auth/password',
       data: this.state.user
     }).then(response => {
-        this.setState({ response_message: response.data.message })
-      }).catch(error => {
-        this.setState({ errors: error.response.data.errors })
-      })
+        this.setState({ response_message: response.data.message });
+    }).catch(error => {
+        this.setState({ errors: error.response.data.errors });
+    })
   };
 
   handleChange = (user) => {
@@ -51,14 +54,25 @@ export default class ForgotPasswordForm extends React.Component {
       <div>
         {message}
         <form onSubmit={this.handleForgotPassword}>
-          <div>
-            <label htmlFor='email'>E-mail</label><br />
-            <input type="text" name="email" value={this.state.email} onChange={this.handleChange} className="form-control" />
-          </div>
+          <Grid container direction="column" justify="center"
+                  alignItems="center">
 
-          <button type='submit' className='btn_forgot_password'>Submit</button>
+              <h1>Forgot Password</h1>
+              <h3>
+                Please enter your email address and we'll send you <br />
+                instructions on how to reset your password
+              </h3>
+
+              <FormTextField type="text"
+                            name="email"
+                            label="Email"
+                            value={this.state.user.email}
+                            onChange={this.handleChange} />
+
+              <FormButton text="Submit" />
+          </Grid>
         </form>
       </div>
     );
-   }
+  }
 }

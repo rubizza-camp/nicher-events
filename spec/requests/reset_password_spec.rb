@@ -18,8 +18,7 @@ describe 'ResetPassword', type: :request do
       expect {
         post '/auth/password', params: { email: user.email,
                                          redirect_url: 'http://localhost:3000/reset_password' }
-      }
-        .to(change { ActionMailer::Base.deliveries.size }.from(0).to(1))
+      }.to(change { ActionMailer::Base.deliveries.size }.by(1))
     end
   end
 
@@ -27,8 +26,7 @@ describe 'ResetPassword', type: :request do
     it 'return error message' do
       expect {
         post '/auth/password', params: { email: user.email }
-      }
-        .not_to(change { ActionMailer::Base.deliveries.size })
+      }.not_to(change { ActionMailer::Base.deliveries.size })
     end
   end
 

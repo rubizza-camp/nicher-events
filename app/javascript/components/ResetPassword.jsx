@@ -1,5 +1,8 @@
 import React from 'react';
 import Axios from 'axios';
+import { FormButton } from '../ui/Buttons';
+import { FormTextField } from '../ui/TextFileds';
+import Grid from '@material-ui/core/Grid';
 const queryString = require('query-string');
 
 export default class ResetPasswordForm extends React.Component {
@@ -25,9 +28,9 @@ export default class ResetPasswordForm extends React.Component {
       data: this.state.user
     }).then(response => {
       this.props.history.push('/sign_in');
-      }).catch(error => {
-        this.setState({ errors: error.response.data.errors.full_messages })
-      })
+    }).catch(error => {
+      this.setState({ errors: error.response.data.errors.full_messages });
+    })
   };
 
   handleChange = (user) => {
@@ -51,18 +54,23 @@ export default class ResetPasswordForm extends React.Component {
       <div>
         {message}
         <form onSubmit={this.handleResetPassword}>
-          <h1>Reset password</h1>
-          <div>
-            <label htmlFor='email'>Password</label><br />
-            <input type="password" name="password" value={this.state.password} onChange={this.handleChange} className="form-control" />
-          </div>
+          <Grid container direction="column" justify="center"
+                  alignItems="center">
+              <h1>Reset password</h1>
+              <FormTextField type="password"
+                            name="password"
+                            label="Password"
+                            value={this.state.user.password}
+                            onChange={this.handleChange} />
 
-          <div>
-            <label htmlFor='password_confirmation'>Password confirmation</label><br />
-            <input type="password" name="password_confirmation" value={this.state.password_confirmation} onChange={this.handleChange} className="form-control" />
-          </div>
+              <FormTextField type="password"
+                            name="password_confirmation"
+                            label="Password confirmation"
+                            value={this.state.user.password_confirmation}
+                            onChange={this.handleChange} />
 
-          <button type='submit' className='btn_forgot_password'>Submit</button>
+              <FormButton text="Submit" />
+          </Grid>
         </form>
       </div>
     );
