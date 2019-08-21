@@ -57,7 +57,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :controller do
 
     context 'when user is authorized' do
       let(:user) { create(:user, role: 'organizer') }
-
+      let(:new_organization) { build(:organization) }
       before do
         @header = user.create_new_auth_token
         request.headers.merge(@header)
@@ -65,8 +65,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :controller do
 
       it 'returns 200 status' do
         user.organization = organization
-        new_attributes = { name: 'AAAA', description: 'AAAAAAAAAAAAAA' }
-        patch :update, params: { id: user.organization.id, organization: new_attributes }
+        patch :update, params: { id: user.organization.id, organization: new_organization.attributes }
         organization.reload
         expect(response).to have_http_status(200)
       end
@@ -84,6 +83,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :controller do
 
     context 'when user is unauthorized' do
       let(:user) { create(:user, role: 'attendee') }
+      let(:new_organization) { build(:organization) }
 
       before do
         @header = user.create_new_auth_token
@@ -91,8 +91,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :controller do
       end
 
       it 'returns 401 error' do
-        new_attributes = { name: 'AAAA', description: 'AAAAAAAAAAAAAA' }
-        patch :update, params: { id: organization.id, organization: new_attributes }
+        patch :update, params: { id: organization.id, organization: new_organization.attributes }
         expect(response).to have_http_status(401)
       end
     end

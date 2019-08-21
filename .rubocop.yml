@@ -12,6 +12,9 @@ Style/FrozenStringLiteralComment:
 Style/Documentation:
   Enabled: false
 
+Style/ClassAndModuleChildren:
+  Enabled: false 
+
 Metrics/LineLength:
   Max: 120
 

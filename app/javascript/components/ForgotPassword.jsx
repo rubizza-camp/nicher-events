@@ -3,7 +3,6 @@ import Axios from 'axios';
 import { FormButton } from '../ui/Buttons';
 import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
-require('dotenv').config();
 
 export default class ForgotPasswordForm extends React.Component {
   constructor(props) {

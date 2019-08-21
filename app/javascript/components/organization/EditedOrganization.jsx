@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import OrganizationForm from './OrganizationForm'
+import OrganizationForm from './OrganizationForm';
 
 class EditedOrganization extends Component {
   constructor(props) {
@@ -23,8 +23,7 @@ class EditedOrganization extends Component {
     }
     axios.get(`/api/v1/organizations/${this.props.match.params.id}`, { headers: headers })
       .then(res =>{ this.setState({ organization: res.data });
-       })
-      .catch(error => console.log('error', error.data.error.message))
+      });
   }
 
   handleSubmit = (organization) => {
@@ -36,11 +35,11 @@ class EditedOrganization extends Component {
         headers = JSON.parse(sessionStorage.user);
       }
     }
-    headers['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    headers['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     axios.patch(`/api/v1/organizations/${this.props.match.params.id}`, this.state.organization,
-                { headers: headers })
-      .then(res => {
-        this.props.history.push(`/organizations/${this.state.organization.id}`)
+      { headers: headers })
+      .then(() => {
+        this.props.history.push(`/organizations/${this.state.organization.id}`);
       })
       .catch(error => {
         if(error.response.statusText == 'Unauthorized') {
@@ -49,11 +48,11 @@ class EditedOrganization extends Component {
         if(error.response.statusText == 'Unprocessable Entity') {
           this.setState({ errors: error.response.statusText });
         }
-      })
+      });
   }
 
   handleCancel() {
-    this.props.history.push(`/organizations/${this.state.organization.id}`)
+    this.props.history.push(`/organizations/${this.state.organization.id}`);
   }
 
   render() {
@@ -62,7 +61,7 @@ class EditedOrganization extends Component {
       const userRole = JSON.parse(sessionStorage.user_attributes).role;
       if(userRole === 'organizer') {
         organizationForm = <OrganizationForm organization={this.state.organization}
-         handleSubmit={this.handleSubmit} handleCancel={this.handleCancel} errors={this.state.errors} />
+          handleSubmit={this.handleSubmit} handleCancel={this.handleCancel} errors={this.state.errors} />;
       }
     }
     return (

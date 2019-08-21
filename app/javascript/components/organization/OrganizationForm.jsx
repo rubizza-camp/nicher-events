@@ -22,19 +22,19 @@ class OrganizationForm extends Component {
           <label htmlFor='name'>Name</label>
           <br/>
           <input type='text' name='name' value={organization.name}
-           onChange={this.handleChange} className='form-control' />
+            onChange={this.handleChange} className='form-control' />
         </div>
         <br/>
         <div>
           <label htmlFor='description'>Description</label>
           <br/>
           <textarea name='description' rows='10' value={organization.description}
-           onChange={this.handleChange} className='form-controls' />
+            onChange={this.handleChange} className='form-controls' />
         </div>
-        <div class='btn-group'>
+        <div className='btn-group'>
           <button type='submit' className='btn btn-dark'>Save</button>
           <button type='button' onClick={this.props.handleCancel}
-           className='btn btn-secondary'>Cancel</button>
+            className='btn btn-secondary'>Cancel</button>
         </div>
       </form>
     );

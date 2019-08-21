@@ -5,30 +5,24 @@ import history from './history';
 import SignUp from '../components/SignUp';
 import SignIn from '../components/SignIn';
 import SignOut from '../components/SignOut';
-<<<<<<< HEAD
 import ForgotPassword from '../components/ForgotPassword';
 import ResetPassword from '../components/ResetPassword';
-=======
-<<<<<<< HEAD
->>>>>>> Add signup
 import Box from '@material-ui/core/Box';
-import { NavButtons } from '../ui/Buttons'
+import { NavButtons } from '../ui/Buttons';
 import AppBar from '@material-ui/core/AppBar';
-=======
 import SignUpOrganizer from '../components/SignUpOrganizer';
 import SignUpAttendee from '../components/SignUpAttendee';
 import EditedOrganization from '../components/organization/EditedOrganization';
 import OrganizationInfo from '../components/organization/OrganizationInfo';
->>>>>>> Add signup
 import { Router, Route, NavLink, Switch } from 'react-router-dom';
 import { Toolbar } from '@material-ui/core';
 
 const RegisterNavigation = () => (
   <AppBar >
     <Toolbar>
-    <NavButtons text='Main page' to="/"  />
-    <NavButtons to="/sign_in" text='Sign in' />
-    <NavButtons  to="/sign_up" text='Sign up' />
+      <NavButtons text='Main page' to="/"  />
+      <NavButtons to="/sign_in" text='Sign in' />
+      <NavButtons  to="/sign_up" text='Sign up' />
     </Toolbar>
   </AppBar>
 );
@@ -36,8 +30,8 @@ const RegisterNavigation = () => (
 const SignOutNavigation = () => (
   <AppBar >
     <Toolbar>
-    <NavButtons to="/" text='Main page' />
-    <NavButtons to="/sign_out" text='Sign Out' />
+      <NavButtons to="/" text='Main page' />
+      <NavButtons to="/sign_out" text='Sign Out' />
     </Toolbar>
   </AppBar>
 );
@@ -83,7 +77,7 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
           {navbarComponent}
         </Box>
         {userInfo}
-        <div className="Header">{navbarComponent} {organizationComponent}<MainNavigation /></div>
+        <div className="Header">{navbarComponent} {organizationComponent}</div>
         <Component {...matchProps} />
       </div>
     )}/>
@@ -93,21 +87,13 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
 const Main = () => (
   <Switch>
     <DefaultLayout exact path="/" component={App} />
-<<<<<<< HEAD
-    <DefaultLayout exact path="/sign_up" component={SignUp}/>
-    <DefaultLayout exact path="/sign_in" component={SignIn}/>
-    <DefaultLayout exact path="/sign_out" component={SignOut}/>
     <DefaultLayout exact path="/forgot_password" component={ForgotPassword}/>
     <DefaultLayout path="/reset_password" component={ResetPassword}/>
-    <DefaultLayout exact path='/organizations' component={OrganizationList}  />
-    <DefaultLayout exact path='/organizations/new' component={NewOrganization} />
-=======
     <DefaultLayout exact path="/sign_up" component={SignUp} />
     <DefaultLayout exact path="/sign_up" component={SignUpOrganizer} />
     <DefaultLayout exact path="/sign_up" component={SignUpAttendee} />
     <DefaultLayout path="/sign_in" component={SignIn} />
     <DefaultLayout path="/sign_out" component={SignOut} />
->>>>>>> Add signup
     <DefaultLayout exact path='/organizations/:id/edit' component={EditedOrganization} />
     <DefaultLayout exact path='/organizations/:id' component={OrganizationInfo} />
   </Switch>

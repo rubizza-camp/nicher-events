@@ -1,4 +1,3 @@
-# rubocop:disable Style/ClassAndModuleChildren
 # :reek:InstanceVariableAssumption
 class Api::V1::OrganizationsController < ApplicationController
   before_action :set_organization, only: %i[show update]
@@ -6,7 +5,7 @@ class Api::V1::OrganizationsController < ApplicationController
   before_action :unauthorized_user, only: %i[create update]
 
   def show
-    if @organization && current_user[:role] == 'organizer' && @organization.id == current_user.organization.id
+    if @organization && current_user.organizer? && organization_owner?
       render json: @organization
     else
       head :not_found
@@ -36,7 +35,7 @@ class Api::V1::OrganizationsController < ApplicationController
   end
 
   def unauthorized_user
-    return head :unauthorized unless current_user[:role] == 'organizer'
+    return head :unauthorized unless current_user.organizer?
   end
 
   def set_organization
@@ -44,11 +43,10 @@ class Api::V1::OrganizationsController < ApplicationController
   end
 
   def organization_owner?
-    @organization.id = @current_user.organization.id
+    @organization.id == @current_user.organization.id
   end
 
   def organization_params
     params.require(:organization).permit(:name, :description)
   end
 end
-# rubocop:enable Style/ClassAndModuleChildren
