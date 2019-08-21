@@ -36,9 +36,9 @@ const RegisterNavigation = () => (
 const SignOutNavigation = () => (
   <AppBar >
     <Toolbar>
-    <NavButtons to="/" text='Main page' />
-    <NavButtons to="/venues" text='Venues' />
-    <NavButtons to="/sign_out" text='Sign Out' />
+      <NavButtons to="/" text='Main page' />
+      <NavButtons to="/venues" text='Venues' />
+      <NavButtons to="/sign_out" text='Sign Out' />
     </Toolbar>
   </AppBar>
 );

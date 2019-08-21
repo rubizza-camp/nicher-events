@@ -1,9 +1,8 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import Axios from "axios";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Axios from 'axios';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 export default class VenueShow extends React.Component {
   constructor(props) {
@@ -24,20 +23,19 @@ export default class VenueShow extends React.Component {
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);
     }
-    headers["X-CSRF-Token"] = document
-      .querySelector("meta[name='csrf-token']")
-      .getAttribute("content");
+    headers['X-CSRF-Token'] = document
+      .querySelector('meta[name=\'csrf-token\']')
+      .getAttribute('content');
     Axios.delete(`/api/v1/venues/${this.props.match.params.id}`, {
       headers: headers
     })
-      .then(data => this.props.history.push(`/venues`))
+      .then(() => this.props.history.push('/venues'))
       .catch(err => this.setState({ errors: err.response.data }));
   };
 
   render() {
     const editVenueUrl = `/venues/${this.state.venue.id}/edit`;
-    const showVenuesUrl = `/venues`;
-    const createVenuesUrl = `/venues/new`;
+    const showVenuesUrl = '/venues';
     const EditButtons = () => (
       <div>
         <Button
@@ -67,7 +65,7 @@ export default class VenueShow extends React.Component {
     }
 
     let editButtons;
-    if (userRole == "organizer") {
+    if (userRole == 'organizer') {
       editButtons = <EditButtons />;
     }
 
@@ -75,9 +73,7 @@ export default class VenueShow extends React.Component {
     if (this.state.errors) {
       message = (
         <div>
-          {this.state.errors.map(error => {
-            return <p key={Math.random()}>{error}</p>;
-          })}
+          {this.state.errors.map(error => <p key={Math.random()}>{error}</p>)}
         </div>
       );
     }

@@ -12,6 +12,9 @@ Style/FrozenStringLiteralComment:
 Style/Documentation:
   Enabled: false
 
+Bundler/OrderedGems:
+  Enabled: false
+
 Style/ClassAndModuleChildren:
   Enabled: false 
 
