@@ -22,10 +22,10 @@ export default class ForgotPasswordForm extends React.Component {
       url: '/auth/password',
       data: this.state.user
     }).then(response => {
-        this.setState({ response_message: response.data.message });
+      this.setState({ response_message: response.data.message });
     }).catch(error => {
-        this.setState({ errors: error.response.data.errors });
-    })
+      this.setState({ errors: error.response.data.errors });
+    });
   };
 
   handleChange = (user) => {
@@ -38,38 +38,38 @@ export default class ForgotPasswordForm extends React.Component {
     let message;
     if (this.state.errors) {
       message = <div>
-                  {this.state.errors.map((error) => {
-                    return(
-                      <p>{error}</p>
-                    )
-                  })}
-                </div>
+        {this.state.errors.map((error) => (
+          <p key={error.id}>{error}</p>
+        ))}
+      </div>;
     }
     if (this.state.response_message) {
       message = <div>
-                  {this.state.response_message}
-                </div>
+        {this.state.response_message}
+      </div>;
     }
     return (
       <div>
-        {message}
+        <div className="message">
+          {message}
+        </div>
         <form onSubmit={this.handleForgotPassword}>
           <Grid container direction="column" justify="center"
-                  alignItems="center">
+            alignItems="center">
 
-              <h1>Forgot Password</h1>
-              <h3>
-                Please enter your email address and we'll send you <br />
-                instructions on how to reset your password
-              </h3>
+            <h1>Forgot Password</h1>
+            <h3>
+              Please enter your email address and we will send you <br />
+              instructions on how to reset your password
+            </h3>
 
-              <FormTextField type="text"
-                            name="email"
-                            label="Email"
-                            value={this.state.user.email}
-                            onChange={this.handleChange} />
+            <FormTextField type="text"
+              name="email"
+              label="Email"
+              value={this.state.user.email}
+              onChange={this.handleChange} />
 
-              <FormButton text="Submit" />
+            <FormButton text="Submit" />
           </Grid>
         </form>
       </div>

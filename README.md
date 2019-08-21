@@ -72,7 +72,7 @@ Things you may want to cover:
   npm install query-string
   ```
 
-6.  Install dotenv for emv variables in react
+8.  Install dotenv for emv variables in react
 
   ```sh
   npm install dotenv --save

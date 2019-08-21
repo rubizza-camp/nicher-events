@@ -9,13 +9,14 @@ export default class ResetPasswordForm extends React.Component {
   constructor(props) {
     super(props);
     const parsed = queryString.parse(this.props.location.search);
-    this.state = { user: { password: '',
-                           password_confirmation: '',
-                           'access-token': parsed['access-token'],
-                           client: parsed.client,
-                           uid: parsed.uid
-                          }
-                  };
+    this.state = { user: { 
+      password: '',
+      password_confirmation: '',
+      'access-token': parsed['access-token'],
+      client: parsed.client,
+      uid: parsed.uid
+    }
+    };
     this.handleResetPassword = this.handleResetPassword.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -26,11 +27,11 @@ export default class ResetPasswordForm extends React.Component {
       method: 'put',
       url: '/auth/password',
       data: this.state.user
-    }).then(response => {
+    }).then(() => {
       this.props.history.push('/sign_in');
     }).catch(error => {
       this.setState({ errors: error.response.data.errors.full_messages });
-    })
+    });
   };
 
   handleChange = (user) => {
@@ -43,36 +44,36 @@ export default class ResetPasswordForm extends React.Component {
     let message;
     if (this.state.errors) {
       message = <div>
-                  {this.state.errors.map((error) => {
-                    return(
-                      <p>{error}</p>
-                    )
-                  })}
-                </div>
+        {this.state.errors.map((error) => (
+          <p key={error.id}>{error}</p>
+        ))}
+      </div>;
     }
     return (
       <div>
-        {message}
+        <div className="message">
+          {message}
+        </div>
         <form onSubmit={this.handleResetPassword}>
           <Grid container direction="column" justify="center"
-                  alignItems="center">
-              <h1>Reset password</h1>
-              <FormTextField type="password"
-                            name="password"
-                            label="Password"
-                            value={this.state.user.password}
-                            onChange={this.handleChange} />
+            alignItems="center">
+            <h1>Reset password</h1>
+            <FormTextField type="password"
+              name="password"
+              label="Password"
+              value={this.state.user.password}
+              onChange={this.handleChange} />
 
-              <FormTextField type="password"
-                            name="password_confirmation"
-                            label="Password confirmation"
-                            value={this.state.user.password_confirmation}
-                            onChange={this.handleChange} />
+            <FormTextField type="password"
+              name="password_confirmation"
+              label="Password confirmation"
+              value={this.state.user.password_confirmation}
+              onChange={this.handleChange} />
 
-              <FormButton text="Submit" />
+            <FormButton text="Submit" />
           </Grid>
         </form>
       </div>
     );
-   }
+  }
 }
