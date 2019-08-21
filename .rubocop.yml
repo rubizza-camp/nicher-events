@@ -12,8 +12,13 @@ Style/FrozenStringLiteralComment:
 Style/Documentation:
   Enabled: false
 
+
 Style/ClassAndModuleChildren:
   Enabled: false 
+
+Bundler/OrderedGems:
+  Enabled: false
+
 
 Metrics/LineLength:
   Max: 120

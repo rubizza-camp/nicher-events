@@ -15,4 +15,4 @@ export const FormTextField = (params) => {
   return (
     <TextField className={classes.textField} margin="normal" variant="outlined" {...params} />
   );
-}
+};

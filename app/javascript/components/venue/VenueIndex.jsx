@@ -1,15 +1,13 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Axios from "axios";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Axios from 'axios';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 
 export default class VenueIndex extends React.Component {
   constructor(props) {
@@ -18,15 +16,14 @@ export default class VenueIndex extends React.Component {
   }
 
   componentDidMount() {
-    Axios.get("/api/v1/venues")
+    Axios.get('/api/v1/venues')
       .then(res => {
         this.setState({ venues: res.data });
-      })
-      .catch(error => console.log("error", error));
+      });
   }
 
   render() {
-    const createVenueUrl = "/venues/new";
+    const createVenueUrl = '/venues/new';
     const CreateButton = () => (
       <div>
         <Button
@@ -48,7 +45,7 @@ export default class VenueIndex extends React.Component {
     }
 
     let createButton;
-    if (userRole == "organizer") {
+    if (userRole == 'organizer') {
       createButton = <CreateButton />;
     }
 

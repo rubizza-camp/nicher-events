@@ -16,9 +16,9 @@ const useStyles = makeStyles(theme => ({
 export const NavButtons = ({text: text = required, ...params}) => {
   const classes = useStyles();
   return (
-      <Button component={NavLink} size="large" color="inherit" className={classes.navButton} {...params}>
-        {text}
-      </Button>
+    <Button component={NavLink} size="large" color="inherit" className={classes.navButton} {...params}>
+      {text}
+    </Button>
   );
 };
 
@@ -27,4 +27,4 @@ export const FormButton = ({text: text = required, ...params})=>{
   return (
     <Button type="submit" variant="contained" className={classes.button} {...params}>{text}</Button>
   );
-}
+};

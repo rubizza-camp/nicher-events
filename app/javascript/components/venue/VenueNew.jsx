@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import Axios from "axios";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
+import React, { Component } from 'react';
+import Axios from 'axios';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
 export default class VenueNew extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      venue: { address: "", description: "", people_capacity: "" }
+      venue: { address: '', description: '', people_capacity: '' }
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -16,7 +16,7 @@ export default class VenueNew extends Component {
 
   handleChange(venue) {
     const params = this.state;
-    params["venue"][venue.target.name] = venue.target.value;
+    params['venue'][venue.target.name] = venue.target.value;
     this.setState({
       params
     });
@@ -24,18 +24,15 @@ export default class VenueNew extends Component {
 
   handleSubmit(venue) {
     venue.preventDefault();
-    const {
-      venue: { address, description, people_capacity }
-    } = this.state;
     let headers = {};
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);
     }
-    headers["X-CSRF-Token"] = document
-      .querySelector("meta[name='csrf-token']")
-      .getAttribute("content");
-    Axios.post("/api/v1/venues", this.state.venue, { headers: headers })
-      .then(data => this.props.history.push(`/venues`))
+    headers['X-CSRF-Token'] = document
+      .querySelector('meta[name=\'csrf-token\']')
+      .getAttribute('content');
+    Axios.post('/api/v1/venues', this.state.venue, { headers: headers })
+      .then(() => this.props.history.push('/venues'))
       .catch(err => this.setState({ errors: err.response.data }));
   }
 
@@ -44,9 +41,7 @@ export default class VenueNew extends Component {
     if (this.state.errors) {
       message = (
         <div>
-          {this.state.errors.map(error => {
-            return <p key={Math.random()}>{error}</p>;
-          })}
+          {this.state.errors.map(error => <p key={Math.random()}>{error}</p>)}
         </div>
       );
     }
