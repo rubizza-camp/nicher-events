@@ -37,7 +37,6 @@ const SignOutNavigation = () => (
 );
 
 const OrganizationNavigation = () => (
-
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
     <ul>
       <li className="nav-item">

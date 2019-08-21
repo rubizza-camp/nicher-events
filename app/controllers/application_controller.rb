@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
                                         :role,
                                         user_organization_attributes:
                                           [organization_attributes:
-                                            %i[id description name]]
+                                            %i[description name]]
                                       ])
   end
 end

@@ -37,7 +37,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :controller do
       end
     end
 
-    context 'when user is unauthorized' do
+    context 'when user is authorized and has role attendee' do
       let(:user) { create(:user, role: 'attendee') }
 
       before do
@@ -48,6 +48,15 @@ RSpec.describe Api::V1::OrganizationsController, type: :controller do
       it 'returns not_found status' do
         get :show, params: { id: organization.id }
         expect(response).to have_http_status(404)
+      end
+    end
+
+    context 'when user id unauthorized' do
+      let(:user) { build(:user, role: 'attendee') }
+
+      it 'returns not_found status' do
+        get :show, params: { id: organization.id }
+        expect(response).to have_http_status(401)
       end
     end
   end
@@ -66,7 +75,6 @@ RSpec.describe Api::V1::OrganizationsController, type: :controller do
       it 'returns 200 status' do
         user.organization = organization
         patch :update, params: { id: user.organization.id, organization: new_organization.attributes }
-        organization.reload
         expect(response).to have_http_status(200)
       end
 
@@ -75,7 +83,6 @@ RSpec.describe Api::V1::OrganizationsController, type: :controller do
           user.organization = organization
           new_attributes = { name: '', description: '' }
           patch :update, params: { id: user.organization.id, organization: new_attributes }
-          organization.reload
           expect(response).to have_http_status(422)
         end
       end

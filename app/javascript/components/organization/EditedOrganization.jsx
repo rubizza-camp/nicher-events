@@ -22,8 +22,7 @@ class EditedOrganization extends Component {
       }
     }
     axios.get(`/api/v1/organizations/${this.props.match.params.id}`, { headers: headers })
-      .then(res =>{ this.setState({ organization: res.data });
-      });
+      .then(res =>{ this.setState({ organization: res.data }); });
   }
 
   handleSubmit = (organization) => {
