@@ -3,7 +3,7 @@ import Axios from 'axios';
 import { FormButton } from '../ui/Buttons';
 import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
-
+import { NavButtons } from '../ui/Buttons';
 
 export default class SigInForm extends React.Component {
   constructor(props) {
@@ -77,7 +77,10 @@ export default class SigInForm extends React.Component {
               label="Password"
               value={this.state.user.password}
               onChange={this.handleChange} />
+
             <FormButton text="Sign in" />
+
+            <NavButtons to="/forgot_password" text='Forgot password?' />
           </Grid>
         </form>
       </div>

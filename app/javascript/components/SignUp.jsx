@@ -11,7 +11,8 @@ export default class SignUpForm extends React.Component {
         first_name: '',
         last_name: '',
         phone: '',
-        role: ''
+        role: '',
+        password_confirmation: ''
       }
     };
     this.handleSignUp = this.handleSignUp.bind(this);
@@ -96,6 +97,11 @@ export default class SignUpForm extends React.Component {
             <label htmlFor="password">Password</label><br/>
             <input type="password" name="password" value={user.password} onChange={this.handleChange}
               className="form-control" />
+          </div>
+
+          <div>
+            <label htmlFor='password_confirmation'>Password confirmation</label><br />
+            <input type="password" name="password_confirmation" value={this.state.password_confirmation} onChange={this.handleChange} className="form-control" />
           </div>
 
           <button type="submit" className="btn_sign_up" onClick={() => user.role = 'organizer'}>
