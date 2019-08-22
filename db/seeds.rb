@@ -8,7 +8,7 @@ User.create([
     email: 'margosha20617@gmail.com',
     phone: '+375291111111',
     password: '123456',
-    role: 1
+    role: 'organizer'
   },
 
   {
@@ -17,7 +17,7 @@ User.create([
     email: 'dima.kosikov01@mail.ru',
     phone: '+375291111111',
     password: '123456789',
-    role: 1
+    role: 'organizer'
   }
 ])
 

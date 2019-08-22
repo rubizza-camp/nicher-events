@@ -52,7 +52,7 @@ export default class SignUpForm extends React.Component {
       };
     }
 
-    const TabSign = () => {
+    const TabBar = () => {
       const classes = useStyles();
       const [value, setValue] = React.useState(0);
 
@@ -80,7 +80,7 @@ export default class SignUpForm extends React.Component {
 
     return(
       <div>
-        <TabSign />
+        <TabBar />
       </div>
     );
   }

@@ -35,19 +35,19 @@ RSpec.describe Api::V1::OrganizationsController, type: :controller do
           expect(response).to have_http_status(:not_found)
         end
       end
-    end
 
-    context 'when user is authorized and has role attendee' do
-      let(:user) { create(:user, role: 'attendee') }
+      context 'when user has role attendee' do
+        let(:user) { create(:user, role: 'attendee') }
 
-      before do
-        @header = user.create_new_auth_token
-        request.headers.merge!(@header)
-      end
+        before do
+          @header = user.create_new_auth_token
+          request.headers.merge!(@header)
+        end
 
-      it 'returns not_found status' do
-        get :show, params: { id: organization.id }
-        expect(response).to have_http_status(404)
+        it 'returns not_found status' do
+          get :show, params: { id: organization.id }
+          expect(response).to have_http_status(404)
+        end
       end
     end
 
@@ -97,9 +97,9 @@ RSpec.describe Api::V1::OrganizationsController, type: :controller do
         request.headers.merge(@header)
       end
 
-      it 'returns 401 error' do
+      it 'returns 403 error' do
         patch :update, params: { id: organization.id, organization: new_organization.attributes }
-        expect(response).to have_http_status(401)
+        expect(response).to have_http_status(403)
       end
     end
   end

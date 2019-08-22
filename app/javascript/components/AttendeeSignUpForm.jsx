@@ -1,11 +1,10 @@
 import React from 'react';
 import Axios from 'axios';
-import {withRouter} from 'react-router';
 import { FormButton } from '../ui/Buttons';
 import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
 
-class SignUpFormOrganizer extends React.Component {
+export default class AttendeeSignUpForm extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -15,16 +14,11 @@ class SignUpFormOrganizer extends React.Component {
         first_name: '',
         last_name: '',
         phone: '',
-        role: 'organizer',
-        user_organization_attributes: {
-          organization_attributes: {
-            name: '',
-            description: ''
-          }}}
+        role: 'attendee'
+      }
     };
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleChangeForOrganization = this.handleChangeForOrganization.bind(this);
   }
 
   handleSignUp = (e) => {
@@ -44,7 +38,6 @@ class SignUpFormOrganizer extends React.Component {
           uid: response.headers['uid']
         }));
       sessionStorage.setItem('user_attributes', JSON.stringify(response.data.data));
-      sessionStorage.setItem('organization_attributes', JSON.stringify(that.state.user.user_organization_attributes.organization_attributes));
       that.props.history.push('/');
     }).catch(error => {
       that.setState({ errors: error.response.data.errors.full_messages });
@@ -54,12 +47,6 @@ class SignUpFormOrganizer extends React.Component {
   handleChange = (user) => {
     const currentUser = Object.assign({}, this.state.user);
     currentUser[user.target.name] = user.target.value;
-    this.setState({user: currentUser});
-  };
-
-  handleChangeForOrganization = (user) => {
-    const currentUser = Object.assign({}, this.state.user);
-    currentUser['user_organization_attributes']['organization_attributes'][user.target.name] = user.target.value;
     this.setState({user: currentUser});
   };
 
@@ -122,24 +109,6 @@ class SignUpFormOrganizer extends React.Component {
                 value={user.password}
                 onChange={this.handleChange} />  
             </div>
-
-            <h1>Create Organization</h1>
-            <div>
-              <FormTextField type="text"
-                name="name"
-                label="Organization Name"
-                value={user.user_organization_attributes.organization_attributes.name}
-                onChange={this.handleChangeForOrganization} />  
-            </div>
-            <br/>
-            <div>
-              <FormTextField type="text"
-                name="description"
-                label="Organization Description"
-                rows="10"
-                value={user.user_organization_attributes.organization_attributes.description}
-                onChange={this.handleChangeForOrganization} />  
-            </div>
             <FormButton text="Sign up" />
           </Grid>
         </form>
@@ -147,5 +116,3 @@ class SignUpFormOrganizer extends React.Component {
     );
   }
 }
-
-export default withRouter(SignUpFormOrganizer);

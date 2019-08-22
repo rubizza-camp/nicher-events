@@ -1,3 +1,4 @@
+#:reek:NilCheck
 class ApplicationController < ActionController::Base
   include DeviseTokenAuth::Concerns::SetUserByToken
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -15,5 +16,9 @@ class ApplicationController < ActionController::Base
                                           [organization_attributes:
                                             %i[description name]]
                                       ])
+  end
+
+  def current_user
+    super&.decorate
   end
 end

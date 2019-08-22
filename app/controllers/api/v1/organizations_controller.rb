@@ -4,7 +4,7 @@ class Api::V1::OrganizationsController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    if @organization && current_user.decorate.organization_member?(@organization.id)
+    if @organization && current_user.organization_member?(@organization.id)
       render json: @organization
     else
       head :not_found
@@ -12,7 +12,7 @@ class Api::V1::OrganizationsController < ApplicationController
   end
 
   def update
-    return head :unauthorized unless current_user.decorate.organization_member?(@organization.id)
+    return head :forbidden unless current_user.organization_member?(@organization.id)
 
     if @organization.update(organization_params)
       render json: @organization

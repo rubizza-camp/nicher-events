@@ -13,25 +13,24 @@ class EditOrganizationForm extends Component {
 
   componentDidMount() {
     let headers = {};
-    if(sessionStorage.user != undefined) {
+    if (sessionStorage.user != undefined) {
       const userRole = JSON.parse(sessionStorage.user_attributes).role;
-      if(userRole === 'organizer') {
+      if (userRole === 'organizer') {
         headers = JSON.parse(sessionStorage.user);
-      }
-      else {
+      } else {
         this.props.history.push('/');
       }
     }
     axios.get(`/api/v1/organizations/${this.props.match.params.id}`, { headers: headers })
-      .then(res =>{ this.setState({ organization: res.data }); });
+      .then(res => { this.setState({ organization: res.data }); });
   }
 
   handleSubmit = (e, organization) => {
     e.preventDefault();
     let headers = {};
-    if(sessionStorage.user) {
+    if (sessionStorage.user) {
       const userRole = JSON.parse(sessionStorage.user_attributes).role;
-      if(userRole === 'organizer') {
+      if (userRole === 'organizer') {
         headers = JSON.parse(sessionStorage.user);
       }
     }
@@ -42,10 +41,10 @@ class EditOrganizationForm extends Component {
         this.props.history.push(`/organizations/${this.state.organization.id}`);
       })
       .catch(error => {
-        if(error.response.statusText == 'Unauthorized') {
+        if (error.response.statusText == 'Unauthorized') {
           this.setState({ errors: error.response.statusText });
         }
-        if(error.response.statusText == 'Unprocessable Entity') {
+        if (error.response.statusText == 'Unprocessable Entity') {
           this.setState({ errors: error.response.statusText });
         }
       });
@@ -57,9 +56,9 @@ class EditOrganizationForm extends Component {
 
   render() {
     let organizationForm;
-    if(sessionStorage.user) {
+    if (sessionStorage.user) {
       const userRole = JSON.parse(sessionStorage.user_attributes).role;
-      if(userRole === 'organizer') {
+      if (userRole === 'organizer') {
         organizationForm = <OrganizationForm organization={this.state.organization}
           handleSubmit={this.handleSubmit} handleCancel={this.handleCancel} errors={this.state.errors} />;
       }
