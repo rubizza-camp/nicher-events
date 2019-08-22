@@ -20,14 +20,14 @@ export default class NewEvent extends React.Component {
     }
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  handleSubmit = (e, event) => {
+    e.preventDefault();
     let headers = {};
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    Axios.post('/api/v1/events', this.state.event, { headers: headers })
+    Axios.post('/api/v1/events', event, { headers: headers })
       .then(response => this.props.history.push(`/events/${response.data.id}`))
       .catch(error => {
         switch (error.response.statusText) {

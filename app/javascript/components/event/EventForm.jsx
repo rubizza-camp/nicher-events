@@ -13,9 +13,14 @@ export default class EventForm extends React.Component {
   }
 
   handleChange = (event) => {
-    const currentEvent = this.props.event;
-    currentEvent[event.target.name] = event.target.value;
-    this.setState(currentEvent);
+    const updatedEvent = Object.assign({}, this.state.event);
+    updatedEvent[event.target.name] = event.target.value;
+    this.setState({ event: updatedEvent });
+  }
+
+  componentWillReceiveProps(newProps) {
+    const newObjectEvent = Object.assign({}, newProps.event);
+    this.setState({ event: newObjectEvent });
   }
 
   render () {
@@ -27,9 +32,9 @@ export default class EventForm extends React.Component {
         ))}
       </ul>;
     }
-    const { event } = this.props;
+    const { event } = this.state;
     return (
-      <form onSubmit={this.props.handleSubmit}>
+      <form onSubmit={(e) => { this.props.handleSubmit(e, this.state.event); }}>
         {errorsMessage}
         <Grid container direction="column" justify="center" alignItems="center">
           <h1>Event</h1>

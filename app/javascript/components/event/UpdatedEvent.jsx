@@ -33,14 +33,14 @@ export default class UpdatedEvent extends React.Component {
       .then(res => this.setState({ event: res.data }));
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  handleSubmit = (e, event) => {
+    e.preventDefault();
     let headers = {};
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    Axios.patch(`/api/v1/events/${this.props.match.params.id}`, this.state.event, { headers: headers })
+    Axios.patch(`/api/v1/events/${this.props.match.params.id}`, event, { headers: headers })
       .then(() => this.props.history.push(`/events/${this.state.event.id}`))
       .catch(error => {
         switch (error.response.statusText) {
