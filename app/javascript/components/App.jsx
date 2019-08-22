@@ -2,8 +2,10 @@
 import React from 'react'
 import { Provider, Heading, Subhead } from 'rebass'
 import {
-  Hero, CallToAction, ScrollDownIndicator, Section, Checklist
+  Hero, CallToAction, ScrollDownIndicator, Section, Features, Checklist
 } from 'react-landing-page'
+import { NavButtons } from '../ui/Buttons';
+
 
 const featherCheckmark = <svg
   xmlns="http://www.w3.org/2000/svg"
@@ -25,19 +27,39 @@ const App = props => (
       bg="white"
       backgroundImage="https://source.unsplash.com/jxaj-UrzQbc/1600x900"
     >
-        <Heading>Name of your app</Heading>
-        <Subhead>a couple more words</Subhead>
-        <CallToAction href="/getting-started" mt={3}>Get Started</CallToAction>
+        <Heading>NICHER EVENTS</Heading>
+        <Subhead>dream big or go home</Subhead>
+        <CallToAction href="/sign_up" mt={3}>Sign up</CallToAction>
+        <NavButtons to="/sign_in" text='Already have account?' />
         <ScrollDownIndicator/>
     </Hero>
     <Section width={1}
-      heading='Why pick this library?'
+      heading='What are you looking for?'
       subhead='maybe this will help'>
       <Checklist children={[
-        'Open Source',
-        'React best practices',
-        'Practical API'
+            <NavButtons to="/venues" text='Venues' />,
+            <NavButtons to="/user_profile" text='Your profile' />,
+            <NavButtons to="#" text='Log in' />
       ]} checkmark={featherCheckmark}/>
+    </Section>
+
+    <Section width={1}
+      heading='In this section for example will be list of some public events'
+      >
+      <p>Some event </p>
+      <p>Some event </p>
+      <p>Some event </p>
+      <p>Some event </p>
+      <p>Some event </p>
+    </Section>
+
+    <Section width={1}
+      heading='And so on'
+      >
+      <p>Another content </p>
+      <p>Another content </p>
+      <p>Another content </p>
+      <p>Another content </p>
     </Section>
   </Provider>
 )
