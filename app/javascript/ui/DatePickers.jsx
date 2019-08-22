@@ -17,18 +17,22 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default class MaterialUIPickers extends React.Component {
+export default class DatePickers extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { selectedDate: ''};
+    this.state = { selectedDate: new Date()};
     this.handleDateChange = this.handleDateChange.bind(this);
   }
 
   handleDateChange = (date) => {
     const currentDate = new Date(date);
+    const currentDateHash = {target: {name: 'date', value: date}};
     this.setState({selectedDate: currentDate});
-    const currentDateHash = {target: {name: 'date', value: currentDate}};
-    this.props.onChange(currentDateHash);
+    this.props.onChange(currentDateHash);    
+  }
+
+  UNSAFE_componentWillReceiveProps(newProps) {
+    this.setState({ selectedDate: newProps.event_date });
   }
 
   render () {
@@ -42,8 +46,8 @@ export default class MaterialUIPickers extends React.Component {
             variant="inline"
             format="MM/dd/yyyy"
             margin="normal"
-            label="Date picker inline"
-            value={this.props.event_date}
+            label="Date picker"
+            value={this.state.selectedDate}
             onChange={this.handleDateChange}
             KeyboardButtonProps={{
               'aria-label': 'change date',
@@ -53,7 +57,7 @@ export default class MaterialUIPickers extends React.Component {
             className={classes.textField}
             margin="normal"
             label="Time picker"
-            value={this.props.event_date}
+            value={this.state.selectedDate}
             onChange={this.handleDateChange}
             KeyboardButtonProps={{
               'aria-label': 'change time',
@@ -62,7 +66,6 @@ export default class MaterialUIPickers extends React.Component {
         </Grid>
       </MuiPickersUtilsProvider>;
     };
-
     return (
       <DateAndTime />
     );

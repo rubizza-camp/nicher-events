@@ -8,10 +8,10 @@ export default class UpdatedEvent extends React.Component {
     this.state = { event: {name: '', description: '', status: '', date: ''} };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
-    this.hadleRedirect = this.hadleRedirect.bind(this);
+    this.handleRedirect = this.handleRedirect.bind(this);
   }
 
-  hadleRedirect() {
+  handleRedirect() {
     let userRole;
     if (sessionStorage.user !== undefined) {
       userRole = JSON.parse(sessionStorage.user_attributes).role;
@@ -22,7 +22,7 @@ export default class UpdatedEvent extends React.Component {
   }
 
   componentDidMount() {
-    this.hadleRedirect();
+    this.handleRedirect();
     let headers = {};
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);

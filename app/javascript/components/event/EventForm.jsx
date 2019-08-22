@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import { FormButton } from '../../ui/Buttons';
 import { RadioGroupStatus } from '../../ui/RadioGroupStatus';
 import { FormTextField } from '../../ui/FormTextField';
-import MaterialUIPickers from '../../ui/DateAndTime';
+import DatePickers from '../../ui/DatePickers';
 
 export default class EventForm extends React.Component {
   constructor(props) {
@@ -18,7 +18,7 @@ export default class EventForm extends React.Component {
     this.setState({ event: updatedEvent });
   }
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     const newObjectEvent = Object.assign({}, newProps.event);
     this.setState({ event: newObjectEvent });
   }
@@ -44,7 +44,7 @@ export default class EventForm extends React.Component {
             label="Name"
             onChange={this.handleChange}
           />
-          <MaterialUIPickers onChange={this.handleChange} event_date={event.date} />
+          <DatePickers onChange={this.handleChange} event_date={event.date} />
           <RadioGroupStatus onChange={this.handleChange} event_status={event.status} />
           <FormTextField
             value={event.description}
