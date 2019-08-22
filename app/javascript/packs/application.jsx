@@ -9,6 +9,7 @@ import VenueIndex from '../components/venue/VenueIndex';
 import VenueShow from '../components/venue/VenueShow';
 import VenueEdit from '../components/venue/VenueEdit';
 import VenueNew from '../components/venue/VenueNew';
+import Account from '../components/account/Account';
 import ForgotPassword from '../components/ForgotPassword';
 import ResetPassword from '../components/ResetPassword';
 import Box from '@material-ui/core/Box';
@@ -32,9 +33,10 @@ const RegisterNavigation = () => (
 const SignOutNavigation = () => (
   <AppBar >
     <Toolbar>
-    <NavButtons to="/" text='Main page' />
-    <NavButtons to="/venues" text='Venues' />
-    <NavButtons to="/sign_out" text='Sign Out' />
+      <NavButtons to="/" text='Main page' />
+      <NavButtons to="/venues" text='Venues' />
+      <NavButtons to="/user_profile" text='Your profile' />
+      <NavButtons to="/sign_out" text='Sign Out' />
     </Toolbar>
   </AppBar>
 );
@@ -100,6 +102,7 @@ const Main = () => (
     <DefaultLayout exact path="/venues/new" component={VenueNew} />
     <DefaultLayout exact path='/venues/:id' component={VenueShow} />
     <DefaultLayout exact path='/venues/:id/edit' component={VenueEdit} />
+    <DefaultLayout exact path='/user_profile' component={Account} />
   </Switch>
 );
 
