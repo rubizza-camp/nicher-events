@@ -51,10 +51,10 @@ RSpec.describe Api::V1::OrganizationsController, type: :controller do
       end
     end
 
-    context 'when user id unauthorized' do
+    context 'when user is unauthorized' do
       let(:user) { build(:user, role: 'attendee') }
 
-      it 'returns not_found status' do
+      it 'returns unauthorized status' do
         get :show, params: { id: organization.id }
         expect(response).to have_http_status(401)
       end

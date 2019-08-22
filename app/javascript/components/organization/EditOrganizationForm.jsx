@@ -3,7 +3,7 @@ import axios from 'axios';
 import OrganizationForm from './OrganizationForm';
 import Grid from '@material-ui/core/Grid';
 
-class ModifyedOrganization extends Component {
+class EditOrganizationForm extends Component {
   constructor(props) {
     super(props);
     this.state = { organization: { name: '', description: ''} };
@@ -75,4 +75,4 @@ class ModifyedOrganization extends Component {
   }
 }
 
-export default ModifyedOrganization;
+export default EditOrganizationForm;

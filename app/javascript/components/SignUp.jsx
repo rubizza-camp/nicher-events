@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-export default class SignUp extends React.Component {
+export default class SignUpForm extends React.Component {
   constructor(props) {
     super(props);
   }

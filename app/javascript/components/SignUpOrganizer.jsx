@@ -44,7 +44,7 @@ class SignUpFormOrganizer extends React.Component {
           uid: response.headers['uid']
         }));
       sessionStorage.setItem('user_attributes', JSON.stringify(response.data.data));
-      sessionStorage.setItem('organization_attributes', JSON.stringify(that.state.user_organization_attributes.organization_attributes));
+      sessionStorage.setItem('organization_attributes', JSON.stringify(that.state.user.user_organization_attributes.organization_attributes));
       that.props.history.push('/');
     }).catch(error => {
       that.setState({ errors: error.response.data.errors.full_messages });
@@ -52,15 +52,15 @@ class SignUpFormOrganizer extends React.Component {
   };
 
   handleChange = (user) => {
-    const currentUser = this.state.user;
+    const currentUser = Object.assign({}, this.state.user);
     currentUser[user.target.name] = user.target.value;
-    this.setState(currentUser);
+    this.setState({user: currentUser});
   };
 
   handleChangeForOrganization = (user) => {
-    const currentOrganization = this.state.user;
-    currentOrganization['user_organization_attributes']['organization_attributes'][user.target.name] = user.target.value;
-    this.setState(currentOrganization);
+    const currentUser = Object.assign({}, this.state.user);
+    currentUser['user_organization_attributes']['organization_attributes'][user.target.name] = user.target.value;
+    this.setState({user: currentUser});
   };
 
   render() {

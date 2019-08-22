@@ -12,7 +12,7 @@ import { NavButtons } from '../ui/Buttons';
 import AppBar from '@material-ui/core/AppBar';
 import SignUpOrganizer from '../components/SignUpOrganizer';
 import SignUpAttendee from '../components/SignUpAttendee';
-import ModifyedOrganization from '../components/organization/ModifyedOrganization';
+import EditOrganizationForm from '../components/organization/EditOrganizationForm';
 import OrganizationInfo from '../components/organization/OrganizationInfo';
 import { Router, Route, NavLink, Switch } from 'react-router-dom';
 import { Toolbar } from '@material-ui/core';
@@ -93,7 +93,7 @@ const Main = () => (
     <DefaultLayout exact path="/sign_up" component={SignUpAttendee} />
     <DefaultLayout path="/sign_in" component={SignIn} />
     <DefaultLayout path="/sign_out" component={SignOut} />
-    <DefaultLayout exact path='/organizations/:id/edit' component={ModifyedOrganization} />
+    <DefaultLayout exact path='/organizations/:id/edit' component={EditOrganizationForm} />
     <DefaultLayout exact path='/organizations/:id' component={OrganizationInfo} />
   </Switch>
 );

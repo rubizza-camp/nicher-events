@@ -45,9 +45,9 @@ export default class SignUpFormAttendee extends React.Component {
   };
 
   handleChange = (user) => {
-    const currentUser = this.state.user;
+    const currentUser = Object.assign({}, this.state.user);
     currentUser[user.target.name] = user.target.value;
-    this.setState(currentUser);
+    this.setState({user: currentUser});
   };
 
   render() {
