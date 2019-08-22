@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { FormButton } from '../../ui/Buttons';
+import { FormTextField } from '../../ui/TextFileds';
+import Grid from '@material-ui/core/Grid';
 
 class OrganizationForm extends Component {
   constructor(props) {
@@ -7,35 +10,43 @@ class OrganizationForm extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(organization) {
-    const currentOrganization = this.props.organization;
+  handleChange = (organization) => {
+    const currentOrganization = Object.assign({}, this.state.organization);
     currentOrganization[organization.target.name] = organization.target.value;
-    this.setState(currentOrganization);
+    this.setState({organization: currentOrganization});
+  }
+
+  UNSAFE_componentWillReceiveProps(newProps) {
+    const newOrganization = Object.assign({}, newProps.organization);
+    this.setState({organization: newOrganization});
   }
 
   render() {
-    const {organization} = this.props;
+    const {organization} = this.state;
     return(
-      <form onSubmit={this.props.handleSubmit}>
-        <p>{this.props.errors}</p>
-        <div className='form-group'>
-          <label htmlFor='name'>Name</label>
+      <form onSubmit={(e) => {this.props.handleSubmit(e, this.state.organization);}}>
+        <Grid container direction="column" justify="center" alignItems="center">
+          <p>{this.props.errors}</p>
+          <div>
+            <FormTextField type="text"
+              name="name"
+              label="Name"
+              value={organization.name}
+              onChange={this.handleChange} />
+          </div>
           <br/>
-          <input type='text' name='name' value={organization.name}
-            onChange={this.handleChange} className='form-control' />
-        </div>
-        <br/>
-        <div>
-          <label htmlFor='description'>Description</label>
-          <br/>
-          <textarea name='description' rows='10' value={organization.description}
-            onChange={this.handleChange} className='form-controls' />
-        </div>
-        <div className='btn-group'>
-          <button type='submit' className='btn btn-dark'>Save</button>
-          <button type='button' onClick={this.props.handleCancel}
-            className='btn btn-secondary'>Cancel</button>
-        </div>
+          <div>
+            <FormTextField type="text"
+              name="description"
+              label="Description"
+              value={organization.description}
+              onChange={this.handleChange} />
+          </div>
+          <div className='btn-group'>
+            <FormButton text="Save" color="primary" />
+            <FormButton text="Cancel" onClick={this.props.handleCancel} />
+          </div>
+        </Grid>  
       </form>
     );
   }

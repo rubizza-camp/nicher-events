@@ -37,15 +37,14 @@ Organization.create([
     in the trade network of the Republic of Belarus, as well as repeated victories at various consumer preferences 
     contests (Product of the Year, Choice of the Year, World Food, etc.) are a significant incentive for the 
     entire company team.'
+    users: [User.first]
   },
   {
-    name: 'CyberGizer',
+    name: 'Cybergizer',
     description: 'At Cybergizer, we are nuts about code style and concepts of engineering excellence.
     We are empowering people and companies to unlock hidden potential, imagine, and invent their future with
     the help of new approaches and technologies.
     That’s how we bring product design and development to the next level.'
+    users: [User.second]
   }
 ])
-
-Organization.first.users = [User.first]
-Organization.second.users = [User.second]

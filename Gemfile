@@ -19,6 +19,7 @@ gem 'webpacker', '~> 4.0.7'
 # gem 'mini_racer', platforms: :ruby
 
 gem 'active_model_serializers', '~> 0.10.10'
+gem 'draper', '~> 3.1'
 gem 'foreman', '~> 0.85.0'
 gem 'thor', '~> 0.19.1'
 

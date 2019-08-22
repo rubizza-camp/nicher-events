@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Grid from '@material-ui/core/Grid';
+import { FormButton } from '../../ui/Buttons';
 
 class OrganizationInfo extends Component {
   constructor(props) {
@@ -42,15 +44,16 @@ class OrganizationInfo extends Component {
     }
     return (
       <div>
-        <p>{errorsMessage}</p>
-        <h3>{this.state.organization.name}</h3>
-        <p>{this.state.organization.description}</p>
-        <p>
-          <Link to={editOrganizationUrl}
-            className='btn btn-outline-dark'>Edit</Link>
-          <Link to={organizationListUrl}
-            className='btn btn-outline-dark'>Cancel</Link>
-        </p>
+        <Grid container direction="column" justify="center" alignItems="center">
+          <p>{errorsMessage}</p>
+          <h3>{this.state.organization.name}</h3>
+          <p>{this.state.organization.description}</p>
+          <p>
+            <FormButton component={Link} to={editOrganizationUrl}
+              color="primary" text="Edit" />
+            <FormButton component={Link} to={organizationListUrl} text="Cancel" />
+          </p>
+        </Grid>  
       </div>
     );
   }

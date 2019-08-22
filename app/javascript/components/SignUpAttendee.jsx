@@ -1,5 +1,8 @@
 import React from 'react';
 import Axios from 'axios';
+import { FormButton } from '../ui/Buttons';
+import { FormTextField } from '../ui/TextFileds';
+import Grid from '@material-ui/core/Grid';
 
 export default class SignUpFormAttendee extends React.Component {
   constructor() {
@@ -62,40 +65,52 @@ export default class SignUpFormAttendee extends React.Component {
         <div className="errors">
           {errorMessages}
         </div>
+        <Grid container direction="column" justify="center" alignItems="center">
+          <h1>Sign Up</h1>
+        </Grid>
         <form onSubmit={this.handleSignUp}>
-          <div>
-            <label htmlFor="first_name">First name</label><br/>
-            <input type="text" name="first_name" value={user.first_name} onChange={this.handleChange}
-              className="form-control" />
-          </div>
+          <Grid container direction="column" justify="center" alignItems="center">
+            <div>
+              <FormTextField type="text"
+                name="first_name"
+                label="First name"
+                value={user.first_name}
+                onChange={this.handleChange} />
+            </div>
 
-          <div>
-            <label htmlFor="last_name">Last name</label><br/>
-            <input type="text" name="last_name" value={user.last_name} onChange={this.handleChange}
-              className="form-control" />
-          </div>
+            <div>
+              <FormTextField type="text"
+                name="last_name"
+                label="Last name"
+                value={user.last_name}
+                onChange={this.handleChange} />  
+            </div>
 
-          <div>
-            <label htmlFor="email">E-mail</label><br/>
-            <input type="text" name="email" value={user.email} onChange={this.handleChange}
-              className="form-control" />
-          </div>
+            <div>
+              <FormTextField type="text"
+                name="email"
+                label="E-mail"
+                value={user.email}
+                onChange={this.handleChange} />  
+            </div>
 
-          <div>
-            <label htmlFor="phone">Phone</label><br/>
-            <input type="text" name="phone" value={user.phone} onChange={this.handleChange}
-              className="form-control" />
-          </div>
+            <div>
+              <FormTextField type="text"
+                name="phone"
+                label="Phone"
+                value={user.phone}
+                onChange={this.handleChange} />  
+            </div>
 
-          <div>
-            <label htmlFor="password">Password</label><br/>
-            <input type="password" name="password" value={user.password} onChange={this.handleChange}
-              className="form-control" />
-          </div>
-
-          <button type="submit" className="btn_sign_up">
-            Sign up
-          </button>
+            <div>
+              <FormTextField type="text"
+                name="password"
+                label="Password"
+                value={user.password}
+                onChange={this.handleChange} />  
+            </div>
+            <FormButton text="Sign up" />
+          </Grid>
         </form>
       </div>
     );

@@ -1,6 +1,9 @@
 import React from 'react';
 import Axios from 'axios';
 import {withRouter} from 'react-router';
+import { FormButton } from '../ui/Buttons';
+import { FormTextField } from '../ui/TextFileds';
+import Grid from '@material-ui/core/Grid';
 
 class SignUpFormOrganizer extends React.Component {
   constructor() {
@@ -75,55 +78,70 @@ class SignUpFormOrganizer extends React.Component {
         <div className="errors">
           {errorMessages}
         </div>
+        <Grid container direction="column" justify="center" alignItems="center">
+          <h1>Sign Up</h1>
+        </Grid>
         <form onSubmit={this.handleSignUp}>
-          <div>
-            <label htmlFor="first_name">First name</label><br/>
-            <input type="text" name="first_name" value={user.first_name} onChange={this.handleChange}
-              className="form-control" />
-          </div>
+          <Grid container direction="column" justify="center" alignItems="center">
+            <div>
+              <FormTextField type="text"
+                name="first_name"
+                label="First name"
+                value={user.first_name}
+                onChange={this.handleChange} />
+            </div>
 
-          <div>
-            <label htmlFor="last_name">Last name</label><br/>
-            <input type="text" name="last_name" value={user.last_name} onChange={this.handleChange}
-              className="form-control" />
-          </div>
+            <div>
+              <FormTextField type="text"
+                name="last_name"
+                label="Last name"
+                value={user.last_name}
+                onChange={this.handleChange} />  
+            </div>
 
-          <div>
-            <label htmlFor="email">E-mail</label><br/>
-            <input type="text" name="email" value={user.email} onChange={this.handleChange}
-              className="form-control" />
-          </div>
+            <div>
+              <FormTextField type="text"
+                name="email"
+                label="E-mail"
+                value={user.email}
+                onChange={this.handleChange} />  
+            </div>
 
-          <div>
-            <label htmlFor="phone">Phone</label><br/>
-            <input type="text" name="phone" value={user.phone} onChange={this.handleChange}
-              className="form-control" />
-          </div>
+            <div>
+              <FormTextField type="text"
+                name="phone"
+                label="Phone"
+                value={user.phone}
+                onChange={this.handleChange} />  
+            </div>
 
-          <div>
-            <label htmlFor="password">Password</label><br/>
-            <input type="password" name="password" value={user.password} onChange={this.handleChange}
-              className="form-control" />
-          </div>
+            <div>
+              <FormTextField type="text"
+                name="password"
+                label="Password"
+                value={user.password}
+                onChange={this.handleChange} />  
+            </div>
 
-          <h1>Create Organization</h1>
-          <div className='form-group'>
-            <label htmlFor='name'>Organization Name</label>
+            <h1>Create Organization</h1>
+            <div>
+              <FormTextField type="text"
+                name="name"
+                label="Organization Name"
+                value={user.user_organization_attributes.organization_attributes.name}
+                onChange={this.handleChangeForOrganization} />  
+            </div>
             <br/>
-            <input type='text' name="name" value={user.user_organization_attributes.organization_attributes.name}
-              onChange={this.handleChangeForOrganization} className='form-control' />
-          </div>
-          <br/>
-          <div>
-            <label htmlFor='description'>Organization Description</label>
-            <br/>
-            <textarea name='description' rows='10' value={user.user_organization_attributes.organization_attributes.description}
-              onChange={this.handleChangeForOrganization} className='form-controls' />
-          </div>
-
-          <button type="submit" className="btn_sign_up">
-            Sign up
-          </button>
+            <div>
+              <FormTextField type="text"
+                name="description"
+                label="Organization Description"
+                rows="10"
+                value={user.user_organization_attributes.organization_attributes.description}
+                onChange={this.handleChangeForOrganization} />  
+            </div>
+            <FormButton text="Sign up" />
+          </Grid>
         </form>
       </div>
     );

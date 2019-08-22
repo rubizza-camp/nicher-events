@@ -1,5 +1,4 @@
 require 'faker'
-require 'factory_organization'
 
 FactoryBot.define do
   factory :organization do

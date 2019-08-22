@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import OrganizationForm from './OrganizationForm';
+import Grid from '@material-ui/core/Grid';
 
-class EditedOrganization extends Component {
+class ModifyedOrganization extends Component {
   constructor(props) {
     super(props);
     this.state = { organization: { name: '', description: ''} };
@@ -12,7 +13,7 @@ class EditedOrganization extends Component {
 
   componentDidMount() {
     let headers = {};
-    if(sessionStorage.user) {
+    if(sessionStorage.user != undefined) {
       const userRole = JSON.parse(sessionStorage.user_attributes).role;
       if(userRole === 'organizer') {
         headers = JSON.parse(sessionStorage.user);
@@ -25,8 +26,8 @@ class EditedOrganization extends Component {
       .then(res =>{ this.setState({ organization: res.data }); });
   }
 
-  handleSubmit = (organization) => {
-    organization.preventDefault();
+  handleSubmit = (e, organization) => {
+    e.preventDefault();
     let headers = {};
     if(sessionStorage.user) {
       const userRole = JSON.parse(sessionStorage.user_attributes).role;
@@ -35,7 +36,7 @@ class EditedOrganization extends Component {
       }
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    axios.patch(`/api/v1/organizations/${this.props.match.params.id}`, this.state.organization,
+    axios.patch(`/api/v1/organizations/${this.props.match.params.id}`, organization,
       { headers: headers })
       .then(() => {
         this.props.history.push(`/organizations/${this.state.organization.id}`);
@@ -65,11 +66,13 @@ class EditedOrganization extends Component {
     }
     return (
       <div>
-        <h1>Edit</h1>
-        {organizationForm}
+        <Grid container direction="column" justify="center" alignItems="center">
+          <h1>Edit Organization</h1>
+          {organizationForm}
+        </Grid>  
       </div>
     );
   }
 }
 
-export default EditedOrganization;
+export default ModifyedOrganization;

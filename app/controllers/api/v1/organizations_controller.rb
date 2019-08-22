@@ -4,7 +4,7 @@ class Api::V1::OrganizationsController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    if @organization && organization_owner?
+    if @organization && current_user.decorate.organization_member?(@organization.id)
       render json: @organization
     else
       head :not_found
@@ -12,12 +12,12 @@ class Api::V1::OrganizationsController < ApplicationController
   end
 
   def update
-    return head :unauthorized unless organization_owner?
+    return head :unauthorized unless current_user.decorate.organization_member?(@organization.id)
 
-    if current_user.organization.update(organization_params)
-      render json: current_user.organization
+    if @organization.update(organization_params)
+      render json: @organization
     else
-      render json: current_user.organization.errors.full_messages, status: :unprocessable_entity
+      render json: @organization.errors.full_messages, status: :unprocessable_entity
     end
   end
 
@@ -25,11 +25,6 @@ class Api::V1::OrganizationsController < ApplicationController
 
   def set_organization
     @organization = Organization.find_by(id: params[:id])
-  end
-
-  def organization_owner?
-    organization_id = @organization.id
-    UserDecorator.new(current_user).organization_owner?(organization_id)
   end
 
   def organization_params
