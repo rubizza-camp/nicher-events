@@ -35,6 +35,13 @@ export default class DatePickers extends React.Component {
     this.setState({ selectedDate: newProps.event_date });
   }
 
+  shouldComponentUpdate(nextProps) {
+    if (this.props.event_date !== nextProps.event_date) {
+      return true;
+    }
+    return false;
+  }
+
   render () {
     const DateAndTime = () => {
       const classes = useStyles();

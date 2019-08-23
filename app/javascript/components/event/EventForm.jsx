@@ -8,19 +8,20 @@ import DatePickers from '../../ui/DatePickers';
 export default class EventForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { event: {name: '', description: '', status: '', date: ''} };
+    this.state = { event: {name: '', description: '', status: '', date: new Date()} };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange = (event) => {
-    const updatedEvent = Object.assign({}, this.state.event);
+    var prevState = {...this.state};
+    var updatedEvent = {...this.state.event};
     updatedEvent[event.target.name] = event.target.value;
-    this.setState({ event: updatedEvent });
+    this.setState({ ...prevState, event: updatedEvent });
   }
 
   UNSAFE_componentWillReceiveProps(newProps) {
-    const newObjectEvent = Object.assign({}, newProps.event);
-    this.setState({ event: newObjectEvent });
+    var newEvent = {...newProps.event};
+    this.setState({ event: newEvent });
   }
 
   render () {
