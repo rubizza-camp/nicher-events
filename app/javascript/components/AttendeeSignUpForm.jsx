@@ -5,8 +5,8 @@ import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
 
 export default class AttendeeSignUpForm extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       user: {
         email: '',
@@ -45,7 +45,7 @@ export default class AttendeeSignUpForm extends React.Component {
   };
 
   handleChange = (user) => {
-    const currentUser = Object.assign({}, this.state.user);
+    var currentUser = {...this.state.user};
     currentUser[user.target.name] = user.target.value;
     this.setState({user: currentUser});
   };

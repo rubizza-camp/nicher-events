@@ -11,13 +11,13 @@ class OrganizationForm extends Component {
   }
 
   handleChange = (organization) => {
-    const currentOrganization = Object.assign({}, this.state.organization);
+    var currentOrganization = {...this.state.organization};
     currentOrganization[organization.target.name] = organization.target.value;
     this.setState({organization: currentOrganization});
   }
 
   UNSAFE_componentWillReceiveProps(newProps) {
-    const newOrganization = Object.assign({}, newProps.organization);
+    var newOrganization = {...newProps.organization};
     this.setState({organization: newOrganization});
   }
 

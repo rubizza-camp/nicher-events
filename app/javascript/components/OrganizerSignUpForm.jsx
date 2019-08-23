@@ -1,13 +1,12 @@
 import React from 'react';
 import Axios from 'axios';
-import {withRouter} from 'react-router';
 import { FormButton } from '../ui/Buttons';
 import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
 
-class OrganizerSignUpForm extends React.Component {
-  constructor() {
-    super();
+export default class OrganizerSignUpForm extends React.Component {
+  constructor(props) {
+    super(props);
     this.state = {
       user: {
         email: '',
@@ -52,13 +51,13 @@ class OrganizerSignUpForm extends React.Component {
   };
 
   handleChange = (user) => {
-    const currentUser = Object.assign({}, this.state.user);
+    var currentUser = {...this.state.user};
     currentUser[user.target.name] = user.target.value;
     this.setState({user: currentUser});
   };
 
   handleChangeForOrganization = (user) => {
-    const currentUser = Object.assign({}, this.state.user);
+    var currentUser = {...this.state.user};
     currentUser['user_organization_attributes']['organization_attributes'][user.target.name] = user.target.value;
     this.setState({user: currentUser});
   };
@@ -147,5 +146,3 @@ class OrganizerSignUpForm extends React.Component {
     );
   }
 }
-
-export default withRouter(OrganizerSignUpForm);

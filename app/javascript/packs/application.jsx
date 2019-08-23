@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from '../components/App';
 import history from './history';
-import SignUp from '../components/SignUp';
+import SignUp from '../components/SignUpForm';
 import SignIn from '../components/SignIn';
 import SignOut from '../components/SignOut';
 import ForgotPassword from '../components/ForgotPassword';
@@ -10,8 +10,6 @@ import ResetPassword from '../components/ResetPassword';
 import Box from '@material-ui/core/Box';
 import { NavButtons } from '../ui/Buttons';
 import AppBar from '@material-ui/core/AppBar';
-import SignUpOrganizer from '../components/SignUpOrganizer';
-import SignUpAttendee from '../components/SignUpAttendee';
 import EditOrganizationForm from '../components/organization/EditOrganizationForm';
 import OrganizationInfo from '../components/organization/OrganizationInfo';
 import { Router, Route, NavLink, Switch } from 'react-router-dom';
@@ -89,8 +87,6 @@ const Main = () => (
     <DefaultLayout exact path="/forgot_password" component={ForgotPassword}/>
     <DefaultLayout path="/reset_password" component={ResetPassword}/>
     <DefaultLayout exact path="/sign_up" component={SignUp} />
-    <DefaultLayout exact path="/sign_up" component={SignUpOrganizer} />
-    <DefaultLayout exact path="/sign_up" component={SignUpAttendee} />
     <DefaultLayout path="/sign_in" component={SignIn} />
     <DefaultLayout path="/sign_out" component={SignOut} />
     <DefaultLayout exact path='/organizations/:id/edit' component={EditOrganizationForm} />

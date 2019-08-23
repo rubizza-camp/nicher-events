@@ -1,6 +1,6 @@
 import React from 'react';
-import SignUpAttendee from './SignUpAttendee';
-import SignUpOrganizer from './SignUpOrganizer';
+import AttendeeSignUpForm from './AttendeeSignUpForm';
+import OrganizerSignUpForm from './OrganizerSignUpForm';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -10,10 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 export default class SignUpForm extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const useStyles = makeStyles(theme => ({
       root: {
@@ -69,10 +65,10 @@ export default class SignUpForm extends React.Component {
             </Tabs>
           </AppBar>
           <TabPanel value={value} index={0}>
-            <SignUpAttendee history={this.props.history} />
+            <AttendeeSignUpForm history={this.props.history} />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <SignUpOrganizer history={this.props.history} />
+            <OrganizerSignUpForm history={this.props.history} />
           </TabPanel>
         </div>
       );
