@@ -7,4 +7,5 @@ class Event < ApplicationRecord
   validates :status, inclusion: { in: %w[social confidential] }
 
   belongs_to :user
+  delegate :organization, to: :user, allow_nil: true
 end

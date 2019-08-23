@@ -6,4 +6,6 @@ class Organization < ApplicationRecord
 
   has_many :user_organizations
   has_many :users, -> { where(role: 'organizer') }, through: :user_organizations
+
+  has_many :events, through: :users
 end

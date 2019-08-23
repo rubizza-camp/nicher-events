@@ -1,31 +1,24 @@
-# rubocop:disable Style/ClassAndModuleChildren
 # :reek:InstanceVariableAssumption
 # :reek:NilCheck
 
 class Api::V1::EventsController < ApplicationController
-  before_action :authenticate_user!, only: %i[create update destroy]
+  before_action :authenticate_user!, :verify_organizer, only: %i[create update destroy]
   before_action :set_current_user, only: %i[index show]
-  before_action :set_current_user_event, only: %i[update destroy]
+  before_action :verify_event_exist, only: %i[show update destroy]
 
   def index
-    @events = if current_user&.organizer?
-                Event.all
-              else
-                Event.where(status: :social)
-              end
-    render json: @events
+    @available_events = social_event
+    @available_events += confidential_event.to_a
+    render json: @available_events
   end
 
   def show
-    return head :not_found unless event
-    return render json: {}, status: :unauthorized unless event_available?
+    return head :forbidden unless available_event.present?
 
-    render json: event
+    render json: available_event
   end
 
   def create
-    return head :not_found unless current_user&.organizer?
-
     @event = current_user.events.new(event_params)
     if @event.save
       render json: @event, status: :created
@@ -35,38 +28,56 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def update
-    return head :not_found unless @current_user_event
+    return head :forbidden unless current_user_organization_event
 
-    if @current_user_event.update(event_params)
-      render json: @current_user_event
+    if @current_user_organization_event.update(event_params)
+      render json: @current_user_organization_event
     else
-      render json: @current_user_event.errors.full_messages, status: :unprocessable_entity
+      render json: @current_user_organization_event.errors.full_messages, status: :unprocessable_entity
     end
   end
 
   def destroy
-    return head :not_found unless @current_user_event
+    return head :forbidden unless current_user_organization_event
 
-    @current_user_event.destroy
+    @current_user_organization_event.destroy
     head :no_content
   end
 
   private
 
+  def verify_event_exist
+    return head :not_found unless event_exist?
+  end
+
+  def verify_organizer
+    return head :forbidden unless current_user&.organizer?
+  end
+
+  def event_exist?
+    Event.find_by(id: params[:id]).present?
+  end
+
+  def social_event
+    @social_event ||= Event.where(status: :social)
+  end
+
+  def confidential_event
+    return unless current_user&.organizer?
+
+    @confidential_event ||= current_user.organization.events.where(status: :confidential).all
+  end
+
   def set_current_user
     authenticate_user! if params[:authentication_required] == 'true'
   end
 
-  def event_available?
-    event&.social? || current_user&.organizer?
+  def available_event
+    @available_event ||= social_event&.find_by(id: params[:id]) || confidential_event&.find_by(id: params[:id])
   end
 
-  def event
-    @event ||= Event.find_by(id: params[:id])
-  end
-
-  def set_current_user_event
-    @current_user_event = current_user.events.find_by(id: params[:id])
+  def current_user_organization_event
+    @current_user_organization_event ||= current_user.organization.events.find_by(id: params[:id])
   end
 
   def event_params
@@ -75,4 +86,3 @@ class Api::V1::EventsController < ApplicationController
     params.require(:event).permit(:name, :date, :description).merge(status: status)
   end
 end
-# rubocop:enable Style/ClassAndModuleChildren

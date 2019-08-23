@@ -1,24 +1,26 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::EventsController, type: :controller do
-  let(:organizer) { create(:user, role: :organizer) }
-  let(:event_of_current_user) { create(:event, user_id: organizer.id) }
+  let(:current_organization) { create(:organization) }
+  let(:first_organizer) { create(:user, role: :organizer, organization: current_organization) }
+  let(:second_organizer) { create(:user, role: :organizer, organization: current_organization) }
+  let(:organization) { create(:organization) }
+  let(:third_organizer) { create(:user, role: :organizer, organization: organization) }
+  let(:event_of_current_organization) { create(:event, user_id: first_organizer.id) }
 
   describe 'DELETE #destroy' do
-    context 'when user is registered' do
+    context 'when user is organizer of current event\'s organization' do
       before do
-        @header = organizer.create_new_auth_token
+        @header = second_organizer.create_new_auth_token
         request.headers.merge!(@header)
       end
 
-      context 'when user is creator' do
-        it 'returns no_content status' do
-          delete :destroy, params: { id: event_of_current_user.id }
-          expect(response).to have_http_status(:no_content)
-        end
+      it 'returns no_content status' do
+        delete :destroy, params: { id: event_of_current_organization.id }
+        expect(response).to have_http_status(:no_content)
       end
 
-      context 'when params is invalid' do
+      context 'when event doesn\'t exist' do
         it 'returns not_found status' do
           delete :destroy, params: { id: -1 }
           expect(response).to have_http_status(:not_found)
@@ -26,22 +28,34 @@ RSpec.describe Api::V1::EventsController, type: :controller do
       end
     end
 
-    context 'when user isn\'t creator of this event' do
+    context 'when user isn\'t organizer of current event\'s organization' do
       before do
-        @user = create(:user)
-        @header = organizer.create_new_auth_token
+        @header = third_organizer.create_new_auth_token
         request.headers.merge!(@header)
       end
 
-      it 'returns not_found status' do
-        delete :destroy, params: { id: @user.id }
-        expect(response).to have_http_status(:not_found)
+      it 'returns forbidden status' do
+        delete :destroy, params: { id: event_of_current_organization.id }
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
+    context 'when user is attendee' do
+      before do
+        @user = create(:user)
+        @header = @user.create_new_auth_token
+        request.headers.merge!(@header)
+      end
+
+      it 'returns forbidden status' do
+        delete :destroy, params: { id: event_of_current_organization.id }
+        expect(response).to have_http_status(:forbidden)
       end
     end
 
     context 'when user is unregistered' do
       it 'returns unauthorized status' do
-        post :create, params: { event: event_of_current_user.attributes }
+        post :create, params: { event: event_of_current_organization.attributes }
         expect(response).to have_http_status(:unauthorized)
       end
     end

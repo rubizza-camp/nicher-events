@@ -1,12 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::EventsController, type: :controller do
-  let!(:event_attributes) { %w[id name date description status user_id] }
-  let(:organizer) { create(:user, role: :organizer) }
+  let!(:event_attributes) { %w[id name date description status organization] }
+  let(:current_organization) { create(:organization) }
+  let(:current_organizer) { create(:user, role: :organizer, organization: current_organization) }
+  let(:organization) { create(:organization) }
+  let(:organizer) { create(:user, role: :organizer, organization: organization) }
 
   describe 'GET #show' do
     context 'when status event is social' do
-      let(:social_event) { create(:event, status: :social, user_id: organizer.id) }
+      let(:social_event) { create(:event, status: :social, user: current_organizer) }
 
       it 'returns json response with event' do
         get :show, params: { id: social_event.id }
@@ -18,32 +21,44 @@ RSpec.describe Api::V1::EventsController, type: :controller do
       end
     end
     context 'when status event is confidential' do
-      let(:confidential_event) { create(:event, status: :confidential, user_id: organizer.id) }
-
       context 'user is\'t organizer' do
         let(:attendee) { create(:user, role: :attendee) }
+        let(:confidential_event) { create(:event, status: :confidential, user: current_organizer) }
 
         before do
           @auth_token = attendee.create_new_auth_token
           request.headers.merge!(@auth_token)
         end
 
-        it 'returns unauthorized status' do
+        it 'returns forbidden status' do
           get :show, params: { id: confidential_event.id }
-          expect(response).to have_http_status(:unauthorized)
+          expect(response).to have_http_status(:forbidden)
         end
       end
 
       context 'when user is organizer' do
         before do
-          @auth_token = organizer.create_new_auth_token
+          @auth_token = current_organizer.create_new_auth_token
           request.headers.merge!(@auth_token)
         end
 
-        it 'returns json response with event' do
-          get :show, params: { id: confidential_event.id }
-          expect(json_response.keys).to eq(event_attributes)
-          expect(json_response['name']).to eq(confidential_event.name)
+        context 'when event belongs to current organization' do
+          let(:confidential_event) { create(:event, status: :confidential, user: current_organizer) }
+
+          it 'returns json response with event' do
+            get :show, params: { id: confidential_event.id }
+            expect(json_response.keys).to eq(event_attributes)
+            expect(json_response['name']).to eq(confidential_event.name)
+          end
+        end
+
+        context 'when event doesn\'t belong to current organization' do
+          let(:confidential_event) { create(:event, status: :confidential, user: organizer) }
+
+          it 'returns forbidden status' do
+            get :show, params: { id: confidential_event.id }
+            expect(response).to have_http_status(:forbidden)
+          end
         end
       end
     end

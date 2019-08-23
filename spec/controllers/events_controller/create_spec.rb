@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::EventsController, type: :controller do
-  let!(:event_attributes) { %w[id name date description status user_id] }
-  let(:organizer) { create(:user, role: :organizer) }
+  let!(:event_attributes) { %w[id name date description status organization] }
+  let(:organization) { create(:organization) }
+  let(:organizer) { create(:user, role: :organizer, organization: organization) }
 
   describe 'POST #create' do
     let(:valid_params) { build(:event, user_id: organizer.id) }
@@ -43,9 +44,9 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         request.headers.merge!(@header)
       end
 
-      it 'returns not_found status' do
+      it 'returns forbidden status' do
         post :create, params: { event: valid_params.attributes }
-        expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status(:forbidden)
       end
     end
 

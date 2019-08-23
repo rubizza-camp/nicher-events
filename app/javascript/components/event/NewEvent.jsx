@@ -27,7 +27,7 @@ export default class NewEvent extends React.Component {
       headers = JSON.parse(sessionStorage.user);
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    Axios.post('/api/v1/events', event, { headers: headers })
+    Axios.post('/api/v1/events', { event: event }, { headers: headers })
       .then(response => this.props.history.push(`/events/${response.data.id}`))
       .catch(error => {
         switch (error.response.statusText) {

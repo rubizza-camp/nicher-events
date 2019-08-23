@@ -40,7 +40,7 @@ export default class UpdatedEvent extends React.Component {
       headers = JSON.parse(sessionStorage.user);
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    Axios.patch(`/api/v1/events/${this.props.match.params.id}`, event, { headers: headers })
+    Axios.patch(`/api/v1/events/${this.props.match.params.id}`, { event: event }, { headers: headers })
       .then(() => this.props.history.push(`/events/${this.state.event.id}`))
       .catch(error => {
         switch (error.response.statusText) {
