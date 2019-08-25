@@ -58,13 +58,8 @@ export default class EventInfo extends React.Component {
       </div>
     );
 
-    let userRole;
-    if (sessionStorage.user !== undefined) {
-      userRole = JSON.parse(sessionStorage.user_attributes).role;
-    }
-
     let eventPanel;
-    if (userRole == 'organizer') {
+    if (event.available_to_edit) {
       eventPanel = <EventPanel />;
     }
 
