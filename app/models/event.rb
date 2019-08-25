@@ -8,4 +8,7 @@ class Event < ApplicationRecord
 
   belongs_to :user
   delegate :organization, to: :user, allow_nil: true
+
+  has_many :attendances
+  has_many :users, through: :attendances
 end

@@ -40,6 +40,7 @@ class Api::V1::EventsController < ApplicationController
   def destroy
     return head :forbidden unless current_user_organization_event
 
+    @current_user_organization_event.attendances.destroy_all
     @current_user_organization_event.destroy
     head :no_content
   end

@@ -10,6 +10,8 @@ export default class EventInfo extends React.Component {
     this.state = { event: {} };
     this.handleDelete = this.handleDelete.bind(this);
     this.fetchAvailableEvent = this.fetchAvailableEvent.bind(this);
+    this.handleSubscribe = this.handleSubscribe.bind(this);
+    this.handleUnsubscribe = this.handleUnsubscribe.bind(this);
   }
 
   fetchAvailableEvent() {
@@ -46,6 +48,30 @@ export default class EventInfo extends React.Component {
       });
   }
 
+  handleSubscribe = () => {
+    let headers = {};
+    if (sessionStorage.user) {
+      headers = JSON.parse(sessionStorage.user);
+    }
+    headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
+    Axios.post(`/api/v1/events/${this.props.match.params.id}/attendances`, {}, { headers: headers })
+      .then(() => {
+        this.fetchAvailableEvent();
+      });
+  }
+
+  handleUnsubscribe = () => {
+    let headers = {};
+    if (sessionStorage.user) {
+      headers = JSON.parse(sessionStorage.user);
+    }
+    headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
+    Axios.delete(`/api/v1/events/${this.props.match.params.id}/attendances`, { headers: headers })
+      .then(() => {
+        this.fetchAvailableEvent();
+      });
+  }
+
   render() {
     const { event } = this.state;
     const editEventUrl = `/events/${event.id}/edit`;
@@ -53,16 +79,28 @@ export default class EventInfo extends React.Component {
     const eventInfo =  `${event.id} - ${event.status}`;
     const EventPanel = () => (
       <div>
-        <FormButton component={Link} to={editEventUrl} color="primary" text="Edit" />
-        <FormButton color="secondary" onClick={this.handleDelete} text="Delete" />
+        <FormButton component={Link} to={editEventUrl} text="Edit" color="primary" />
+        <FormButton onClick={this.handleDelete} text="Delete" color="secondary" />
       </div>
     );
-
+    let subscribeButton;
+    if (event.subscribed) {
+      subscribeButton = <FormButton onClick={this.handleUnsubscribe} text='Unsubscribe' color="secondary" />;
+    }
+    else {
+      subscribeButton = <FormButton onClick={this.handleSubscribe} text='Subscribe' color="primary" />;
+    }
     let eventPanel;
     if (event.available_to_edit) {
       eventPanel = <EventPanel />;
     }
-
+    let subscribePanel;
+    if (sessionStorage.user_attributes !== undefined) {
+      let user_attributes = JSON.parse(sessionStorage.user_attributes);
+      if (user_attributes.role === 'attendee') {
+        subscribePanel = subscribeButton;
+      }
+    }
     let errorsMessage;
     if (this.state.errors)  {
       errorsMessage = <div>
@@ -71,16 +109,26 @@ export default class EventInfo extends React.Component {
         ))}
       </div>;
     }
-
+    let member_list;
+    if (this.state.event.users)  {
+      member_list = <ul>
+        {this.state.event.users.map((user) => (
+          <li key={user.id}>{user.first_name}</li>
+        ))}
+      </ul>;
+    }
+  
     return (
       <Grid container direction="column" justify="center" alignItems="center">
         {errorsMessage}
+        {member_list}
         <h2>{event.name}</h2>
         <p>Info: {eventInfo}</p>
         <p>Date: {event.date}</p>
         <p>Description: {event.description}</p>
         <Grid container direction="row" justify="center">
           {eventPanel}
+          {subscribePanel}
           <FormButton component={Link} to={listEventsUrl} text='Cancel' />
         </Grid>
         <hr/>

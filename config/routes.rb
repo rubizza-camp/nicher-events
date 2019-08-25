@@ -5,7 +5,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users
       resources :organizations
-      resources :events
+      resources :events do
+        post :attendances, to: 'attendances#create'
+        delete :attendances, to: 'attendances#destroy'
+      end
     end
   end
   get '*page', to: 'welcome#index',
