@@ -83,6 +83,13 @@ ActiveRecord::Schema.define(version: 2019_08_28_141558) do
     t.datetime "updated_at", null: false
     t.index ["organization_id"], name: "index_user_organizations_on_organization_id"
     t.index ["user_id"], name: "index_user_organizations_on_user_id"
+  create_table "comments", force: :cascade do |t|
+    t.text "text"
+    t.integer "rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -125,4 +132,5 @@ ActiveRecord::Schema.define(version: 2019_08_28_141558) do
   add_foreign_key "events", "users"
   add_foreign_key "user_organizations", "organizations"
   add_foreign_key "user_organizations", "users"
+  add_foreign_key "comments", "users"
 end

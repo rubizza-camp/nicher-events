@@ -92,3 +92,17 @@ User.second.events.create([
     people_capacity: rand(99)
   )
 end
+
+Comment.create([
+  {
+    text: 'Good',
+    rating: 5,
+    user_id: 1
+  },
+
+  {
+    text: 'Bad',
+    rating: 2,
+    user_id: 2
+  }
+])
