@@ -27,7 +27,6 @@ class Api::V1::CommentsController < ApplicationController
   end
 
   def destroy
-    return head :not_found unless @current_user_comment
     Comment.find_by(id: params[:id]).destroy
     head :no_content
   end
