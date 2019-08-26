@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users
       resources :organizations
+      resources :comments
     end
   end
   get '*page', to: 'welcome#index',
