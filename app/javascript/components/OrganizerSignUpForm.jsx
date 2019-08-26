@@ -44,6 +44,7 @@ export default class OrganizerSignUpForm extends React.Component {
         }));
       sessionStorage.setItem('user_attributes', JSON.stringify(response.data.data));
       sessionStorage.setItem('organization_attributes', JSON.stringify(that.state.user.user_organization_attributes.organization_attributes));
+      sessionStorage.removeItem('sign_up');
       that.props.history.push('/');
     }).catch(error => {
       that.setState({ errors: error.response.data.errors.full_messages });
@@ -115,7 +116,7 @@ export default class OrganizerSignUpForm extends React.Component {
             </div>
 
             <div>
-              <FormTextField type="text"
+              <FormTextField type="password"
                 name="password"
                 label="Password"
                 value={user.password}
