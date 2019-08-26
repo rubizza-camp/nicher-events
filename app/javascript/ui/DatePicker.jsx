@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default class DatePickers extends React.Component {
+export default class DatePicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = { selectedDate: new Date()};

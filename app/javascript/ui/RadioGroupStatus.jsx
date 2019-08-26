@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const RadioGroupStatus = (params)=>{
+export const RadioGroupStatus = (params) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>

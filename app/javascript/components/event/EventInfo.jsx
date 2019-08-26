@@ -67,8 +67,8 @@ export default class EventInfo extends React.Component {
       headers = JSON.parse(sessionStorage.user);
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    const attendance_id = this.state.event.attendance_id;
-    const attendanceDeleteUrl = `/api/v1/events/${this.props.match.params.id}/attendances/${attendance_id}`;
+    const attendanceId = this.state.event.attendance_id;
+    const attendanceDeleteUrl = `/api/v1/events/${this.props.match.params.id}/attendances/${attendanceId}`;
     Axios.delete(attendanceDeleteUrl, { headers: headers })
       .then(() => {
         this.fetchAvailableEvent();

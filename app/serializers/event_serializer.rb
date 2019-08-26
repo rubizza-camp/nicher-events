@@ -9,7 +9,7 @@ class EventSerializer < ActiveModel::Serializer
   end
 
   def available_to_edit
-    current_user.available_to_edit_event?(object.id) if current_user&.organizer?
+    current_user&.available_to_edit_event?(object.id)
   end
 
   def available_to_subscribed
@@ -17,7 +17,7 @@ class EventSerializer < ActiveModel::Serializer
   end
 
   def attendance_id
-    object.decorate.attendance?(current_user.id) if current_user&.available_to_subscribe?(object.id)
+    object.decorate.already_subscribed_by_user?(current_user.id) if current_user&.available_to_subscribe?(object.id)
   end
 end
 # rubocop:enable Metrics/LineLength

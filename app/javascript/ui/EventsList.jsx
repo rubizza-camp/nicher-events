@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   }, 
 }));
 
-export const  EventsList = (params) => {
+export const EventsList = (params) => {
   const classes = useStyles();
   function IconPanel(props) {
     let keyIcon;

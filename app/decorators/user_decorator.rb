@@ -6,7 +6,7 @@ class UserDecorator < Draper::Decorator
   end
 
   def available_to_edit_event?(id)
-    organization.events.find_by(id: id).present?
+    organizer? && organization.events.find_by(id: id).present?
   end
 
   def available_to_subscribe?(id)

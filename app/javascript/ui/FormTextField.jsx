@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const  FormTextField = (params) => {
+export const FormTextField = (params) => {
   const classes = useStyles();
   return (
     <TextField className={classes.textField} margin="normal" variant="outlined" {...params} />  

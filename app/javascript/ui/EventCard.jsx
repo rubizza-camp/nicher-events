@@ -67,4 +67,4 @@ export const  EventCard = (params) => {
       </CardActions>
     </Card>
   );
-}
+};

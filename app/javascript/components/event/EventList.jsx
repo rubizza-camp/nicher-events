@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import Axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { FormButton } from '../../ui/Buttons';
-import { EventsList } from '../../ui/EventsList';
 import { EventCard } from '../../ui/EventCard';
 
 export default class EventList extends React.Component {
@@ -41,15 +40,14 @@ export default class EventList extends React.Component {
 
     let createdButton;
     if (userRole == 'organizer') {
-      createdButton =  <FormButton component={Link} to={createEventUrl} color="primary" text='Create Event'/>;
+      createdButton =  <FormButton component={Link} to={createEventUrl} color="primary" text='Create Event' />;
     }
 
     return (
       <div>
         {createdButton}
         <Grid container direction="row" justify="center" alignItems="center">
-          {/* <EventsList events={this.state.events} /> */}
-          {this.state.events.map(event => ( <EventCard event={event} /> ))}
+          {this.state.events.map(event => ( <EventCard key={event.id} event={event} /> ))}
         </Grid>
       </div>
     );
