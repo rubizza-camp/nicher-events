@@ -4,6 +4,10 @@ import Axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { FormButton } from '../../ui/Buttons';
 import { HomeIcon, KeyIcon } from '../../ui/IconsCollection';
+import { CommentCard } from '../../ui/CommentCard';
+import CommentForm from '../comments/CommentForm';
+import CommentDelete from '../comments/CommentDelete';
+import CommentUpdate from '../comments/CommentUpdate';
 
 export default class EventInfo extends React.Component {
   constructor(props) {
@@ -76,10 +80,13 @@ export default class EventInfo extends React.Component {
   }
 
   render() {
+    debugger
     const { event } = this.state;
+    debugger
     const editEventUrl = `/events/${event.id}/edit`;
     const listEventsUrl = '/events';
     const eventInfo =  `${event.id} - ${event.status}`;
+   
     const EventPanel = () => (
       <div>
         <FormButton component={Link} to={editEventUrl} text="Edit" color="primary" />
@@ -122,6 +129,11 @@ export default class EventInfo extends React.Component {
           <li key={user.id}>{user.first_name}</li>
         ))}
       </ul>;
+    }
+
+    let commentForm
+    if (sessionStorage.user !== undefined) {
+      commentForm = <CommentForm comment={this.state.comment} errors={this.state.errors} handleSubmit={this.handleSubmit} />
     }
   
     return (

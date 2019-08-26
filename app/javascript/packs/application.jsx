@@ -12,6 +12,7 @@ import VenueNew from '../components/venue/VenueNew';
 import Account from '../components/UserProfile';
 import ForgotPassword from '../components/ForgotPassword';
 import ResetPassword from '../components/ResetPassword';
+import CommentsList from '../components/comments/CommentsList';
 import Box from '@material-ui/core/Box';
 import { NavButtons } from '../ui/Buttons';
 import AppBar from '@material-ui/core/AppBar';
@@ -109,6 +110,7 @@ const Main = () => (
     <DefaultLayout exact path='/venues/:id' component={VenueShow} />
     <DefaultLayout exact path='/venues/:id/edit' component={VenueEdit} />
     <DefaultLayout exact path='/user_profile' component={Account} />
+    <DefaultLayout exact path="/comments" component={CommentsList}/>
   </Switch>
 );
 

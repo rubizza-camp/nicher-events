@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         # delete :attendances, to: 'attendances#destroy'
       end
       resources :users, :venues
+      resources :comments
     end
   end
 

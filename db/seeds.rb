@@ -83,3 +83,19 @@ User.second.events.create([
     status: Event.statuses.keys.sample,
   }
 ])
+
+Comment.create([
+  {
+    text: 'Good',
+    rating: 5,
+    user_id: 1,
+    event_id: 2
+  },
+
+  {
+    text: 'Bad',
+    rating: 2,
+    user_id: 2,
+    event_id: 2
+  }
+])
