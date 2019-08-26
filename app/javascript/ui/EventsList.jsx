@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Link } from 'react-router-dom';
+import { HomeIcon, KeyIcon } from './IconsCollection';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,6 +23,22 @@ const useStyles = makeStyles(theme => ({
 
 export const  EventsList = (params) => {
   const classes = useStyles();
+  function IconPanel(props) {
+    let keyIcon;
+    if (props.event.status === 'confidential') {
+      keyIcon = <KeyIcon />;
+    }
+    let homeIcon;
+    if (props.event.available_to_edit) {
+      homeIcon = <HomeIcon />;
+    }
+    return (
+      <div>
+        {keyIcon}
+        {homeIcon}
+      </div>
+    );}
+
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
@@ -38,6 +55,7 @@ export const  EventsList = (params) => {
               <TableCell component="th" scope="row">
                 <h2><Link to={`/events/${event.id}`}>{event.name}</Link></h2>
               </TableCell>
+              <TableCell><IconPanel event={event} /></TableCell>
               <TableCell align="right"><h3>{event.date}</h3></TableCell>
               <TableCell align="right"><h3>{event.status}</h3></TableCell>
             </TableRow>

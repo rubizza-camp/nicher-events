@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { FormButton } from '../../ui/Buttons';
+import { HomeIcon, KeyIcon } from '../../ui/IconsCollection';
 
 export default class EventInfo extends React.Component {
   constructor(props) {
@@ -91,9 +92,16 @@ export default class EventInfo extends React.Component {
       subscribeButton = <FormButton onClick={this.handleSubscribe} text='Subscribe' color="primary" />;
     }
     let eventPanel;
+    let homeIcon;
     if (event.available_to_edit) {
       eventPanel = <EventPanel />;
+      homeIcon = <HomeIcon />;
     }
+    let keyIcon;
+    if (event.status === 'confidential') {
+      keyIcon = <KeyIcon />;
+    }
+  
     let subscribePanel;
     if (sessionStorage.user_attributes !== undefined) {
       let user_attributes = JSON.parse(sessionStorage.user_attributes);
@@ -123,6 +131,8 @@ export default class EventInfo extends React.Component {
         {errorsMessage}
         {member_list}
         <h2>{event.name}</h2>
+        {homeIcon}
+        {keyIcon}
         <p>Info: {eventInfo}</p>
         <p>Date: {event.date}</p>
         <p>Description: {event.description}</p>
