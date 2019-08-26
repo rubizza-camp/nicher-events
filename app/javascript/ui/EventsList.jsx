@@ -8,6 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Link } from 'react-router-dom';
 import { HomeIcon, KeyIcon } from './IconsCollection';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,10 +33,10 @@ export const  EventsList = (params) => {
       homeIcon = <HomeIcon />;
     }
     return (
-      <div>
+      <Grid container direction="row">
         {keyIcon}
         {homeIcon}
-      </div>
+      </Grid>
     );}
 
   return (
@@ -44,6 +45,7 @@ export const  EventsList = (params) => {
         <TableHead  className={classes.head}>
           <TableRow>
             <TableCell><h3>Name</h3></TableCell>
+            <TableCell></TableCell>
             <TableCell align="right"><h3>Date and time</h3></TableCell>
             <TableCell align="right"><h3>Status</h3></TableCell>
           </TableRow>

@@ -129,8 +129,10 @@ export default class EventInfo extends React.Component {
         {errorsMessage}
         {memberList}
         <h2>{event.name}</h2>
-        {homeIcon}
-        {keyIcon}
+        <Grid container direction="row" justify="center">
+          {homeIcon}
+          {keyIcon}
+        </Grid>
         <p>Info: {eventInfo}</p>
         <p>Date: {event.date}</p>
         <p>Description: {event.description}</p>
