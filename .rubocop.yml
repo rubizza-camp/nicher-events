@@ -5,14 +5,12 @@ AllCops:
     - 'config/**/*'
     - 'log/**/*'
     - 'tmp/**/*'
+    - 'node_modules/**/*'
 
 Style/FrozenStringLiteralComment:
   Enabled: false
 
 Style/Documentation:
-  Enabled: false
-
-Bundler/OrderedGems:
   Enabled: false
 
 Style/ClassAndModuleChildren:

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import { FormTextField } from '../../ui/TextFileds';
+import { FormButton } from '../../ui/Buttons';
 
 export default class VenueEdit extends Component {
   constructor(props) {
@@ -13,16 +14,15 @@ export default class VenueEdit extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange = venue => {
-    const params = this.state;
-    params['venue'][venue.target.name] = venue.target.value;
-    this.setState({
-      params
-    });
-  };
+  handleChange = (venue) => {
+    var prevState = {...this.state};
+    var updatedVenue = {...this.state.venue};
+    updatedVenue[venue.target.name] = venue.target.value;
+    this.setState({ ...prevState, venue: updatedVenue });
+  }
 
-  handleSubmit = venue => {
-    venue.preventDefault();
+  handleSubmit = event => {
+    event.preventDefault();
     let headers = {};
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);
@@ -32,11 +32,17 @@ export default class VenueEdit extends Component {
       .getAttribute('content');
     Axios.patch(
       `/api/v1/venues/${this.props.match.params.id}`,
-      this.state.venue,
+      { venue: this.state.venue },
       { headers: headers }
     )
       .then(() => this.props.history.push('/venues'))
-      .catch(err => this.setState({ errors: err.response.data }));
+      .catch(error => {
+        if (error.response.statusText === 'Forbidden') {
+          this.setState({ errors: error.response.data.errors });
+        } else {
+          this.setState({ errors: error.response.data });
+        }
+      });
   };
 
   render() {
@@ -44,7 +50,7 @@ export default class VenueEdit extends Component {
     if (this.state.errors) {
       message = (
         <div>
-          {this.state.errors.map(error => <p key={Math.random()}>{error}</p>)}
+          {this.state.errors.map(error => <p key={error.id}>{error}</p>)}
         </div>
       );
     }
@@ -63,46 +69,29 @@ export default class VenueEdit extends Component {
             alignItems="center"
           >
             Address:
-            <TextField
+            <FormTextField
               type="text"
               name="address"
               placeholder="Address"
               value={venue.address}
               onChange={this.handleChange}
-              className="form-control"
-              margin="normal"
-              variant="outlined"
             />
             Description:
-            <TextField
+            <FormTextField
               type="text"
               name="description"
               placeholder="Description"
               value={venue.description}
               onChange={this.handleChange}
-              className="form-control"
-              margin="normal"
-              variant="outlined"
             />
             People TextField
-            <TextField
+            <FormTextField
               type="number"
               name="people_capacity"
               value={venue.people_capacity}
               onChange={this.handleChange}
-              className="form-control"
-              margin="normal"
-              variant="outlined"
             />
-            <button
-              type="submit"
-              className=""
-              size="large"
-              variant="outlined"
-              color="inherit"
-            >
-              Update
-            </button>
+            <FormButton text="Update" />
           </Grid>
         </form>
       </div>

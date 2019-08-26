@@ -12,6 +12,7 @@
 
 class Venue < ApplicationRecord
   # belongs_to :event_layout
+  default_scope { order(created_at: :desc) }
   validates :address,
             presence: true,
             length: { minimum: 5 },

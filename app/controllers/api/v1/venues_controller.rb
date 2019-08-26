@@ -1,20 +1,16 @@
 # :reek:InstanceVariableAssumption :reek:NilCheck
-# rubocop:disable Style/ClassAndModuleChildren
 class Api::V1::VenuesController < ApplicationController
-  before_action :is_organizer?, only: %i[create update destroy]
+  before_action :authenticate_user!
+  before_action :organizer?, only: %i[create update destroy]
   before_action :set_venue, only: %i[show update destroy]
 
   def index
-    @venues = Venue.all.reverse
+    @venues = Venue.all
     render json: @venues
   end
 
   def show
-    if @venue
-      render json: @venue
-    else
-      render json: { status: :not_found }
-    end
+    render json: @venue
   end
 
   def create
@@ -35,27 +31,22 @@ class Api::V1::VenuesController < ApplicationController
   end
 
   def destroy
-    if @venue&.destroy
-      render json: { status: :deleted }
-    else
-      render json: { status: :not_found }
-    end
+    @venue.destroy
+    head :no_content
   end
 
   private
 
   def set_venue
     @venue = Venue.find_by(id: params[:id])
-    return head :not_found if @venue.nil?
+    head :not_found unless @venue
   end
 
-  def is_organizer?
-    authenticate_user!
-    return render json: ['Only organizer can do this'], status: :unprocessable_entity unless current_user.organizer?
+  def organizer?
+    render json: { errors: ['Only organizer can do this'] }, status: :forbidden unless current_user.organizer?
   end
 
   def venue_params
     params.require(:venue).permit(:address, :description, :people_capacity)
   end
 end
-# rubocop:enable Style/ClassAndModuleChildren

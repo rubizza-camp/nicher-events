@@ -1,5 +1,3 @@
-require 'faker'
-
 FactoryBot.define do
   factory :venue do
     address { Faker::Address.full_address }

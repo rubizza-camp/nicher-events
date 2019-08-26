@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import { FormTextField } from '../../ui/TextFileds';
+import { FormButton } from '../../ui/Buttons';
 
 export default class VenueNew extends Component {
   constructor(props) {
@@ -14,16 +14,15 @@ export default class VenueNew extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(venue) {
-    const params = this.state;
-    params['venue'][venue.target.name] = venue.target.value;
-    this.setState({
-      params
-    });
+  handleChange = (venue) => {
+    var prevState = {...this.state};
+    var updatedVenue = {...this.state.venue};
+    updatedVenue[venue.target.name] = venue.target.value;
+    this.setState({ ...prevState, venue: updatedVenue });
   }
 
-  handleSubmit(venue) {
-    venue.preventDefault();
+  handleSubmit(event) {
+    event.preventDefault();
     let headers = {};
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);
@@ -31,9 +30,15 @@ export default class VenueNew extends Component {
     headers['X-CSRF-Token'] = document
       .querySelector('meta[name=\'csrf-token\']')
       .getAttribute('content');
-    Axios.post('/api/v1/venues', this.state.venue, { headers: headers })
+    Axios.post('/api/v1/venues', { venue: this.state.venue }, { headers: headers })
       .then(() => this.props.history.push('/venues'))
-      .catch(err => this.setState({ errors: err.response.data }));
+      .catch(error => {
+        if (error.response.statusText === 'Forbidden') {
+          this.setState({ errors: error.response.data.errors });
+        } else {
+          this.setState({ errors: error.response.data });
+        }
+      });
   }
 
   render() {
@@ -41,7 +46,7 @@ export default class VenueNew extends Component {
     if (this.state.errors) {
       message = (
         <div>
-          {this.state.errors.map(error => <p key={Math.random()}>{error}</p>)}
+          {this.state.errors.map(error => <p key={error.id}>{error}</p>)}
         </div>
       );
     }
@@ -59,45 +64,29 @@ export default class VenueNew extends Component {
             alignItems="center"
           >
             Address:
-            <TextField
+            <FormTextField
               type="text"
               name="address"
               placeholder="Address"
               value={venue.address}
               onChange={this.handleChange}
-              className="form-control"
-              margin="normal"
-              variant="outlined"
             />
             Description:
-            <TextField
+            <FormTextField
               type="text"
               name="description"
               placeholder="Description"
               value={venue.description}
               onChange={this.handleChange}
-              className="form-control"
-              margin="normal"
-              variant="outlined"
             />
             People TextField
-            <TextField
+            <FormTextField
               type="number"
               name="people_capacity"
               value={venue.people_capacity}
               onChange={this.handleChange}
-              className="form-control"
-              margin="normal"
-              variant="outlined"
             />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className=""
-            >
-              Create
-            </Button>
+            <FormButton text="Create" />
           </Grid>
         </form>
       </div>

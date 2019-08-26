@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+import { FormButton } from '../../ui/Buttons';
 
 export default class VenueShow extends React.Component {
   constructor(props) {
@@ -12,9 +12,15 @@ export default class VenueShow extends React.Component {
   }
 
   componentDidMount() {
-    Axios.get(`/api/v1/venues/${this.props.match.params.id}`).then(res => {
-      const venue = res.data;
-      this.setState({ venue });
+    let headers = {};
+    if (sessionStorage.user) {
+      headers = JSON.parse(sessionStorage.user);
+    }
+    headers['X-CSRF-Token'] = document
+      .querySelector('meta[name=\'csrf-token\']')
+      .getAttribute('content');
+    Axios.get(`/api/v1/venues/${this.props.match.params.id}`, { headers: headers }).then(res => {
+      this.setState({ venue: res.data });
     });
   }
 
@@ -30,7 +36,13 @@ export default class VenueShow extends React.Component {
       headers: headers
     })
       .then(() => this.props.history.push('/venues'))
-      .catch(err => this.setState({ errors: err.response.data }));
+      .catch(error => {
+        if (error.response.statusText === 'Forbidden') {
+          this.setState({ errors: error.response.data.errors });
+        } else {
+          this.setState({ errors: error.response.data });
+        }
+      });
   };
 
   render() {
@@ -38,24 +50,8 @@ export default class VenueShow extends React.Component {
     const showVenuesUrl = '/venues';
     const EditButtons = () => (
       <div>
-        <Button
-          component={Link}
-          to={editVenueUrl}
-          type="submit"
-          variant="contained"
-          color="primary"
-          className=""
-        >
-          Edit
-        </Button>
-        <Button
-          onClick={this.handleDelete}
-          variant="contained"
-          color="secondary"
-          className=""
-        >
-          Delete
-        </Button>
+        <FormButton component={Link} to={editVenueUrl} text="Edit" color="primary" />
+        <FormButton onClick={this.handleDelete} text="Delete" color="secondary" />
       </div>
     );
 
@@ -73,7 +69,7 @@ export default class VenueShow extends React.Component {
     if (this.state.errors) {
       message = (
         <div>
-          {this.state.errors.map(error => <p key={Math.random()}>{error}</p>)}
+          {this.state.errors.map(error => <p key={error.id}>{error}</p>)}
         </div>
       );
     }
@@ -91,15 +87,7 @@ export default class VenueShow extends React.Component {
         </p>
         <Grid container direction="row" justify="center">
           {editButtons}
-          <Button
-            component={Link}
-            to={showVenuesUrl}
-            onClick={this.handleDelete}
-            variant="contained"
-            className=""
-          >
-            Back
-          </Button>
+          <FormButton component={Link} to={showVenuesUrl} text='Cancel' />
         </Grid>
         <hr />
       </Grid>

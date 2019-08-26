@@ -16,7 +16,16 @@ export default class VenueIndex extends React.Component {
   }
 
   componentDidMount() {
-    Axios.get('/api/v1/venues')
+    let headers = {};
+    if (sessionStorage.user) {
+      headers = JSON.parse(sessionStorage.user);
+    }
+    headers['X-CSRF-Token'] = document
+      .querySelector('meta[name=\'csrf-token\']')
+      .getAttribute('content');
+    Axios.get('/api/v1/venues', {
+      headers: headers
+    })
       .then(res => {
         this.setState({ venues: res.data });
       });
@@ -34,7 +43,7 @@ export default class VenueIndex extends React.Component {
           color="primary"
           className=""
         >
-          Create Event
+          Create Venue
         </Button>
       </div>
     );
