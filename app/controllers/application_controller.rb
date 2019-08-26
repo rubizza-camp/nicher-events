@@ -17,6 +17,12 @@ class ApplicationController < ActionController::Base
                                           [organization_attributes:
                                             %i[description name]]
                                       ])
+    devise_parameter_sanitizer.permit(:account_update,
+                                      keys: [
+                                          :first_name,
+                                          :last_name,
+                                          :phone,
+                                      ])
   end
 
   def current_user

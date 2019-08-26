@@ -38,6 +38,7 @@ export default class AttendeeSignUpForm extends React.Component {
           uid: response.headers['uid']
         }));
       sessionStorage.setItem('user_attributes', JSON.stringify(response.data.data));
+      sessionStorage.removeItem('sign_up');
       that.props.history.push('/');
     }).catch(error => {
       that.setState({ errors: error.response.data.errors.full_messages });
@@ -103,7 +104,7 @@ export default class AttendeeSignUpForm extends React.Component {
             </div>
 
             <div>
-              <FormTextField type="text"
+              <FormTextField type="password"
                 name="password"
                 label="Password"
                 value={user.password}

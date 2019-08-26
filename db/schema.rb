@@ -57,10 +57,6 @@ ActiveRecord::Schema.define(version: 2019_08_14_123705) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-<<<<<<< HEAD
-  add_foreign_key "user_organizations", "organizations"
-  add_foreign_key "user_organizations", "users"
-=======
   create_table "venues", force: :cascade do |t|
     t.string "address", default: "", null: false
     t.text "description", default: ""
@@ -69,5 +65,6 @@ ActiveRecord::Schema.define(version: 2019_08_14_123705) do
     t.datetime "updated_at", null: false
   end
 
->>>>>>> Add resource venue
+  add_foreign_key "user_organizations", "organizations"
+  add_foreign_key "user_organizations", "users"
 end

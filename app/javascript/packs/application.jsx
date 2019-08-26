@@ -9,7 +9,7 @@ import VenueIndex from '../components/venue/VenueIndex';
 import VenueShow from '../components/venue/VenueShow';
 import VenueEdit from '../components/venue/VenueEdit';
 import VenueNew from '../components/venue/VenueNew';
-import Account from '../components/account/Account';
+import Account from '../components/UserProfile';
 import ForgotPassword from '../components/ForgotPassword';
 import ResetPassword from '../components/ResetPassword';
 import Box from '@material-ui/core/Box';
@@ -19,6 +19,12 @@ import EditOrganizationForm from '../components/organization/EditOrganizationFor
 import OrganizationInfo from '../components/organization/OrganizationInfo';
 import { Router, Route, NavLink, Switch } from 'react-router-dom';
 import { Toolbar } from '@material-ui/core';
+import {
+  Hero, CallToAction, ScrollDownIndicator, Section, Features, Checklist
+} from 'react-landing-page'
+import { Provider, Heading, Subhead } from 'rebass'
+
+
 
 const RegisterNavigation = () => (
   <AppBar >
@@ -53,13 +59,7 @@ const OrganizationNavigation = () => (
 
 
 const DefaultLayout = ({ component: Component, ...rest }) => {
-  let userInfo = '';
 
-  if (sessionStorage.user_attributes !== undefined) {
-    const { first_name, last_name, role } = JSON.parse(
-      sessionStorage.user_attributes);
-    userInfo = `${first_name} ${last_name} ${role}`;
-  }
 
   let navbarComponent;
   if (sessionStorage.user === undefined) {
@@ -80,8 +80,7 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
         <Box pb={10}>
           {navbarComponent}
         </Box>
-        {userInfo}
-        <div className="Header">{navbarComponent} {organizationComponent}</div>
+        <div className="Header">{navbarComponent}{organizationComponent}</div>
         <Component {...matchProps} />
       </div>
     )}/>

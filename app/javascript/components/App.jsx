@@ -29,8 +29,8 @@ const App = props => (
     >
         <Heading>NICHER EVENTS</Heading>
         <Subhead>dream big or go home</Subhead>
-        <CallToAction href="/sign_up" mt={3}>Sign up</CallToAction>
-        <NavButtons to="/sign_in" text='Already have account?' />
+        {/*<CallToAction href="/sign_up" mt={3}>Sign up</CallToAction>*/}
+        {/*<NavButtons to="/sign_in" text='Already have account?' />*/}
         <ScrollDownIndicator/>
     </Hero>
     <Section width={1}
@@ -38,8 +38,6 @@ const App = props => (
       subhead='maybe this will help'>
       <Checklist children={[
             <NavButtons to="/venues" text='Venues' />,
-            <NavButtons to="/user_profile" text='Your profile' />,
-            <NavButtons to="#" text='Log in' />
       ]} checkmark={featherCheckmark}/>
     </Section>
 
