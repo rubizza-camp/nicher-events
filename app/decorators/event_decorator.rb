@@ -1,7 +1,9 @@
+# :reek:NilCheck
+
 class EventDecorator < Draper::Decorator
   delegate_all
 
-  def already_subscribed?(user_id)
-    users.find_by(id: user_id).present?
+  def attendance?(user_id)
+    attendances.find_by(user_id: user_id)&.id
   end
 end

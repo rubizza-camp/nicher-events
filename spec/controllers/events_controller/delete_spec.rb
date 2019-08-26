@@ -17,12 +17,17 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
       it 'returns no_content status' do
         delete :destroy, params: { id: event_of_current_organization.id }
+        deleted_event = Event.find_by(id: event_of_current_organization.id)
+        expect(deleted_event).to be_nil
         expect(response).to have_http_status(:no_content)
       end
 
       context 'when event doesn\'t exist' do
         it 'returns not_found status' do
+          previous_event_count = Event.all.count
           delete :destroy, params: { id: -1 }
+          current_event_count = Event.all.count
+          expect(previous_event_count).to eq(current_event_count)
           expect(response).to have_http_status(:not_found)
         end
       end

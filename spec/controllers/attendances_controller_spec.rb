@@ -76,7 +76,8 @@ RSpec.describe Api::V1::AttendancesController, type: :controller do
 
     context 'when user is unregistered' do
       it 'returns unauthorized status' do
-        delete :destroy, params: { event_id: event.id }
+        @attendance = Attendance.create({ event_id: event.id, user_id: organizer.id })
+        delete :destroy, params: { event_id: event.id, id: @attendance.id }
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -88,7 +89,8 @@ RSpec.describe Api::V1::AttendancesController, type: :controller do
       end
 
       it 'returns forbidden status' do
-        delete :destroy, params: { event_id: event.id }
+        @attendance = Attendance.create({ event_id: event.id, user_id: organizer.id })
+        delete :destroy, params: { event_id: event.id, id: @attendance.id }
         expect(response).to have_http_status(:forbidden)
       end
     end
@@ -100,8 +102,8 @@ RSpec.describe Api::V1::AttendancesController, type: :controller do
       end
 
       it 'returns no_content status' do
-        Attendance.create({ event_id: event.id, user_id: second_organizer.id })
-        delete :destroy, params: { event_id: event.id }
+        @attendance = Attendance.create({ event_id: event.id, user_id: second_organizer.id })
+        delete :destroy, params: { event_id: event.id, id: @attendance.id }
         expect(response).to have_http_status(:no_content)
       end
     end
@@ -115,7 +117,8 @@ RSpec.describe Api::V1::AttendancesController, type: :controller do
       let(:new_event) { create(:event, user_id: organizer.id) }
 
       it 'returns unprocessable_entity status' do
-        delete :destroy, params: { event_id: new_event.id }
+        @attendance = Attendance.create({ event_id: event.id, user_id: second_organizer.id })
+        delete :destroy, params: { event_id: new_event.id, id: @attendance.id }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -129,8 +132,8 @@ RSpec.describe Api::V1::AttendancesController, type: :controller do
       let(:new_event) { create(:event, user_id: organizer.id) }
 
       it 'returns no_content status' do
-        Attendance.create({ event_id: new_event.id, user_id: attendee.id })
-        delete :destroy, params: { event_id: new_event.id }
+        @attendance = Attendance.create({ event_id: new_event.id, user_id: attendee.id })
+        delete :destroy, params: { event_id: new_event.id, id: @attendance.id }
         expect(response).to have_http_status(:no_content)
       end
     end

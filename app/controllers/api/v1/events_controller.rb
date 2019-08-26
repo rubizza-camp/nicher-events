@@ -66,7 +66,7 @@ class Api::V1::EventsController < ApplicationController
   def confidential_events
     return [] unless current_user&.organizer?
 
-    @confidential_events ||= current_user.organization.events.where(status: :confidential).all
+    @confidential_events ||= current_user.organization.events.where(status: :confidential)
   end
 
   def set_current_user

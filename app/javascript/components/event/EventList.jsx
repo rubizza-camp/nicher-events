@@ -22,7 +22,7 @@ export default class EventList extends React.Component {
       params: { authentication_required: authenticationRequired },
       headers: headers,
     })
-      .then(response => {
+      .then((response) => {
         this.setState({ events: response.data });
       });
   }

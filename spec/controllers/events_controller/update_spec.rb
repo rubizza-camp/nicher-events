@@ -2,7 +2,7 @@ require 'rails_helper'
 # rubocop:disable Metrics/LineLength
 
 RSpec.describe Api::V1::EventsController, type: :controller do
-  let!(:event_attributes) { %w[id name date description status organization available_to_edit users available_to_subscribed subscribed] }
+  let!(:event_attributes) { %w[id name date description status organization available_to_edit users available_to_subscribed attendance_id] }
   let(:organization) { create(:organization) }
   let(:organizer) { create(:user, role: :organizer, organization: organization) }
   let(:event_of_current_user) { create(:event, user_id: organizer.id) }
@@ -22,7 +22,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
       context 'event belongs to current user\'s organization' do
         it 'returns json with updated event' do
           patch :update, params: { id: event_of_current_user.id, event: valid_event.attributes }
-          expect(json_response.keys).to eq(event_attributes)
+          expect(json_response.keys.to_set).to eq(event_attributes.to_set)
           expect(json_response['name']).to eq(valid_event.name)
         end
       end

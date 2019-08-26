@@ -4,7 +4,7 @@ require 'set'
 
 RSpec.describe Api::V1::EventsController, type: :controller do
   describe 'GET #index' do
-    let!(:event_attributes) { %w[id name date description status organization available_to_edit users available_to_subscribed subscribed] }
+    let!(:event_attributes) { %w[id name date description status organization available_to_edit users available_to_subscribed attendance_id] }
     let(:current_organization) { create(:organization) }
     let(:current_organizer) { create(:user, role: :organizer, organization: current_organization) }
     let!(:current_social_events) { create_list(:event, 3, status: :social, user: current_organizer) }
@@ -25,7 +25,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         second_organizer.organization = second_organization
 
         get :index
-        expect(json_response.first.keys).to eq(event_attributes)
+        expect(json_response.first.keys.to_set).to eq(event_attributes.to_set)
         @response_event_names = json_response.map { |event| event['name'] }
         @event_names = current_social_events.map { |event| event['name'] }
         @event_names += current_confidential_events.map { |event| event['name'] }
@@ -44,7 +44,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
       it 'returns json with list of social and conforming confidential events' do
         get :index
-        expect(json_response.first.keys).to eq(event_attributes)
+        expect(json_response.first.keys.to_set).to eq(event_attributes.to_set)
         expect(json_response.count).to eq(social_events.count + current_social_events.count)
       end
     end

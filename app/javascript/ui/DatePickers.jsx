@@ -36,10 +36,7 @@ export default class DatePickers extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    if (this.props.event_date !== nextProps.event_date) {
-      return true;
-    }
-    return false;
+    return this.props.event_date !== nextProps.event_date;
   }
 
   render () {

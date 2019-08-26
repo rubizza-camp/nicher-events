@@ -2,7 +2,7 @@ require 'rails_helper'
 # rubocop:disable Metrics/LineLength
 
 RSpec.describe Api::V1::EventsController, type: :controller do
-  let!(:event_attributes) { %w[id name date description status organization available_to_edit users available_to_subscribed subscribed] }
+  let!(:event_attributes) { %w[id name date description status organization available_to_edit users available_to_subscribed attendance_id] }
   let(:current_organization) { create(:organization) }
   let(:current_organizer) { create(:user, role: :organizer, organization: current_organization) }
   let(:organization) { create(:organization) }
@@ -14,7 +14,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
       it 'returns json response with event' do
         get :show, params: { id: social_event.id }
-        expect(json_response.keys).to eq(event_attributes)
+        expect(json_response.keys.to_set).to eq(event_attributes.to_set)
         expect(json_response['name']).to eq(social_event.name)
         expect(json_response['description']).to eq(social_event.description)
         expect(json_response['date']).to eq(Time.parse(social_event.date.to_s).strftime('%Y-%m-%dT%H:%M'))
@@ -48,7 +48,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
           it 'returns json response with event' do
             get :show, params: { id: confidential_event.id }
-            expect(json_response.keys).to eq(event_attributes)
+            expect(json_response.keys.to_set).to eq(event_attributes.to_set)
             expect(json_response['name']).to eq(confidential_event.name)
           end
         end

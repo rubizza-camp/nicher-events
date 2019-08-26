@@ -1,7 +1,8 @@
 # :reek:NilCheck
+# rubocop:disable Metrics/LineLength
 
 class EventSerializer < ActiveModel::Serializer
-  attributes :id, :name, :date, :description, :status, :organization, :available_to_edit, :users, :available_to_subscribed, :subscribed
+  attributes :id, :name, :date, :description, :status, :organization, :available_to_edit, :users, :available_to_subscribed, :attendance_id
 
   def date
     Time.parse(object.date.to_s).strftime('%Y-%m-%dT%H:%M')
@@ -15,7 +16,8 @@ class EventSerializer < ActiveModel::Serializer
     current_user&.available_to_subscribe?(object.id)
   end
 
-  def subscribed
-    object.decorate.already_subscribed?(current_user.id) if current_user&.available_to_subscribe?(object.id)
+  def attendance_id
+    object.decorate.attendance?(current_user.id) if current_user&.available_to_subscribe?(object.id)
   end
 end
+# rubocop:enable Metrics/LineLength

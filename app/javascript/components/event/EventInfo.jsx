@@ -67,7 +67,9 @@ export default class EventInfo extends React.Component {
       headers = JSON.parse(sessionStorage.user);
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    Axios.delete(`/api/v1/events/${this.props.match.params.id}/attendances`, { headers: headers })
+    const attendance_id = this.state.event.attendance_id;
+    const attendanceDeleteUrl = `/api/v1/events/${this.props.match.params.id}/attendances/${attendance_id}`;
+    Axios.delete(attendanceDeleteUrl, { headers: headers })
       .then(() => {
         this.fetchAvailableEvent();
       });
@@ -85,7 +87,7 @@ export default class EventInfo extends React.Component {
       </div>
     );
     let subscribeButton;
-    if (event.subscribed) {
+    if (event.attendance_id !== null) {
       subscribeButton = <FormButton onClick={this.handleUnsubscribe} text='Unsubscribe' color="secondary" />;
     }
     else {
@@ -113,9 +115,9 @@ export default class EventInfo extends React.Component {
         ))}
       </div>;
     }
-    let member_list;
+    let memberList;
     if (this.state.event.users)  {
-      member_list = <ul>
+      memberList = <ul>
         {this.state.event.users.map((user) => (
           <li key={user.id}>{user.first_name}</li>
         ))}
@@ -125,7 +127,7 @@ export default class EventInfo extends React.Component {
     return (
       <Grid container direction="column" justify="center" alignItems="center">
         {errorsMessage}
-        {member_list}
+        {memberList}
         <h2>{event.name}</h2>
         {homeIcon}
         {keyIcon}

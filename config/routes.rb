@@ -6,8 +6,8 @@ Rails.application.routes.draw do
       resources :users
       resources :organizations
       resources :events do
-        post :attendances, to: 'attendances#create'
-        delete :attendances, to: 'attendances#destroy'
+        resources :attendances, only: [:create, :destroy]
+        # delete :attendances, to: 'attendances#destroy'
       end
     end
   end

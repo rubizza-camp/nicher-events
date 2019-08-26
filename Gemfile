@@ -50,7 +50,7 @@ group :development, :test do
   gem 'faker', '~> 2.1'
   gem 'letter_opener', '1.7.0'
   gem 'pry', '~> 0.12.2'
-  gem 'rails-controller-testing', '~> 0.0.3'
+  gem 'rails-controller-testing', '~> 1.0', '>= 1.0.4'
   gem 'rspec-rails', '~> 3.8'
 end
 
