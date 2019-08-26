@@ -7,6 +7,7 @@ import SignIn from '../components/SignIn';
 import SignOut from '../components/SignOut';
 import ForgotPassword from '../components/ForgotPassword';
 import ResetPassword from '../components/ResetPassword';
+import CommentsList from '../components/comments/CommentsList';
 import Box from '@material-ui/core/Box';
 import { NavButtons } from '../ui/Buttons';
 import AppBar from '@material-ui/core/AppBar';
@@ -91,6 +92,7 @@ const Main = () => (
     <DefaultLayout path="/sign_out" component={SignOut} />
     <DefaultLayout exact path='/organizations/:id/edit' component={EditOrganizationForm} />
     <DefaultLayout exact path='/organizations/:id' component={OrganizationInfo} />
+    <DefaultLayout exact path="/comments" component={CommentsList}/>
   </Switch>
 );
 
