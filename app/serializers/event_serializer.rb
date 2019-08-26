@@ -1,17 +1,21 @@
 # :reek:NilCheck
 
 class EventSerializer < ActiveModel::Serializer
-  attributes :id, :name, :date, :description, :status, :organization, :available_to_edit, :users, :subscribed
+  attributes :id, :name, :date, :description, :status, :organization, :available_to_edit, :users, :available_to_subscribed, :subscribed
 
   def date
     Time.parse(object.date.to_s).strftime('%Y-%m-%dT%H:%M')
   end
 
   def available_to_edit
-    object.decorate.current_organization?(current_user.id) if current_user&.organizer?
+    current_user.available_to_edit_event?(object.id) if current_user&.organizer?
+  end
+
+  def available_to_subscribed
+    current_user&.available_to_subscribe?(object.id)
   end
 
   def subscribed
-    object.decorate.already_subscribed?(current_user.id) if current_user&.attendee?
+    object.decorate.already_subscribed?(current_user.id) if current_user&.available_to_subscribe?(object.id)
   end
 end

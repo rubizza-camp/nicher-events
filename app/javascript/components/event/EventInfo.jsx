@@ -101,13 +101,9 @@ export default class EventInfo extends React.Component {
     if (event.status === 'confidential') {
       keyIcon = <KeyIcon />;
     }
-  
     let subscribePanel;
-    if (sessionStorage.user_attributes !== undefined) {
-      let user_attributes = JSON.parse(sessionStorage.user_attributes);
-      if (user_attributes.role === 'attendee') {
-        subscribePanel = subscribeButton;
-      }
+    if (event.available_to_subscribed) {
+      subscribePanel = subscribeButton;
     }
     let errorsMessage;
     if (this.state.errors)  {

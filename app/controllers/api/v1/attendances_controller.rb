@@ -33,6 +33,6 @@ class Api::V1::AttendancesController < ApplicationController
   end
 
   def verify_role_user
-    return head :forbidden unless current_user&.attendee?
+    return head :forbidden unless current_user.available_to_subscribe?(params[:event_id])
   end
 end

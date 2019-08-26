@@ -7,8 +7,8 @@ class Api::V1::EventsController < ApplicationController
   before_action :verify_event_exist, only: %i[show update destroy]
 
   def index
-    @available_events = social_event
-    @available_events += confidential_event.to_a
+    @available_events = social_events
+    @available_events += confidential_events
     render json: @available_events
   end
 
@@ -59,14 +59,14 @@ class Api::V1::EventsController < ApplicationController
     Event.find_by(id: params[:id]).present?
   end
 
-  def social_event
-    @social_event ||= Event.where(status: :social)
+  def social_events
+    @social_events ||= Event.where(status: :social)
   end
 
-  def confidential_event
-    return unless current_user&.organizer?
+  def confidential_events
+    return [] unless current_user&.organizer?
 
-    @confidential_event ||= current_user.organization.events.where(status: :confidential).all
+    @confidential_events ||= current_user.organization.events.where(status: :confidential).all
   end
 
   def set_current_user
@@ -74,7 +74,8 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def available_event
-    @available_event ||= social_event&.find_by(id: params[:id]) || confidential_event&.find_by(id: params[:id])
+    @available_confidential_events = confidential_events&.any? && confidential_events&.find_by(id: params[:id])
+    @available_event ||= social_events&.find_by(id: params[:id]) || @available_confidential_events
   end
 
   def current_user_organization_event
