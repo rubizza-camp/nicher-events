@@ -20,4 +20,5 @@ class User < ApplicationRecord
 
   has_many :attendances
   has_many :events
+  has_one_attached :photo
 end

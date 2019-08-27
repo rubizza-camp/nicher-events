@@ -22,6 +22,7 @@ import EventList from '../components/event/EventList';
 import UpdatedEvent from '../components/event/UpdatedEvent';
 import EventInfo from '../components/event/EventInfo';
 import NewEvent from '../components/event/NewEvent';
+import UserProfile from '../components/UserProfile';
 
 const RegisterNavigation = () => (
   <AppBar >
@@ -38,6 +39,7 @@ const SignOutNavigation = () => (
     <Toolbar>
       <NavButtons to="/" text='Main page' />
       <NavButtons to="/venues" text='Venues' />
+      <NavButtons to="/user_profile" text='Your profile' />
       <NavButtons to="/sign_out" text='Sign Out' />
     </Toolbar>
   </AppBar>
@@ -55,7 +57,6 @@ const OrganizationNavigation = () => (
 
 
 const DefaultLayout = ({ component: Component, ...rest }) => {
-
   let navbarComponent;
   if (localStorage.user === undefined) {
     navbarComponent = <RegisterNavigation />;
@@ -100,6 +101,7 @@ const Main = () => (
     <DefaultLayout exact path="/venues/new" component={VenueNew} />
     <DefaultLayout exact path='/venues/:id' component={VenueShow} />
     <DefaultLayout exact path='/venues/:id/edit' component={VenueEdit} />
+    <DefaultLayout exact path='/user_profile' component={UserProfile} />
   </Switch>
 );
 
