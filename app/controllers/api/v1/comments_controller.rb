@@ -1,3 +1,4 @@
+# :reek:InstanceVariableAssumption
 class Api::V1::CommentsController < ApplicationController
   before_action :authenticate_user!, only: %i[create update destroy]
   before_action :set_current_user_comment, only: %i[update destroy]
@@ -27,7 +28,6 @@ class Api::V1::CommentsController < ApplicationController
   end
 
   def destroy
-    return head :not_found unless @current_user_comment
     Comment.find_by(id: params[:id]).destroy
     head :no_content
   end

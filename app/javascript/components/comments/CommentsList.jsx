@@ -42,17 +42,17 @@ export default class Comments extends React.Component {
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     Axios.post('/api/v1/comments', { comment: comment }, { headers: headers })
-      .then(response => {
+      .then(() => {
         this.fetchAvailableComments();
       })
       .catch(error => {
         switch (error.response.statusText) {
-          case 'Unprocessable Entity':
-            this.setState({ errors: error.response.data });
-            break;
-          case 'Unauthorized':
-            this.setState({ errors: error.response.data.errors });
-            break;
+        case 'Unprocessable Entity':
+          this.setState({ errors: error.response.data });
+          break;
+        case 'Unauthorized':
+          this.setState({ errors: error.response.data.errors });
+          break;
         }
       }
       );
@@ -63,16 +63,16 @@ export default class Comments extends React.Component {
   }
 
   render() {
-    let commentForm
+    let commentForm;
     if (sessionStorage.user !== undefined) {
-      commentForm = <CommentForm comment={this.state.comment} errors={this.state.errors} handleSubmit={this.handleSubmit} />
+      commentForm = <CommentForm comment={this.state.comment} errors={this.state.errors} handleSubmit={this.handleSubmit} />;
     }
 
     return (
       <div>
         <Grid container direction="column" justify="center" alignItems="center" >
           {this.state.comments.map(comment => (
-            <div>
+            <div key={comment.id}>
               <CommentCard
                 comment={comment}
                 user={comment.user}

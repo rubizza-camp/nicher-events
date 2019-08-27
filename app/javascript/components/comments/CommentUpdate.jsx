@@ -24,7 +24,7 @@ export default class CommentUpdate extends React.Component {
       .then(() => {
         that.props.fetchAvailableComments();
       })
-      .catch(error => {
+      .catch(() => {
         
       });
   }
@@ -35,13 +35,13 @@ export default class CommentUpdate extends React.Component {
     let editForm;
     let commentDeleteModal;
     if ( sessionStorage.user !== undefined && JSON.parse(sessionStorage.user_attributes).id == comment.user.id) {
-      editForm = <CommentForm comment={comment} errors={this.props.errors} handleSubmit={this.handleUpdate} />
-      commentDeleteModal = <CommentDiolog content={editForm} text_button={'Update'} />
+      editForm = <CommentForm comment={comment} errors={this.props.errors} handleSubmit={this.handleUpdate} />;
+      commentDeleteModal = <CommentDiolog content={editForm} text_button={'Update'} />;
     }
     return (
       <div key={comment.id}>
         {commentDeleteModal}
       </div>
-    )
+    );
   }
 }

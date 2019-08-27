@@ -3,8 +3,6 @@ import Grid from '@material-ui/core/Grid';
 import { FormButton } from '../../ui/Buttons';
 import { FormTextField } from '../../ui/TextFileds';
 import Rating from '@material-ui/lab/Rating';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 
 export default class CommentForm extends React.Component {
   constructor(props) {

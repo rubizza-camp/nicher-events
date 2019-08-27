@@ -16,13 +16,13 @@ export default class CommentDelete extends React.Component {
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);
     }
-    const that = this
+    const that = this;
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     Axios.delete(`/api/v1/comments/${comment_id}`, { headers: headers })
       .then(() => {
         that.props.fetchAvailableComments();
       })
-      .catch(error => {
+      .catch(() => {
 
       });
   }
@@ -34,14 +34,14 @@ export default class CommentDelete extends React.Component {
     let commentCard;
     let commentDeleteModal;
     if ( sessionStorage.user !== undefined && JSON.parse(sessionStorage.user_attributes).id == comment.user.id || JSON.parse(sessionStorage.user_attributes).role == 'organizer') {
-      buttonDelete = <FormButton onClick={(e) => { this.handleDelete(e, comment.id) }} color="primary" text='Delete' />
-      commentCard = <CommentCard comment={comment} user={JSON.parse(sessionStorage.user_attributes)} />
-      commentDeleteModal = <CommentDiolog content={buttonDelete} text_button={'Delete'} comment_card={commentCard} />
+      buttonDelete = <FormButton onClick={(e) => { this.handleDelete(e, comment.id); }} color="primary" text='Delete' />;
+      commentCard = <CommentCard comment={comment} user={JSON.parse(sessionStorage.user_attributes)} />;
+      commentDeleteModal = <CommentDiolog content={buttonDelete} text_button={'Delete'} comment_card={commentCard} />;
     }
     return (
       <div key={comment.id}>
         {commentDeleteModal}
       </div>
-    )
+    );
   }
 }
