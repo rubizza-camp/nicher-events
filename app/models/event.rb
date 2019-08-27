@@ -11,4 +11,7 @@ class Event < ApplicationRecord
 
   has_many :attendances
   has_many :users, through: :attendances
+
+  scope :social, -> { where(status: :social) }
+  scope :confidential, -> { where(status: :confidential) }
 end

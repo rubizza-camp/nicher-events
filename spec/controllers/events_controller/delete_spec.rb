@@ -19,17 +19,15 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
       let(:event_params) { { id: event_of_current_organization.id } }
 
-      it 'returns no_content status' do
+      it 'event is deleted' do
         expect { destroy_action }.to change { Event.all.count }.by(-1)
-        deleted_event = Event.find_by(id: event_of_current_organization.id)
-        expect(deleted_event).to be_nil
         expect(response).to have_http_status(:no_content)
       end
 
       context 'when event doesn\'t exist' do
         let(:event_params) { { id: -1 } }
 
-        it 'returns not_found status' do
+        it 'event isn\'t found for delete' do
           expect { destroy_action }.to_not change { Event.all.count }
           expect(response).to have_http_status(:not_found)
         end
@@ -44,7 +42,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
       let(:event_params) { { id: event_of_current_organization.id } }
 
-      it 'returns forbidden status' do
+      it 'event isn\'t delete with forbidden status' do
         expect { destroy_action }.to_not change { Event.all.count }
         expect(response).to have_http_status(:forbidden)
       end
@@ -59,7 +57,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
       let(:event_params) { { id: event_of_current_organization.id } }
 
-      it 'returns forbidden status' do
+      it 'event isn\'t delete with forbidden status' do
         expect { destroy_action }.to_not change { Event.all.count }
         expect(response).to have_http_status(:forbidden)
       end
@@ -68,7 +66,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
     context 'when user is unregistered' do
       let(:event_params) { { id: event_of_current_organization.id } }
 
-      it 'returns unauthorized status' do
+      it 'event isn\'t delete with unauthorized status' do
         expect { destroy_action }.to_not change { Event.all.count }
         expect(response).to have_http_status(:unauthorized)
       end

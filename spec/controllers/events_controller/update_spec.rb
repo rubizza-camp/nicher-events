@@ -1,8 +1,7 @@
 require 'rails_helper'
-# rubocop:disable Metrics/LineLength
 
 RSpec.describe Api::V1::EventsController, type: :controller do
-  let!(:event_attributes) { %w[id name date description status organization available_to_edit users available_to_subscribed attendance_id] }
+  let!(:event_attributes) { %w[id name date description status organization available_for_edit users attendance_id] }
   let(:organization) { create(:organization) }
   let(:organizer) { create(:user, role: :organizer, organization: organization) }
   let(:event_of_current_user) { create(:event, user_id: organizer.id) }
@@ -73,4 +72,3 @@ RSpec.describe Api::V1::EventsController, type: :controller do
     end
   end
 end
-# rubocop:enable Metrics/LineLength

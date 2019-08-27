@@ -1,5 +1,3 @@
-require 'faker'
-
 FactoryBot.define do
   factory :organization do
     name { Faker::Lorem.words(number: 10) }

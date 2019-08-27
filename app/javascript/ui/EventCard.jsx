@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const  EventCard = (params) => {
+export const EventCard = (params) => {
   const classes = useStyles();
   const { event } = params;
   function IconPanel(props) {
@@ -36,7 +36,7 @@ export const  EventCard = (params) => {
       keyIcon = <KeyIcon />;
     }
     let homeIcon;
-    if (props.event.available_to_edit) {
+    if (props.event.available_for_edit) {
       homeIcon = <HomeIcon />;
     }
     return (

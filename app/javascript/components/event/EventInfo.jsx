@@ -20,11 +20,7 @@ export default class EventInfo extends React.Component {
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);
     }
-    const authenticationRequired = !!sessionStorage.user;
-    Axios.get(`/api/v1/events/${this.props.match.params.id}`, {
-      params: { authentication_required: authenticationRequired },
-      headers: headers,
-    })
+    Axios.get(`/api/v1/events/${this.props.match.params.id}`, { headers: headers })
       .then(response => this.setState({ event: response.data }))
       .catch(() => this.props.history.push('/events'));
   }
@@ -42,10 +38,6 @@ export default class EventInfo extends React.Component {
     Axios.delete(`/api/v1/events/${this.props.match.params.id}`, { headers: headers })
       .then(() => {
         this.props.history.push('/events');
-      })
-      .catch(error => {
-        if (error.response.statusText === 'Not Found')
-          this.setState({ errors: ['You can\'t do this'] });
       });
   }
 
@@ -58,6 +50,10 @@ export default class EventInfo extends React.Component {
     Axios.post(`/api/v1/events/${this.props.match.params.id}/attendances`, {}, { headers: headers })
       .then(() => {
         this.fetchAvailableEvent();
+      })
+      .catch(error => {
+        if (error.response.statusText === 'Unauthorized')
+          this.props.history.push('/sign_in');
       });
   }
 
@@ -95,7 +91,7 @@ export default class EventInfo extends React.Component {
     }
     let eventPanel;
     let homeIcon;
-    if (event.available_to_edit) {
+    if (event.available_for_edit) {
       eventPanel = <EventPanel />;
       homeIcon = <HomeIcon />;
     }
@@ -104,7 +100,7 @@ export default class EventInfo extends React.Component {
       keyIcon = <KeyIcon />;
     }
     let subscribePanel;
-    if (event.available_to_subscribed) {
+    if (!event.available_for_edit) {
       subscribePanel = subscribeButton;
     }
     let errorsMessage;

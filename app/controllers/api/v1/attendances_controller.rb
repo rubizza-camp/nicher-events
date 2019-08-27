@@ -3,10 +3,11 @@
 
 class Api::V1::AttendancesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_event
   before_action :verify_role_user
 
   def create
-    return head :unprocessable_entity if event.decorate.already_subscribed_by_user?(current_user.id)
+    return head :unprocessable_entity if @event.already_subscribed_by_user?(current_user.id)
 
     @attendance = current_user.attendances.new(attendance_params)
     return head :unprocessable_entity unless @attendance.save
@@ -15,7 +16,7 @@ class Api::V1::AttendancesController < ApplicationController
   end
 
   def destroy
-    return head :unprocessable_entity unless event.decorate.already_subscribed_by_user?(current_user.id)
+    return head :unprocessable_entity unless @event.already_subscribed_by_user?(current_user.id)
 
     @attendance = current_user.attendances.find_by(event_id: params[:event_id])
     @attendance.destroy
@@ -24,8 +25,8 @@ class Api::V1::AttendancesController < ApplicationController
 
   private
 
-  def event
-    @event ||= Event.find_by(id: params[:event_id])
+  def set_event
+    @event = Event.find_by(id: params[:event_id]).decorate
   end
 
   def attendance_params
@@ -33,6 +34,6 @@ class Api::V1::AttendancesController < ApplicationController
   end
 
   def verify_role_user
-    return head :forbidden unless current_user.available_to_subscribe?(params[:event_id])
+    return head :unprocessable_entity if @event.editable?(current_user.id)
   end
 end

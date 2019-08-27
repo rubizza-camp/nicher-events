@@ -1,21 +1,22 @@
 # :reek:InstanceVariableAssumption
 # :reek:NilCheck
+# :reek:MissingSafeMethod
 
 class Api::V1::EventsController < ApplicationController
-  before_action :authenticate_user!, :verify_organizer, only: %i[create update destroy]
-  before_action :set_current_user, only: %i[index show]
-  before_action :verify_event_exist, only: %i[show update destroy]
+  before_action :authenticate_user!, only: %i[create update destroy]
+  before_action :verify_organizer!, only: %i[create update destroy]
+  before_action :set_events, only: %i[index]
+  before_action :set_event, only: %i[show update destroy]
+  before_action :verify_organization!, only: %i[update destroy]
 
   def index
-    @available_events = social_events
-    @available_events += confidential_events
-    render json: @available_events
+    render json: @events
   end
 
   def show
-    return head :forbidden unless available_event.present?
+    return head :forbidden unless @event.social? || (current_user&.organization&.events&.find_by(id: @event.id))
 
-    render json: available_event
+    render json: @event
   end
 
   def create
@@ -28,58 +29,37 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def update
-    return head :forbidden unless current_user_organization_event
-
-    if @current_user_organization_event.update(event_params)
-      render json: @current_user_organization_event
+    if @event.update(event_params)
+      render json: @event
     else
-      render json: @current_user_organization_event.errors.full_messages, status: :unprocessable_entity
+      render json: @event.errors.full_messages, status: :unprocessable_entity
     end
   end
 
   def destroy
-    return head :forbidden unless current_user_organization_event
-
-    @current_user_organization_event.attendances.destroy_all
-    @current_user_organization_event.destroy
+    @event.attendances.destroy_all
+    @event.destroy
     head :no_content
   end
 
   private
 
-  def verify_event_exist
-    return head :not_found unless event_exist?
+  def set_events
+    @events = Event.social
+    @events += current_user.organization.events.confidential if current_user&.organizer?
   end
 
-  def verify_organizer
-    return head :forbidden unless current_user&.organizer?
+  def set_event
+    @event = Event.find_by(id: params[:id])
+    return head :not_found unless @event
   end
 
-  def event_exist?
-    Event.find_by(id: params[:id]).present?
+  def verify_organization!
+    return head :forbidden unless current_user.organization.events.find_by(id: @event.id)
   end
 
-  def social_events
-    @social_events ||= Event.where(status: :social)
-  end
-
-  def confidential_events
-    return [] unless current_user&.organizer?
-
-    @confidential_events ||= current_user.organization.events.where(status: :confidential)
-  end
-
-  def set_current_user
-    authenticate_user! if params[:authentication_required] == 'true'
-  end
-
-  def available_event
-    @available_confidential_events = confidential_events&.any? && confidential_events&.find_by(id: params[:id])
-    @available_event ||= social_events&.find_by(id: params[:id]) || @available_confidential_events
-  end
-
-  def current_user_organization_event
-    @current_user_organization_event ||= current_user.organization.events.find_by(id: params[:id])
+  def verify_organizer!
+    return head :forbidden unless current_user.organizer?
   end
 
   def event_params

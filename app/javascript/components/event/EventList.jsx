@@ -17,11 +17,7 @@ export default class EventList extends React.Component {
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);
     }
-    const authenticationRequired = !!sessionStorage.user;
-    Axios.get('/api/v1/events', {
-      params: { authentication_required: authenticationRequired },
-      headers: headers,
-    })
+    Axios.get('/api/v1/events', { headers: headers })
       .then((response) => {
         this.setState({ events: response.data });
       });
