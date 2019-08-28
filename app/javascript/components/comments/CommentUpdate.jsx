@@ -7,7 +7,8 @@ export default class CommentUpdate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      comment: { }
+      comment: {},
+      errors: []
     };
     this.handleUpdate = this.handleUpdate.bind(this);
   }
@@ -20,12 +21,22 @@ export default class CommentUpdate extends React.Component {
     }
     const that = this;
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    Axios.put(`/api/v1/comments/${comment.id}`, { comment: comment }, { headers: headers })
+    Axios.patch(`/api/v1/comments/${comment.id}`, { comment: comment }, { headers: headers })
       .then(() => {
         that.props.fetchAvailableComments();
       })
-      .catch(() => {
-        
+      .catch(error => {
+        switch (error.response.statusText) {
+        case 'Not Found':
+          this.setState({ errors: ['You can\'t do it'] });
+          break;
+        case 'Unprocessable Entity':
+          this.setState({ errors: error.response.data });
+          break;
+        case 'Unauthorized':
+          this.setState({ errors: error.response.data.errors });
+          break;
+        }
       });
   }
 
@@ -33,14 +44,14 @@ export default class CommentUpdate extends React.Component {
   render() {
     const comment = this.props.comment;
     let editForm;
-    let commentDeleteModal;
-    if ( sessionStorage.user !== undefined && JSON.parse(sessionStorage.user_attributes).id == comment.user.id) {
-      editForm = <CommentForm comment={comment} errors={this.props.errors} handleSubmit={this.handleUpdate} />;
-      commentDeleteModal = <CommentDiolog content={editForm} text_button={'Update'} />;
-    }
+    let commentUpdateDiolog;
+    // if ( sessionStorage.user !== undefined && JSON.parse(sessionStorage.user_attributes).id == comment.user.id) {
+    editForm = <CommentForm comment={comment} errors={this.state.errors} handleSubmit={this.handleUpdate} />;
+    commentUpdateDiolog = <CommentDiolog content={editForm} text_button={'Update'} />;
+    // }
     return (
       <div key={comment.id}>
-        {commentDeleteModal}
+        {commentUpdateDiolog}
       </div>
     );
   }

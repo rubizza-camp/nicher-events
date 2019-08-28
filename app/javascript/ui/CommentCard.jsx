@@ -15,17 +15,26 @@ const useStyles = makeStyles({
     fontSize: 14,
   },
   content: {
-    display: 'inline-block',
+    width: 800,
   },
 });
 
 export const  CommentCard = (params) => {
   const classes = useStyles();
+  let errorsMessage;
+  if (params.errors)  {
+    errorsMessage = <ul>
+      {params.errors.map((error) => (
+        <li key={error.id}>{error}</li>
+      ))}
+    </ul>;
+  }
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} >
+      {errorsMessage}
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {params.user.email}
+          {params.comment.user.email}
         </Typography>
         <Typography className={classes.content} variant="h5" component="h2">
           {params.comment.text}

@@ -9,11 +9,10 @@ export default class CommentForm extends React.Component {
     super(props);
     this.state = { comment: { } };
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeRating = this.handleChangeRating.bind(this);
   }
 
   handleChange = (comment) => {
-    // comment.preventDefault();
-    // comment.stopPropagation();
     const prevState = {...this.state};
     const updatedComment = {...this.state.comment};
     updatedComment[comment.target.name] = comment.target.value;
@@ -21,8 +20,6 @@ export default class CommentForm extends React.Component {
   }
 
   handleChangeRating = (comment) => {
-    // comment.preventDefault();
-    // comment.stopPropagation();
     const prevState = {...this.state};
     const updatedComment = {...this.state.comment};
     updatedComment['rating'] = comment.target.value;

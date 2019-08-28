@@ -11,7 +11,8 @@ export default class Comments extends React.Component {
     super(props);
     this.state = {
       comments: [],
-      comment: { text: '', rating: '', user_id: '' }
+      comment: { text: '', rating: '', user_id: '' },
+      errors: []
     };
     this.fetchAvailableComments = this.fetchAvailableComments.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,9 +24,7 @@ export default class Comments extends React.Component {
     if (sessionStorage.user) {
       headers = JSON.parse(sessionStorage.user);
     }
-    // const authenticationRequired = !!sessionStorage.user;
     Axios.get('/api/v1/comments', {
-      //   params: { authentication_required: authenticationRequired },
       headers: headers,
     })
       .then(response => {
@@ -64,9 +63,9 @@ export default class Comments extends React.Component {
 
   render() {
     let commentForm;
-    if (sessionStorage.user !== undefined) {
-      commentForm = <CommentForm comment={this.state.comment} errors={this.state.errors} handleSubmit={this.handleSubmit} />;
-    }
+    // if (sessionStorage.user !== undefined) {
+    commentForm = <CommentForm comment={this.state.comment} errors={this.state.errors} handleSubmit={this.handleSubmit} />;
+    // }
 
     return (
       <div>
@@ -75,7 +74,6 @@ export default class Comments extends React.Component {
             <div key={comment.id}>
               <CommentCard
                 comment={comment}
-                user={comment.user}
                 delete_button={<CommentDelete comment={comment} fetchAvailableComments={this.fetchAvailableComments}/>}
                 update_form={<CommentUpdate comment={comment} errors={this.state.errors} fetchAvailableComments={this.fetchAvailableComments}/>}
               />
