@@ -3,11 +3,10 @@ import { Link } from 'react-router-dom';
 import Axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import { VenueCard } from '../../ui/VenueCard';
 
 export default class VenueIndex extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = { venues: [] };
@@ -60,18 +59,7 @@ export default class VenueIndex extends React.Component {
       <div>
         {createButton}
         <Grid container direction="column" justify="center" alignItems="center">
-          {this.state.venues.map(venue => (
-            <div key={venue.id}>
-              <List aria-label="main mailbox folders">
-                <ListItem button>
-                  <ListItemText>
-                    {venue.address}
-                    <Button size="small"><Link to={`/venues/${venue.id}`}>Learn more</Link></Button>
-                  </ListItemText>
-                </ListItem>
-              </List>
-            </div>
-          ))}
+          {this.state.venues.map(venue => ( <VenueCard key={venue.id} venue={venue} />))}
         </Grid>
       </div>
     );
