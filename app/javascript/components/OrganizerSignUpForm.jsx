@@ -32,6 +32,7 @@ export default class OrganizerSignUpForm extends React.Component {
     e.preventDefault();
     const data = new FormData();
     data.append('email', this.state.user.email);
+    data.append('role', this.state.user.role);
     if (this.state.user.photo){
       data.append('photo', this.state.user.photo );
     }
@@ -39,12 +40,7 @@ export default class OrganizerSignUpForm extends React.Component {
     data.append('first_name', this.state.user.first_name );
     data.append('last_name', this.state.user.last_name);
     data.append('phone', this.state.user.phone );
-    data.append('user_organization_attributes',
-      data.append('organization_attributes',
-        data.append('name', this.state.user.user_organization_attributes.organization_attributes.name)));
-    data.append('user_organization_attributes',
-      data.append('organization_attributes',
-        data.append('description', this.state.user.user_organization_attributes.organization_attributes.description )));
+    data.append('user_organization_attributes',  JSON.stringify(this.state.user.user_organization_attributes));
     var that = this;
     Axios({
       method: 'post',

@@ -26,6 +26,7 @@ export default class AttendeeSignUpForm extends React.Component {
     e.preventDefault();
     const data = new FormData();
     data.append('email', this.state.user.email);
+    data.append('role', this.state.user.role);
     if (this.state.user.photo){
       data.append('photo', this.state.user.photo );
     }

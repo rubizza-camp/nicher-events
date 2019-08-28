@@ -84,7 +84,7 @@ export default class UserProfile extends React.Component {
         />
       } else {
         image = <img
-          src="https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350"
+          src="https://robohash.org/sitsequiquia.png?size=300x300&set=set1"
           width="200" height="200"
           alt="avatar"
         />
