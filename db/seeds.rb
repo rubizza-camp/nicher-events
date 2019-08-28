@@ -85,8 +85,10 @@ User.second.events.create([
 ])
 
 20.times do
-    Venue.create(
-        address: Faker::Address.full_address,
-        description: Faker::Lorem.paragraph,
-        people_capacity: rand(99)
-    )
+  Venue.create(
+    name: Faker::Cannabis.brand,
+    address: Faker::Address.full_address,
+    description: Faker::Lorem.paragraph,
+    people_capacity: rand(99)
+  )
+end

@@ -17,4 +17,5 @@ class Venue < ApplicationRecord
             presence: true,
             length: { minimum: 5 },
             uniqueness: true
+  validates :name, presence: true
 end

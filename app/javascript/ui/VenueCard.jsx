@@ -7,10 +7,10 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   card: {
     width: 600,
-    marginBottom:10,
+    margin: theme.spacing(3),
   },
   title: {
     fontSize: 20,
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   content: {
     display: 'inline-block',
   },
-});
+}));
 
 export const VenueCard = (params) => {
   const classes = useStyles();
@@ -26,6 +26,9 @@ export const VenueCard = (params) => {
   return (
     <Card className={classes.card}>
       <CardContent>
+        <Typography variant="h5" component="h2">
+          {venue.name}
+        </Typography>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           {venue.address}
         </Typography>

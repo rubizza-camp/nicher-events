@@ -55,13 +55,6 @@ const OrganizationNavigation = () => (
 
 
 const DefaultLayout = ({ component: Component, ...rest }) => {
-  let userInfo = '';
-
-  if (sessionStorage.user_attributes !== undefined) {
-    const { first_name, last_name, role } = JSON.parse(
-      sessionStorage.user_attributes);
-    userInfo = `${first_name} ${last_name} ${role}`;
-  }
 
   let navbarComponent;
   if (sessionStorage.user === undefined) {
@@ -82,7 +75,6 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
         <Box pb={10}>
           {navbarComponent}
         </Box>
-        {userInfo}
         <div className="Header">{navbarComponent} {organizationComponent}</div>
         <Component {...matchProps} />
       </div>

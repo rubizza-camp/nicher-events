@@ -77,9 +77,12 @@ export default class VenueShow extends React.Component {
     return (
       <Grid container direction="column" justify="center" alignItems="center">
         {message}
-        <h2>{this.state.venue.address}</h2>
+        <h2>{this.state.venue.name}</h2>
         <p>
-          <strong> Peoples:</strong> {this.state.venue.people_capacity}
+          <strong> Address:</strong> {this.state.venue.address}
+        </p>
+        <p>
+          <strong> People capacity:</strong> {this.state.venue.people_capacity}
         </p>
         <p>
           <strong> Description:</strong>

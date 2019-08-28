@@ -8,7 +8,7 @@ export default class VenueEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      venue: { address: '', description: '', people_capacity: '' }
+      venue: { name: '', address: '', description: '', people_capacity: '' }
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -68,6 +68,14 @@ export default class VenueEdit extends Component {
             style={{ height: 700 }}
             alignItems="center"
           >
+            Name:
+            <FormTextField
+              type="text"
+              name="name"
+              placeholder="Name"
+              value={venue.name}
+              onChange={this.handleChange}
+            />
             Address:
             <FormTextField
               type="text"

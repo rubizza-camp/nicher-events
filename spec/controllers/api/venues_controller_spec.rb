@@ -5,7 +5,8 @@ RSpec.describe Api::V1::VenuesController, type: :controller do
   let(:organizer) { create(:user, role: :organizer) }
 
   describe 'GET #show' do
-    let(:venue_attributes) { %w[id address description] }
+    let(:venue_attributes) { %w[id name address description] }
+
     before do
       @header = organizer.create_new_auth_token
       request.headers.merge!(@header)
@@ -16,7 +17,7 @@ RSpec.describe Api::V1::VenuesController, type: :controller do
 
       it 'returns json response with venue' do
         get :show, params: { id: venue.id }
-        expect(json_response.keys).to include('id', 'address', 'description', 'people_capacity')
+        expect(json_response.keys).to include('id', 'name', 'address', 'description', 'people_capacity')
       end
     end
   end
@@ -33,7 +34,7 @@ RSpec.describe Api::V1::VenuesController, type: :controller do
 
       it 'returns json with params of created venue' do
         expect { create_action }.to change { Venue.all.count }.by(1)
-        expect(json_response.keys).to include('id', 'address', 'description', 'people_capacity')
+        expect(json_response.keys).to include('id', 'name', 'address', 'description', 'people_capacity')
       end
     end
 
@@ -56,17 +57,21 @@ RSpec.describe Api::V1::VenuesController, type: :controller do
     end
 
     context 'when params is valid' do
-      let(:valid_venue) { create(:venue) }
+      let!(:valid_venue) { create(:venue) }
+      let(:destroy_action) { delete :destroy, params: { id: valid_venue.id } }
 
-      it 'returns no_content status' do
-        get :destroy, params: { id: valid_venue.id }
+      it 'returns no_content status and destroys venue' do
+        expect { destroy_action }.to change { Venue.all.count }.by(-1)
         expect(response).to have_http_status(:no_content)
       end
     end
 
     context 'when params is invalid' do
-      it 'returns not_found status' do
-        get :destroy, params: { id: -1 }
+      let!(:valid_venue) { create(:venue) }
+      let(:destroy_action) { delete :destroy, params: { id: -1 } }
+
+      it 'returns not_found status and don\'t delete anything' do
+        expect { destroy_action }.to_not change { Venue.all.count }
         expect(response).to have_http_status(:not_found)
       end
     end
