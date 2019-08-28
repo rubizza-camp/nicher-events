@@ -4,6 +4,7 @@ import Axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { FormButton } from '../../ui/Buttons';
 import { HomeIcon, KeyIcon } from '../../ui/IconsCollection';
+import EventInvitePanel from './EventInvitePanel';
 
 export default class EventInfo extends React.Component {
   constructor(props) {
@@ -91,9 +92,11 @@ export default class EventInfo extends React.Component {
     }
     let eventPanel;
     let homeIcon;
+    let invitePanel;
     if (event.available_for_edit) {
       eventPanel = <EventPanel />;
       homeIcon = <HomeIcon />;
+      invitePanel = <EventInvitePanel eventId={event.id} handleChange={this.handleChange} />;
     }
     let keyIcon;
     if (event.status === 'confidential') {
@@ -103,6 +106,7 @@ export default class EventInfo extends React.Component {
     if (!event.available_for_edit) {
       subscribePanel = subscribeButton;
     }
+    debugger;
     let errorsMessage;
     if (this.state.errors)  {
       errorsMessage = <div>
@@ -124,6 +128,7 @@ export default class EventInfo extends React.Component {
       <Grid container direction="column" justify="center" alignItems="center">
         {errorsMessage}
         {memberList}
+        {invitePanel}
         <h2>{event.name}</h2>
         <Grid container direction="row" justify="center">
           {homeIcon}
