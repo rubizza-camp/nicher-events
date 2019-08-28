@@ -79,7 +79,7 @@ export default class VenueShow extends React.Component {
         {message}
         <h2>{this.state.venue.address}</h2>
         <p>
-          <strong> ID:</strong> {this.state.venue.id}
+          <strong> Peoples:</strong> {this.state.venue.people_capacity}
         </p>
         <p>
           <strong> Description:</strong>

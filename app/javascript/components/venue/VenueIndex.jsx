@@ -1,13 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 export default class VenueIndex extends React.Component {
   constructor(props) {
@@ -61,28 +59,20 @@ export default class VenueIndex extends React.Component {
     return (
       <div>
         {createButton}
-        <Paper className="">
-          <Table className="">
-            <TableHead className="">
-              <TableRow>
-                <TableCell>
-                  <h3>Address</h3>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {this.state.venues.map(venue => (
-                <TableRow key={venue.address}>
-                  <TableCell component="th" scope="row">
-                    <h2>
-                      <Link to={`/venues/${venue.id}`}>{venue.address}</Link>
-                    </h2>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Paper>
+        <Grid container direction="column" justify="center" alignItems="center">
+          {this.state.venues.map(venue => (
+            <div key={venue.id}>
+              <List aria-label="main mailbox folders">
+                <ListItem button>
+                  <ListItemText>
+                    {venue.address}
+                    <Button size="small"><Link to={`/venues/${venue.id}`}>Learn more</Link></Button>
+                  </ListItemText>
+                </ListItem>
+              </List>
+            </div>
+          ))}
+        </Grid>
       </div>
     );
   }
