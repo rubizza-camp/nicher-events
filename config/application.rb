@@ -27,5 +27,6 @@ module NicherEvents
          :methods => %i[get post patch delete]
       end
     end
+    config.time_zone = 'Minsk'
   end
 end

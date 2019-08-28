@@ -18,6 +18,15 @@ User.create([
     phone: '+375291111111',
     password: '123456789',
     role: 'organizer'
+  },
+
+  {
+    first_name: 'Julia',
+    last_name: 'Lugina',
+    email: 'lugina.yulya@mail.ru',
+    phone: '+375291111111',
+    password: '123456',
+    role: 'attendee'
   }
 ])
 
@@ -36,7 +45,7 @@ Organization.create([
     in the development and expansion of the assortment of manufactured goods. Their relevance and accessibility 
     in the trade network of the Republic of Belarus, as well as repeated victories at various consumer preferences 
     contests (Product of the Year, Choice of the Year, World Food, etc.) are a significant incentive for the 
-    entire company team.'
+    entire company team.',
     users: [User.first]
   },
   {
@@ -44,7 +53,33 @@ Organization.create([
     description: 'At Cybergizer, we are nuts about code style and concepts of engineering excellence.
     We are empowering people and companies to unlock hidden potential, imagine, and invent their future with
     the help of new approaches and technologies.
-    That’s how we bring product design and development to the next level.'
+    That’s how we bring product design and development to the next level.',
     users: [User.second]
+  }
+])
+
+User.first.events.create([
+  { name: Faker::Lorem.word,
+    date: Faker::Date.between(from: 2.days.ago, to: Date.today),
+    description: Faker::Lorem.sentence,
+    status: Event.statuses.keys.sample,
+  },
+  { name: Faker::Lorem.word,
+    date: Faker::Date.between(from: 2.days.ago, to: Date.today),
+    description: Faker::Lorem.sentence,
+    status: Event.statuses.keys.sample,
+  }
+])
+
+User.second.events.create([
+  { name: Faker::Lorem.word,
+    date: Faker::Date.between(from: 2.days.ago, to: Date.today),
+    description: Faker::Lorem.sentence,
+    status: Event.statuses.keys.sample,
+  },
+  { name: Faker::Lorem.word,
+    date: Faker::Date.between(from: 2.days.ago, to: Date.today),
+    description: Faker::Lorem.sentence,
+    status: Event.statuses.keys.sample,
   }
 ])
