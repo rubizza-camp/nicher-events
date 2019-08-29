@@ -4,6 +4,14 @@ import { FormButton } from '../ui/Buttons';
 import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
+import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
+import MailRoundedIcon from '@material-ui/icons/MailRounded';
+import PhoneRoundedIcon from '@material-ui/icons/PhoneRounded';
+import HttpsIcon from '@material-ui/icons/Https';
+import StoreIcon from '@material-ui/icons/Store';
+import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
+import Card from '@material-ui/core/Card';
 
 export default class OrganizerSignUpForm extends React.Component {
   constructor(props) {
@@ -20,7 +28,7 @@ export default class OrganizerSignUpForm extends React.Component {
         user_organization_attributes: {
           organization_attributes: {
             name: '',
-            description: ''
+            description: '',
           }}}
     };
     this.handleSignUp = this.handleSignUp.bind(this);
@@ -57,7 +65,6 @@ export default class OrganizerSignUpForm extends React.Component {
           uid: response.headers['uid']
         }));
       localStorage.setItem('user_attributes', JSON.stringify(response.data.data));
-      localStorage.setItem('organization_attributes', JSON.stringify(that.state.user.user_organization_attributes.organization_attributes));
       that.props.history.push('/');
     }).catch(error => {
       that.setState({ errors: error.response.data.errors.full_messages });
@@ -91,88 +98,109 @@ export default class OrganizerSignUpForm extends React.Component {
           <p key={error.id}>{error}</p>
         ))}
       </div>;
-    }
+    } 
     return (
       <div>
-        <div className="errors">
-          {errorMessages}
-        </div>
         <Grid container direction="column" justify="center" alignItems="center">
-          <h1>Sign Up</h1>
+          <Card>
+            <div className="errors">
+              {errorMessages}
+            </div>
+            <Grid container direction="row" justify="center" alignItems="center">
+              <h1>Sign Up</h1>
+            </Grid>
+            <form onSubmit={this.handleSignUp}>
+              <Grid container direction="row" justify="center" alignItems="center">
+                <div>
+                  <Grid container direction="column" justify="flex-start" alignItems="center">
+                    <div>
+                      <PersonRoundedIcon fontSize='large' alignItems="flex-end" />
+                      <FormTextField type="text"
+                        name="first_name"
+                        label="First name"
+                        value={user.first_name}
+                        onChange={this.handleChange} />                
+                    </div>
+
+                    <div>
+                      <PersonOutlineRoundedIcon fontSize='large' />
+                      <FormTextField type="text"
+                        name="last_name"
+                        label="Last name"
+                        value={user.last_name}
+                        onChange={this.handleChange} />  
+                    </div>
+
+                    <div>
+                      <MailRoundedIcon fontSize='large' />
+                      <FormTextField type="text"
+                        name="email"
+                        label="E-mail"
+                        value={user.email}
+                        onChange={this.handleChange} />  
+                    </div>
+
+                    <div>
+                      <PhoneRoundedIcon fontSize='large' />
+                      <FormTextField type="text"
+                        name="phone"
+                        label="Phone"
+                        value={user.phone}
+                        onChange={this.handleChange} />  
+                    </div>
+
+                    <div>
+                      <HttpsIcon fontSize='large' />
+                      <FormTextField type="password"
+                        name="password"
+                        label="Password"
+                        value={user.password}
+                        onChange={this.handleChange} />  
+                    </div>
+
+                    <div>
+                      <Typography variant="h6">
+                        Avatar:
+                      </Typography>
+                      <input type="file"
+                        name="photo"
+                        accept="image/*"
+                        onChange={this.handleChangeFile}
+                      />
+                    </div>
+                  </Grid>
+                </div>
+
+                <div>
+                  <Grid container direction="column" justify="flex-end" alignItems="flex-start" style={{margin: 20 }}>
+                    <h1>Create Organization</h1>
+                    <div>
+                      <StoreIcon fontSize='large' />
+                      <FormTextField type="text"
+                        name="name"
+                        label="Organization Name"
+                        value={user.user_organization_attributes.organization_attributes.name}
+                        onChange={this.handleChangeForOrganization} />  
+                    </div>
+                    <br/>
+                    <div>
+                      <SpeakerNotesIcon fontSize='large' />
+                      <FormTextField type="text"
+                        name="description"
+                        label="Organization Description"
+                        rows="10"
+                        value={user.user_organization_attributes.organization_attributes.description}
+                        onChange={this.handleChangeForOrganization} />  
+                    </div>
+                  </Grid>
+                </div>
+                <Grid container direction="row" justify="center" alignItems="flex-end">
+                  <FormButton text="Sign up" />
+                </Grid>
+              </Grid>
+            </form>
+          </Card>
         </Grid>
-        <form onSubmit={this.handleSignUp}>
-          <Grid container direction="column" justify="center" alignItems="center">
-            <div>
-              <FormTextField type="text"
-                name="first_name"
-                label="First name"
-                value={user.first_name}
-                onChange={this.handleChange} />
-            </div>
-
-            <div>
-              <FormTextField type="text"
-                name="last_name"
-                label="Last name"
-                value={user.last_name}
-                onChange={this.handleChange} />  
-            </div>
-
-            <div>
-              <FormTextField type="text"
-                name="email"
-                label="E-mail"
-                value={user.email}
-                onChange={this.handleChange} />  
-            </div>
-
-            <div>
-              <FormTextField type="text"
-                name="phone"
-                label="Phone"
-                value={user.phone}
-                onChange={this.handleChange} />  
-            </div>
-
-            <div>
-              <FormTextField type="password"
-                name="password"
-                label="Password"
-                value={user.password}
-                onChange={this.handleChange} />  
-            </div>
-
-            <div>
-              <Typography variant="h6">
-                Avatar:
-              </Typography>
-              <input type="file"
-                name="photo"
-                accept="image/*"
-                onChange={this.handleChangeFile}
-              />
-            </div>
-
-            <h1>Create Organization</h1>
-            <div>
-              <FormTextField type="text"
-                name="name"
-                label="Organization Name"
-                value={user.user_organization_attributes.organization_attributes.name}
-                onChange={this.handleChangeForOrganization} />  
-            </div>
-            <br/>
-            <div>
-              <FormTextField type="text"
-                name="description"
-                label="Organization Description"
-                rows="10"
-                value={user.user_organization_attributes.organization_attributes.description}
-                onChange={this.handleChangeForOrganization} />  
-            </div>
-            <FormButton text="Sign up" />
-          </Grid>
-        </form>
       </div>
     );
   }

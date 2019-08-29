@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { FormButton } from '../../ui/Buttons';
 import { FormTextField } from '../../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
+import StoreIcon from '@material-ui/icons/Store';
+import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
 
 class OrganizationForm extends Component {
   constructor(props) {
@@ -28,6 +30,7 @@ class OrganizationForm extends Component {
         <Grid container direction="column" justify="center" alignItems="center">
           <p>{this.props.errors}</p>
           <div>
+            <StoreIcon fontSize='large' />
             <FormTextField type="text"
               name="name"
               label="Name"
@@ -36,6 +39,7 @@ class OrganizationForm extends Component {
           </div>
           <br/>
           <div>
+            <SpeakerNotesIcon fontSize='large' />
             <FormTextField type="text"
               name="description"
               label="Description"

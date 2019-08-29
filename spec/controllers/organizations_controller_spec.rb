@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::OrganizationsController, type: :controller do
-  let(:organization_attributes) { %w[id name description users] }
+  let(:organization_attributes) { %w[id name description owner_id events] }
 
   describe 'GET #show' do
-    let(:user) { create(:user, role: 'organizer') }
+    let(:user) { create(:user, role: 'organizer').decorate }
     let(:organization) { create(:organization) }
 
     context 'when user is authorized' do
@@ -65,7 +65,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :controller do
     let!(:organization) { create(:organization) }
 
     context 'when user is authorized' do
-      let(:user) { create(:user, role: 'organizer') }
+      let(:user) { create(:user, role: 'organizer').decorate }
       let(:new_organization) { build(:organization) }
       before do
         @header = user.create_new_auth_token
