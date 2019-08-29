@@ -21,8 +21,7 @@ class ApplicationController < ActionController::Base
                                       keys: %i[first_name
                                                last_name
                                                phone
-                                               photo
-                                      ])
+                                               photo])
   end
 
   def current_user
