@@ -38,13 +38,13 @@ Organization.create([
     healthy products.
 
     Availability and openness:
-    The consumer chooses those brands and those products that he trusts. His preferences, level of well-being, 
+    The consumer chooses those brands and those products that he trusts. His preferences, level of well-being,
     pace of life and habits are changing, but the availability of ABC products on his desk has remained unchanged
     for many years.
-    The choice by the buyer in the store of products from "ABC" is one of the most important, decisive factors 
-    in the development and expansion of the assortment of manufactured goods. Their relevance and accessibility 
-    in the trade network of the Republic of Belarus, as well as repeated victories at various consumer preferences 
-    contests (Product of the Year, Choice of the Year, World Food, etc.) are a significant incentive for the 
+    The choice by the buyer in the store of products from "ABC" is one of the most important, decisive factors
+    in the development and expansion of the assortment of manufactured goods. Their relevance and accessibility
+    in the trade network of the Republic of Belarus, as well as repeated victories at various consumer preferences
+    contests (Product of the Year, Choice of the Year, World Food, etc.) are a significant incentive for the
     entire company team.',
     users: [User.first]
   },
@@ -83,3 +83,12 @@ User.second.events.create([
     status: Event.statuses.keys.sample,
   }
 ])
+
+20.times do
+  Venue.create(
+    name: Faker::Cannabis.brand,
+    address: Faker::Address.full_address,
+    description: Faker::Lorem.paragraph,
+    people_capacity: rand(99)
+  )
+end

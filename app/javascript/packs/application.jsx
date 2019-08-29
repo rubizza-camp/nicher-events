@@ -5,6 +5,10 @@ import history from './history';
 import SignUp from '../components/SignUpForm';
 import SignIn from '../components/SignIn';
 import SignOut from '../components/SignOut';
+import VenueIndex from '../components/venue/VenueIndex';
+import VenueShow from '../components/venue/VenueShow';
+import VenueEdit from '../components/venue/VenueEdit';
+import VenueNew from '../components/venue/VenueNew';
 import ForgotPassword from '../components/ForgotPassword';
 import ResetPassword from '../components/ResetPassword';
 import Box from '@material-ui/core/Box';
@@ -33,6 +37,7 @@ const SignOutNavigation = () => (
   <AppBar >
     <Toolbar>
       <NavButtons to="/" text='Main page' />
+      <NavButtons to="/venues" text='Venues' />
       <NavButtons to="/sign_out" text='Sign Out' />
     </Toolbar>
   </AppBar>
@@ -50,13 +55,6 @@ const OrganizationNavigation = () => (
 
 
 const DefaultLayout = ({ component: Component, ...rest }) => {
-  let userInfo = '';
-
-  if (sessionStorage.user_attributes !== undefined) {
-    const { first_name, last_name, role } = JSON.parse(
-      sessionStorage.user_attributes);
-    userInfo = `${first_name} ${last_name} ${role}`;
-  }
 
   let navbarComponent;
   if (sessionStorage.user === undefined) {
@@ -77,7 +75,6 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
         <Box pb={10}>
           {navbarComponent}
         </Box>
-        {userInfo}
         <div className="Header">{navbarComponent} {organizationComponent}</div>
         <Component {...matchProps} />
       </div>
@@ -99,6 +96,10 @@ const Main = () => (
     <DefaultLayout exact path='/events/:id/edit' component={UpdatedEvent} />
     <DefaultLayout exact path='/events' component={EventList} />
     <DefaultLayout exact path='/events/:id' component={EventInfo} />
+    <DefaultLayout exact path='/venues' component={VenueIndex} />
+    <DefaultLayout exact path="/venues/new" component={VenueNew} />
+    <DefaultLayout exact path='/venues/:id' component={VenueShow} />
+    <DefaultLayout exact path='/venues/:id/edit' component={VenueEdit} />
   </Switch>
 );
 

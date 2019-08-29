@@ -5,6 +5,7 @@ AllCops:
     - 'config/**/*'
     - 'log/**/*'
     - 'tmp/**/*'
+    - 'node_modules/**/*'
 
 Style/FrozenStringLiteralComment:
   Enabled: false
