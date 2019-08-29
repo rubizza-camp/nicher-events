@@ -9,9 +9,9 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::RegistrationsControlle
   skip_after_action :update_auth_header, only: [:create, :destroy]
 
   def create
-    if params[:user_organization_attributes]
-      params[:user_organization_attributes] = JSON.parse(params[:user_organization_attributes])
-    end
+    # if params[:user_organization_attributes]
+    #   params[:user_organization_attributes] = JSON.parse(params[:user_organization_attributes])
+    # end
     build_resource
 
     unless @resource.present?
@@ -22,8 +22,8 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::RegistrationsControlle
 
     # give redirect value from params priority
     @redirect_url = params.fetch(
-        :confirm_success_url,
-        DeviseTokenAuth.default_confirm_success_url
+      :confirm_success_url,
+      DeviseTokenAuth.default_confirm_success_url
     )
 
     # success redirect url is required
@@ -42,12 +42,13 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::RegistrationsControlle
       # Fix duplicate e-mails by disabling Devise confirmation e-mail
       @resource.skip_confirmation_notification!
     end
-
     if params[:photo]
       @resource.link_photo = url_for(@resource.photo)
     end
-
     if @resource.save
+      if @resource.role == 'organizer'
+        @resource.organization.owner_id = @resource.id
+      end
       yield @resource if block_given?
 
       unless @resource.confirmed?
@@ -120,8 +121,8 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::RegistrationsControlle
 
   def render_create_error_missing_confirm_success_url
     response = {
-        status: 'error',
-        data:   resource_data
+      status: 'error',
+      data:   resource_data
     }
     message = I18n.t('devise_token_auth.registrations.missing_confirm_success_url')
     render_error(422, message, response)
@@ -129,8 +130,8 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::RegistrationsControlle
 
   def render_create_error_redirect_url_not_allowed
     response = {
-        status: 'error',
-        data:   resource_data
+      status: 'error',
+      data:   resource_data
     }
     message = I18n.t('devise_token_auth.registrations.redirect_url_not_allowed', redirect_url: @redirect_url)
     render_error(422, message, response)
@@ -138,30 +139,30 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::RegistrationsControlle
 
   def render_create_success
     render json: {
-        status: 'success',
-        data:   resource_data
+      status: 'success',
+      data:   resource_data(resource_json: @resource.token_validation_response)
     }
   end
 
   def render_create_error
     render json: {
-        status: 'error',
-        data:   resource_data,
-        errors: resource_errors
+      status: 'error',
+      data:   resource_data,
+      errors: resource_errors
     }, status: 422
   end
 
   def render_update_success
     render json: {
-        status: 'success',
-        data:   resource_data
+      status: 'success',
+      data:   resource_data
     }
   end
 
   def render_update_error
     render json: {
-        status: 'error',
-        errors: resource_errors
+      status: 'error',
+      errors: resource_errors
     }, status: 422
   end
 
@@ -171,8 +172,8 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::RegistrationsControlle
 
   def render_destroy_success
     render json: {
-        status: 'success',
-        message: I18n.t('devise_token_auth.registrations.account_with_uid_destroyed', uid: @resource.uid)
+      status: 'success',
+      message: I18n.t('devise_token_auth.registrations.account_with_uid_destroyed', uid: @resource.uid)
     }
   end
 

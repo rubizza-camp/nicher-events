@@ -23,4 +23,8 @@ class User < ApplicationRecord
   has_one_attached :photo
 
   has_many :event_invites
+
+  def token_validation_response
+    UserSerializer.new(self).as_json
+  end
 end
