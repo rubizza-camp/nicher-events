@@ -16,7 +16,7 @@ import { NavButtons } from '../ui/Buttons';
 import AppBar from '@material-ui/core/AppBar';
 import EditOrganizationForm from '../components/organization/EditOrganizationForm';
 import OrganizationInfo from '../components/organization/OrganizationInfo';
-import { Router, Route, NavLink, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { Toolbar } from '@material-ui/core';
 import EventList from '../components/event/EventList';
 import UpdatedEvent from '../components/event/UpdatedEvent';
@@ -26,13 +26,15 @@ import UserProfile from '../components/UserProfile';
 import InviteInfo from '../components/event/InviteInfo';
 
 const RegisterNavigation = () => (
-  <AppBar >
-    <Toolbar>
-      <NavButtons text='Main page' to='/' />
-      <NavButtons to={ { pathname: '/sign_in', search: window.location.search } }  text='Sign in' />
-      <NavButtons to={ { pathname: '/sign_up', search: window.location.search } }  text='Sign up' />
-    </Toolbar>
-  </AppBar>
+  <Box pb={10}>
+    <AppBar >
+      <Toolbar>
+        <NavButtons text='Main page' to="/"  />
+        <NavButtons to="/sign_in" text='Sign in' />
+        <NavButtons  to="/sign_up" text='Sign up' />
+      </Toolbar>
+    </AppBar>
+  </Box>
 );
 
 const SignOutNavigation = () => (
@@ -46,17 +48,6 @@ const SignOutNavigation = () => (
   </AppBar>
 );
 
-const OrganizationNavigation = () => (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-    <ul>
-      <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active">Organization</NavLink>
-      </li>
-    </ul>
-  </nav>
-);
-
-
 const DefaultLayout = ({ component: Component, ...rest }) => {
   let navbarComponent;
   if (localStorage.user === undefined) {
@@ -64,20 +55,15 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
   } else {
     navbarComponent = <SignOutNavigation />;
   }
-  let organizationComponent;
-  if (localStorage.user != null) {
-    const userRole = JSON.parse(localStorage.user_attributes).role;
-    if(userRole === 'organizer') {
-      organizationComponent = <OrganizationNavigation />;
-    }
+
+  if (location.pathname == '/') {
+    navbarComponent = '';
   }
+
   return (
     <Route {...rest} render={matchProps => (
       <div className="DefaultLayout">
-        <Box pb={10}>
-          {navbarComponent}
-        </Box>
-        <div className="Header">{navbarComponent} {organizationComponent}</div>
+        {navbarComponent}
         <Component {...matchProps} />
       </div>
     )}/>
