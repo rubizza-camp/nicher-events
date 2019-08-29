@@ -23,7 +23,6 @@ export default class UserProfile extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-
   handleSave = (e) => {
     let headers = {};
     if (sessionStorage.user) {
@@ -31,12 +30,12 @@ export default class UserProfile extends React.Component {
     }
     e.preventDefault();
     const data = new FormData();
-    if (this.state.user.photo) {
-      data.append('photo', this.state.user.photo);
-    }
     data.append('first_name', this.state.user.first_name);
     data.append('last_name', this.state.user.last_name);
     data.append('phone', this.state.user.phone);
+    if (this.state.user.photo) {
+      data.append('photo', this.state.user.photo);
+    }
     headers['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute(
       'content');
     var that = this;
@@ -49,13 +48,12 @@ export default class UserProfile extends React.Component {
       sessionStorage.setItem('user_attributes', JSON.stringify(response.data.data));
       that.props.history.push('/user_profile');
     }).catch(error => {
-      that.setState({ errors: error.response.data.errors });
+      that.setState({ errors: error.response.data.errors.full_messages });
     });
   };
 
-
   handleChange = (user) => {
-    var currentUser = { ...this.state.user };
+    let currentUser = { ...this.state.user };
     currentUser[user.target.name] = user.target.value;
     this.setState({ user: currentUser });
   };
@@ -67,91 +65,93 @@ export default class UserProfile extends React.Component {
   };
 
   render() {
+    let errorMessages;
+    if (this.state.errors) {
+      errorMessages = <div>
+        {this.state.errors.map((error) => (
+          <p key={error.id}>{error}</p>
+        ))}
+      </div>;
+    }
 
-    let userInfo = '';
     let image;
     let user_role;
-    if (sessionStorage.user_attributes !== undefined) {
-      const { first_name, last_name, role } = JSON.parse(
-        sessionStorage.user_attributes);
-      user_role = `Your role ${role}`;
-      userInfo = `${first_name} ${last_name}`;
-      if (JSON.parse(sessionStorage.user_attributes)['link_photo']) {
-        image = <img
-          src={JSON.parse(sessionStorage.user_attributes)['link_photo']}
-          width="200" height="200"
-          alt="avatar"
-        />
-      } else {
-        image = <img
-          src="https://robohash.org/sitsequiquia.png?size=300x300&set=set1"
-          width="200" height="200"
-          alt="avatar"
-        />
-      }
-    }
+    const { first_name, last_name, role } = JSON.parse(sessionStorage.user_attributes);
+    user_role = `Your role ${role}`;
+    let userInfo = `${first_name} ${last_name}`;
+    image = <div data-hash="true">
+      <img srcSet={JSON.parse(sessionStorage.user_attributes)['link_photo']}
+        src="https://robohash.org/sitsequiquia.png?size=300x300&set=set1"
+        width="200" height="200"
+        alt="avatar"
+      />
+    </div>;
+
     const { user } = this.state;
     return (
       <div>
+        <div className="errors">
+          {errorMessages}
+        </div>
+        <Card>
+          <CardContent>
+            <Grid container direction="column" justify="center" alignItems="center">
+              {image}
+              <Typography variant="h5">
+                {userInfo}
+              </Typography>
+              <Typography variant="h5">
+                {user_role}
+              </Typography>
+            </Grid>
+            <form onSubmit={this.handleSave}>
+              <Grid container direction="row" justify="center" alignItems="center" >
+                <div>
+                  <FormTextField type="text"
+                    name="first_name"
+                    label="First name"
+                    value={user.first_name}
+                    onChange={this.handleChange}/>
+                </div>
 
-
-          <Card>
-            <CardContent>
-              <Grid container direction="column" justify="center" alignItems="center">
-                {image}
-                <Typography variant="h5">
-                  {userInfo}
-                </Typography>
-                <Typography variant="h5">
-                  {user_role}
-                </Typography>
+                <div>
+                  <FormTextField type="text"
+                    name="last_name"
+                    label="Last name"
+                    value={user.last_name}
+                    onChange={this.handleChange}/>
+                </div>
               </Grid>
-              <form onSubmit={this.handleSave}>
-                <Grid container direction="row" justify="center" alignItems="center">
-                  <div>
-                    <FormTextField type="text"
-                                   name="first_name"
-                                   label="First name"
-                                   value={user.first_name}
-                                   onChange={this.handleChange}/>
-                  </div>
+              <Grid container direction="row" justify="space-around" alignItems="center" >
+                <div>
+                  <FormTextField type="text"
+                    name="phone"
+                    label="Phone"
+                    value={user.phone}
+                    onChange={this.handleChange}
+                    mx="auto"/>
+                </div>
 
-                  <div>
-                    <FormTextField type="text"
-                                   name="last_name"
-                                   label="Last name"
-                                   value={user.last_name}
-                                   onChange={this.handleChange}/>
-                  </div>
-                </Grid>
-                <Grid container direction="row" justify="center" alignItems="center">
-                  <div>
-                    <FormTextField type="text"
-                                   name="phone"
-                                   label="Phone"
-                                   value={user.phone}
-                                   onChange={this.handleChange}/>
-                  </div>
+                <div>
+                  <Typography variant="h6">
+                    Avatar:
+                  </Typography>
+                  <input type="file"
+                    name="photo"
+                    accept="image/*"
+                    onChange={this.handleChangeFile}
+                  />
+                </div>
 
-                  <div>
-                    <FormTextField type="file"
-                                   name="photo"
-                                   accept="image/*"
-                                   ref={(input) => {
-                                     user.photo = input
-                                   }}
-                                   onChange={this.handleChangeFile}/>
-                  </div>
-                </Grid>
-                <Grid container justify="center" alignItems="center">
-                  <FormButton color='primary' text="update"/>
-                </Grid>
+              </Grid>
+              <Grid container justify="center" alignItems="center">
+                <FormButton color="primary" text="update"/>
+              </Grid>
 
-              </form>
-            </CardContent>
-          </Card>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     );
   }
 }
-

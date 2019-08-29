@@ -74,6 +74,7 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
+gem 'aws-sdk-s3', '~> 1.46', require: false
 gem 'devise', '4.6.2'
 gem 'devise_token_auth', '1.1.0'
 gem 'dotenv', '2.7.4'

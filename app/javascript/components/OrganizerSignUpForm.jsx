@@ -3,6 +3,7 @@ import Axios from 'axios';
 import { FormButton } from '../ui/Buttons';
 import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 export default class OrganizerSignUpForm extends React.Component {
   constructor(props) {
@@ -142,11 +143,14 @@ export default class OrganizerSignUpForm extends React.Component {
             </div>
 
             <div>
-              <FormTextField type="file"
-                             name="photo"
-                             accept="image/*"
-                             ref={(input) => { user.photo = input }}
-                             onChange={this.handleChangeFile} />
+              <Typography variant="h6">
+                Avatar:
+              </Typography>
+              <input type="file"
+                name="photo"
+                accept="image/*"
+                onChange={this.handleChangeFile}
+              />
             </div>
 
             <h1>Create Organization</h1>

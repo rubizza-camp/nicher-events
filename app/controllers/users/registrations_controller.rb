@@ -1,5 +1,10 @@
-class Users::RegistrationsController < DeviseTokenAuth::RegistrationsController
+require 'aws-sdk-s3'
+# rubocop:disable all
+# :reek:all
 
+
+class Users::RegistrationsController < DeviseTokenAuth::RegistrationsController
+  include Rails.application.routes.url_helpers
   before_action :set_user_by_token, only: [:destroy, :update]
   before_action :validate_sign_up_params, only: :create
   before_action :validate_account_update_params, only: :update
@@ -73,9 +78,7 @@ class Users::RegistrationsController < DeviseTokenAuth::RegistrationsController
     if @resource
       if @resource.send(resource_update_method, account_update_params)
         yield @resource if block_given?
-        if params[:photo]
-          @resource.link_photo = url_for(@resource.photo)
-        end
+        @resource.link_photo = rails_blob_path(@resource.photo, only_path: true) if params[:photo]
         render_update_success
       else
         render_update_error
@@ -209,3 +212,4 @@ class Users::RegistrationsController < DeviseTokenAuth::RegistrationsController
     !@resource.respond_to?(:active_for_authentication?) || @resource.active_for_authentication?
   end
 end
+# rubocop:enable all
