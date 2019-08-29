@@ -21,6 +21,7 @@ export default class AttendeeSignUpForm extends React.Component {
     };
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeFile = this.handleChangeFile.bind(this);
   }
 
   handleSignUp = (e) => {
@@ -121,7 +122,7 @@ export default class AttendeeSignUpForm extends React.Component {
             </div>
 
             <div>
-              <FormTextField type="text"
+              <FormTextField type="password"
                 name="password"
                 label="Password"
                 value={user.password}

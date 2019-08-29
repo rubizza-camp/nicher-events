@@ -3,10 +3,10 @@ require 'rails_helper'
 describe 'Edit profile', type: :request do
   let(:user) { create(:user) }
   let(:user_attributes) {
-    [
-      first_name: 'dima', last_name: 'kosikov', phone: '123456789',
+    {
+      first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, phone: Faker::PhoneNumber.phone_number,
       photo: fixture_file_upload('test_avatar.jpg', 'image/png')
-    ]
+    }
   }
 
   it 'get user profile form' do
@@ -20,10 +20,10 @@ describe 'Edit profile', type: :request do
     end
 
     it 'update user params' do
-      patch '/auth', params: user_attributes[0], headers: @header
-      expect(json_response['data']['first_name']).to eq(user_attributes[0][:first_name])
-      expect(json_response['data']['last_name']).to eq(user_attributes[0][:last_name])
-      expect(json_response['data']['phone']).to eq(user_attributes[0][:phone])
+      patch '/auth', params: user_attributes, headers: @header
+      expect(json_response['data']['first_name']).to eq(user_attributes[:first_name])
+      expect(json_response['data']['last_name']).to eq(user_attributes[:last_name])
+      expect(json_response['data']['phone']).to eq(user_attributes[:phone])
       expect(json_response['data']['link_photo']).not_to eq('')
     end
   end

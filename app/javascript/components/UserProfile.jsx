@@ -6,6 +6,7 @@ import { FormButton } from '../ui/Buttons';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import '../ui/Image.css';
 
 export default class UserProfile extends React.Component {
   constructor(props) {
@@ -21,6 +22,7 @@ export default class UserProfile extends React.Component {
     };
     this.handleSave = this.handleSave.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeFile = this.handleChangeFile.bind(this);
   }
 
   handleSave = (e) => {
@@ -75,14 +77,14 @@ export default class UserProfile extends React.Component {
     }
 
     let image;
-    let user_role;
+    let userRole;
     const { first_name, last_name, role } = JSON.parse(sessionStorage.user_attributes);
-    user_role = `Your role ${role}`;
+    userRole = `Your role ${role}`;
     let userInfo = `${first_name} ${last_name}`;
     image = <div data-hash="true">
       <img srcSet={JSON.parse(sessionStorage.user_attributes)['link_photo']}
         src="https://robohash.org/sitsequiquia.png?size=300x300&set=set1"
-        width="200" height="200"
+        className="Avatar"
         alt="avatar"
       />
     </div>;
@@ -101,17 +103,17 @@ export default class UserProfile extends React.Component {
                 {userInfo}
               </Typography>
               <Typography variant="h5">
-                {user_role}
+                {userRole}
               </Typography>
             </Grid>
             <form onSubmit={this.handleSave}>
-              <Grid container direction="row" justify="center" alignItems="center" >
+              <Grid container direction="row" justify="center" alignItems="center">
                 <div>
                   <FormTextField type="text"
                     name="first_name"
                     label="First name"
                     value={user.first_name}
-                    onChange={this.handleChange}/>
+                    onChange={this.handleChange} />
                 </div>
 
                 <div>
@@ -119,17 +121,17 @@ export default class UserProfile extends React.Component {
                     name="last_name"
                     label="Last name"
                     value={user.last_name}
-                    onChange={this.handleChange}/>
+                    onChange={this.handleChange} />
                 </div>
               </Grid>
-              <Grid container direction="row" justify="space-around" alignItems="center" >
+              <Grid container direction="row" justify="space-around" alignItems="center">
                 <div>
                   <FormTextField type="text"
                     name="phone"
                     label="Phone"
                     value={user.phone}
                     onChange={this.handleChange}
-                    mx="auto"/>
+                    mx="auto" />
                 </div>
 
                 <div>
@@ -145,7 +147,7 @@ export default class UserProfile extends React.Component {
 
               </Grid>
               <Grid container justify="center" alignItems="center">
-                <FormButton color="primary" text="update"/>
+                <FormButton color="primary" text="update" />
               </Grid>
 
             </form>

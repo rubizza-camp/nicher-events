@@ -135,7 +135,7 @@ export default class OrganizerSignUpForm extends React.Component {
             </div>
 
             <div>
-              <FormTextField type="text"
+              <FormTextField type="password"
                 name="password"
                 label="Password"
                 value={user.password}

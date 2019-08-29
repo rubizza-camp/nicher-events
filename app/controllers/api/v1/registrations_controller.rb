@@ -1,9 +1,7 @@
-require 'aws-sdk-s3'
 # rubocop:disable all
 # :reek:all
 
-
-class Users::RegistrationsController < DeviseTokenAuth::RegistrationsController
+class Api::V1::RegistrationsController < DeviseTokenAuth::RegistrationsController
   include Rails.application.routes.url_helpers
   before_action :set_user_by_token, only: [:destroy, :update]
   before_action :validate_sign_up_params, only: :create
