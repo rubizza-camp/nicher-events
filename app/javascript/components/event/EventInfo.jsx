@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import { FormButton } from '../../ui/Buttons';
 import { HomeIcon, KeyIcon } from '../../ui/IconsCollection';
 import EventInvitePanel from './EventInvitePanel';
+import CommentsList from '../comments/CommentsList';
 
 export default class EventInfo extends React.Component {
   constructor(props) {
@@ -124,6 +125,11 @@ export default class EventInfo extends React.Component {
         ))}
       </ul>;
     }
+
+    let comments_temp;
+    if (event.comments !== undefined) {
+      comments_temp = <CommentsList comments={event.comments} event_id={event.id} fetchAvailableEvent={this.fetchAvailableEvent} />;
+    }
   
     return (
       <Grid container direction="column" justify="center" alignItems="center">
@@ -144,6 +150,7 @@ export default class EventInfo extends React.Component {
           <FormButton component={Link} to={listEventsUrl} text='Cancel' />
         </Grid>
         <hr/>
+        {comments_temp}
       </Grid>
     );
   }

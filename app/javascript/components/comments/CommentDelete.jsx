@@ -21,7 +21,7 @@ export default class CommentDelete extends React.Component {
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     Axios.delete(`/api/v1/comments/${comment_id}`, { headers: headers })
       .then(() => {
-        that.props.fetchAvailableComments();
+        that.props.fetchAvailableEvent();
       })
       .catch(error => {
         switch (error.response.statusText) {

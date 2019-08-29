@@ -34,7 +34,7 @@ export const  CommentCard = (params) => {
       {errorsMessage}
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {params.comment.user.email}
+          {params.comment.user_id}
         </Typography>
         <Typography className={classes.content} variant="h5" component="h2">
           {params.comment.text}

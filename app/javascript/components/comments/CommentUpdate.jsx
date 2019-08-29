@@ -23,7 +23,7 @@ export default class CommentUpdate extends React.Component {
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     Axios.patch(`/api/v1/comments/${comment.id}`, { comment: comment }, { headers: headers })
       .then(() => {
-        that.props.fetchAvailableComments();
+        that.props.fetchAvailableEvent();
       })
       .catch(error => {
         switch (error.response.statusText) {
