@@ -4,10 +4,16 @@ import { FormButton } from '../ui/Buttons';
 import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+const queryString = require('query-string');
 
 export default class AttendeeSignUpForm extends React.Component {
   constructor(props) {
     super(props);
+    const parsed = queryString.parse(this.props.history.location.search);
+    let redirect_url;
+    if (Object.entries(parsed).length !== 0) {
+      redirect_url = `${parsed.redirect_url}?token=${parsed.token}`;
+    }
     this.state = {
       user: {
         email: '',
@@ -17,7 +23,8 @@ export default class AttendeeSignUpForm extends React.Component {
         phone: '',
         role: 'attendee',
         photo: null
-      }
+      },
+      redirect_url: redirect_url,
     };
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -51,7 +58,12 @@ export default class AttendeeSignUpForm extends React.Component {
           uid: response.headers['uid']
         }));
       localStorage.setItem('user_attributes', JSON.stringify(response.data.data));
-      that.props.history.push('/');
+      if (this.state.redirect_url) {
+        this.props.history.push(this.state.redirect_url);
+      }
+      else {
+        this.props.history.go(-1);
+      }
     }).catch(error => {
       that.setState({ errors: error.response.data.errors.full_messages });
     });

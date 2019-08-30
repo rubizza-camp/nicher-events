@@ -96,7 +96,9 @@ export default class EventInfo extends React.Component {
     if (event.available_for_edit) {
       eventPanel = <EventPanel />;
       homeIcon = <HomeIcon />;
-      invitePanel = <EventInvitePanel eventId={event.id} handleChange={this.handleChange} />;
+      if (event.status === 'confidential') {
+        invitePanel = <EventInvitePanel eventId={event.id} />;
+      }
     }
     let keyIcon;
     if (event.status === 'confidential') {
@@ -106,7 +108,6 @@ export default class EventInfo extends React.Component {
     if (!event.available_for_edit) {
       subscribePanel = subscribeButton;
     }
-    debugger;
     let errorsMessage;
     if (this.state.errors)  {
       errorsMessage = <div>

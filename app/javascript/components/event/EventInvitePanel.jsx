@@ -20,39 +20,34 @@ export default class EventInvitePanel extends React.Component {
   }
 
   handleSend = (e) => {
-    debugger;
     e.preventDefault();
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    const createInviteUrl = `/api/v1/events/${this.state.invite.eventId}/event_invite`;
+    const createInviteUrl = `/api/v1/events/${this.props.eventId}/event_invites`;
     Axios.post(createInviteUrl, { event_invite: { email: this.state.invite.email } }, { headers: headers })
-      .then(response => { debugger; })
       .catch(error => {
-        debugger;
-      }
+        if ( error.response.statusText === 'Unprocessable Entity') {
+          this.setState({ errors: error.response.data.error });
+        }}
       );
-  }
-
-  UNSAFE_componentWillReceiveProps(newProps) {
-    var newInvite = {...newProps};
-    this.setState({ invite: newInvite });
   }
 
   render () {
     const { invite } = this.state;
     return (
-        <Grid container direction="column" justify="center" alignItems="center">
-          <FormTextField
-            value={invite.email}
-            name="email" 
-            label="Email"
-            onChange={this.handleChange}
-          />
-          <FormButton text='Send' color="primary" onClick={this.handleSend} />
-        </Grid>
+      <Grid container direction="column" justify="center" alignItems="center">
+        {this.state.errors}
+        <FormTextField
+          value={invite.email}
+          name="email" 
+          label="Email"
+          onChange={this.handleChange}
+        />
+        <FormButton text='Send' color="primary" onClick={this.handleSend} />
+      </Grid>
     );
   }
 }

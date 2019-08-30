@@ -23,13 +23,14 @@ import UpdatedEvent from '../components/event/UpdatedEvent';
 import EventInfo from '../components/event/EventInfo';
 import NewEvent from '../components/event/NewEvent';
 import UserProfile from '../components/UserProfile';
+import InviteInfo from '../components/event/InviteInfo';
 
 const RegisterNavigation = () => (
   <AppBar >
     <Toolbar>
-      <NavButtons text='Main page' to="/"  />
-      <NavButtons to="/sign_in" text='Sign in' />
-      <NavButtons  to="/sign_up" text='Sign up' />
+      <NavButtons text='Main page' to={ { pathname: '/', search: window.location.search } } />
+      <NavButtons to={ { pathname: '/sign_in', search: window.location.search } }  text='Sign in' />
+      <NavButtons to={ { pathname: '/sign_up', search: window.location.search } }  text='Sign up' />
     </Toolbar>
   </AppBar>
 );
@@ -88,12 +89,12 @@ const Main = () => (
     <DefaultLayout exact path="/" component={App} />
     <DefaultLayout exact path="/forgot_password" component={ForgotPassword}/>
     <DefaultLayout path="/reset_password" component={ResetPassword}/>
-    <DefaultLayout exact path="/sign_up" component={SignUp} />
+    <DefaultLayout path="/sign_up" component={SignUp} />
     <DefaultLayout path="/sign_in" component={SignIn} />
     <DefaultLayout path="/sign_out" component={SignOut} />
     <DefaultLayout exact path='/organizations/:id/edit' component={EditOrganizationForm} />
     <DefaultLayout exact path='/organizations/:id' component={OrganizationInfo} />
-    <DefaultLayout exact path="/events/new" component={NewEvent} />
+    <DefaultLayout exact path='/events/new' component={NewEvent} />
     <DefaultLayout exact path='/events/:id/edit' component={UpdatedEvent} />
     <DefaultLayout exact path='/events' component={EventList} />
     <DefaultLayout exact path='/events/:id' component={EventInfo} />
@@ -102,6 +103,7 @@ const Main = () => (
     <DefaultLayout exact path='/venues/:id' component={VenueShow} />
     <DefaultLayout exact path='/venues/:id/edit' component={VenueEdit} />
     <DefaultLayout exact path='/user_profile' component={UserProfile} />
+    <DefaultLayout path='/events/:event_id/event_invites/:id' component={InviteInfo} />
   </Switch>
 );
 
