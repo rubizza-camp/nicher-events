@@ -10,6 +10,7 @@ Rails.application.routes.draw do
         resources :user_organizations, only: %i[destroy index]
       end
       resources :venues
+      resources :event_layouts, only: [:show]
       resources :events do
         resources :attendances, only: [:create, :destroy]
         resources :event_invites, only: [:create, :show, :update]

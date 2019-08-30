@@ -40,6 +40,7 @@ const SignOutNavigation = () => (
     <Toolbar>
       <NavButtons to="/" text='Main page' />
       <NavButtons to="/venues" text='Venues' />
+      <NavButtons to="/events" text='Events' />
       <NavButtons to="/user_profile" text='Your profile' />
       <NavButtons to="/sign_out" text='Sign Out' />
     </Toolbar>

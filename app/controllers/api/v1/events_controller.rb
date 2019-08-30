@@ -27,6 +27,7 @@ class Api::V1::EventsController < ApplicationController
     else
       render json: @event.errors.full_messages, status: :unprocessable_entity
     end
+    set_link_map_for_event_layout
   end
 
   def update
@@ -35,6 +36,7 @@ class Api::V1::EventsController < ApplicationController
     else
       render json: @event.errors.full_messages, status: :unprocessable_entity
     end
+    @event.event_layout.link_map = rails_blob_path(@event.event_layout.virtual_map, only_path: true)
   end
 
   def destroy
@@ -86,6 +88,11 @@ class Api::V1::EventsController < ApplicationController
   def event_params
     status_str = params.dig(:event, :status)
     status = Event.statuses[status_str]
-    params.require(:event).permit(:name, :date, :description).merge(status: status)
+    params.require(:event).permit(:name, :date, :description, event_layout_attributes: [:virtual_map]).merge(status: status)
+  end
+
+  def set_link_map_for_event_layout
+    @event.event_layout.link_map= url_for(@event.event_layout.virtual_map)
+    @event.event_layout.save
   end
 end

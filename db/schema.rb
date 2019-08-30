@@ -69,6 +69,15 @@ ActiveRecord::Schema.define(version: 2019_08_28_211942) do
     t.index ["user_id"], name: "index_event_invites_on_user_id"
   end
 
+  create_table "event_layouts", force: :cascade do |t|
+    t.string "virtual_map"
+    t.integer "venue_id"
+    t.integer "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "link_map", default: ""
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "date", null: false

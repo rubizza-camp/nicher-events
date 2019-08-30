@@ -15,4 +15,12 @@ class EventSerializer < ActiveModel::Serializer
   def attendance_id
     object.decorate.already_subscribed_by_user?(current_user&.id) unless available_for_edit
   end
+
+  def link_map
+    begin
+    object.event_layout.link_map
+    rescue
+      return '#'
+    end
+  end
 end
