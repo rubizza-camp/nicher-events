@@ -3,6 +3,7 @@ import Axios from 'axios';
 import { FormButton } from '../ui/Buttons';
 import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 export default class OrganizerSignUpForm extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ export default class OrganizerSignUpForm extends React.Component {
         last_name: '',
         phone: '',
         role: 'organizer',
+        photo: null,
         user_organization_attributes: {
           organization_attributes: {
             name: '',
@@ -23,16 +25,28 @@ export default class OrganizerSignUpForm extends React.Component {
     };
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeFile = this.handleChangeFile.bind(this);
     this.handleChangeForOrganization = this.handleChangeForOrganization.bind(this);
   }
 
   handleSignUp = (e) => {
     e.preventDefault();
+    const data = new FormData();
+    data.append('email', this.state.user.email);
+    data.append('role', this.state.user.role);
+    if (this.state.user.photo){
+      data.append('photo', this.state.user.photo );
+    }
+    data.append('password', this.state.user.password);
+    data.append('first_name', this.state.user.first_name );
+    data.append('last_name', this.state.user.last_name);
+    data.append('phone', this.state.user.phone );
+    data.append('user_organization_attributes',  JSON.stringify(this.state.user.user_organization_attributes));
     var that = this;
     Axios({
       method: 'post',
       url: '/auth',
-      data: this.state.user
+      data: data
     }).then(response => {
       localStorage.setItem('user',
         JSON.stringify({
@@ -54,6 +68,12 @@ export default class OrganizerSignUpForm extends React.Component {
     var currentUser = {...this.state.user};
     currentUser[user.target.name] = user.target.value;
     this.setState({user: currentUser});
+  };
+
+  handleChangeFile = (user) => {
+    let currentUserFile = {...this.state.user};
+    currentUserFile[user.target.name] = user.target.files[0];
+    this.setState({user: currentUserFile});
   };
 
   handleChangeForOrganization = (user) => {
@@ -115,11 +135,22 @@ export default class OrganizerSignUpForm extends React.Component {
             </div>
 
             <div>
-              <FormTextField type="text"
+              <FormTextField type="password"
                 name="password"
                 label="Password"
                 value={user.password}
                 onChange={this.handleChange} />  
+            </div>
+
+            <div>
+              <Typography variant="h6">
+                Avatar:
+              </Typography>
+              <input type="file"
+                name="photo"
+                accept="image/*"
+                onChange={this.handleChangeFile}
+              />
             </div>
 
             <h1>Create Organization</h1>
