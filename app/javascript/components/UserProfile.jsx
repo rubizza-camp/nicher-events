@@ -11,7 +11,7 @@ import '../ui/Image.css';
 export default class UserProfile extends React.Component {
   constructor(props) {
     super(props);
-    let user = JSON.parse(sessionStorage.user_attributes);
+    let user = JSON.parse(localStorage.user_attributes);
     this.state = {
       user: {
         first_name: user.first_name,
@@ -27,8 +27,8 @@ export default class UserProfile extends React.Component {
 
   handleSave = (e) => {
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     e.preventDefault();
     const data = new FormData();
@@ -47,7 +47,7 @@ export default class UserProfile extends React.Component {
       headers: headers,
       data: data
     }).then(response => {
-      sessionStorage.setItem('user_attributes', JSON.stringify(response.data.data));
+      localStorage.setItem('user_attributes', JSON.stringify(response.data.data));
       that.props.history.push('/user_profile');
     }).catch(error => {
       that.setState({ errors: error.response.data.errors.full_messages });
@@ -78,11 +78,11 @@ export default class UserProfile extends React.Component {
 
     let image;
     let userRole;
-    const { first_name, last_name, role } = JSON.parse(sessionStorage.user_attributes);
+    const { first_name, last_name, role } = JSON.parse(localStorage.user_attributes);
     userRole = `Your role ${role}`;
     let userInfo = `${first_name} ${last_name}`;
     image = <div data-hash="true">
-      <img srcSet={JSON.parse(sessionStorage.user_attributes)['link_photo']}
+      <img srcSet={JSON.parse(localStorage.user_attributes)['link_photo']}
         src="https://robohash.org/sitsequiquia.png?size=300x300&set=set1"
         className="Avatar"
         alt="avatar"
