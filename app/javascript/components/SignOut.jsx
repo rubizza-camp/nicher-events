@@ -11,12 +11,12 @@ export default class SignOutForm extends React.Component {
     Axios({
       method: 'delete',
       url: '/auth/sign_out',
-      data: JSON.parse(sessionStorage.user)
+      data: JSON.parse(localStorage.user)
     }).catch(() => {
       this.setState({ hasError: true });
     }).finally(() => {
-      sessionStorage.removeItem('user');
-      sessionStorage.removeItem('user_attributes');
+      localStorage.removeItem('user');
+      localStorage.removeItem('user_attributes');
       this.props.history.push('/');
     });
   }

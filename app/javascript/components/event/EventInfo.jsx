@@ -17,8 +17,8 @@ export default class EventInfo extends React.Component {
 
   fetchAvailableEvent() {
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     Axios.get(`/api/v1/events/${this.props.match.params.id}`, { headers: headers })
       .then(response => this.setState({ event: response.data }))
@@ -31,8 +31,8 @@ export default class EventInfo extends React.Component {
 
   handleDelete() {
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     Axios.delete(`/api/v1/events/${this.props.match.params.id}`, { headers: headers })
@@ -43,8 +43,8 @@ export default class EventInfo extends React.Component {
 
   handleSubscribe = () => {
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     Axios.post(`/api/v1/events/${this.props.match.params.id}/attendances`, {}, { headers: headers })
@@ -59,8 +59,8 @@ export default class EventInfo extends React.Component {
 
   handleUnsubscribe = () => {
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     const attendanceId = this.state.event.attendance_id;

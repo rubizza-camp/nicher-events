@@ -14,8 +14,8 @@ export default class EventList extends React.Component {
 
   fetchAvailableEvents() {
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     Axios.get('/api/v1/events', { headers: headers })
       .then((response) => {
@@ -30,8 +30,8 @@ export default class EventList extends React.Component {
   render() {
     const createEventUrl = '/events/new';
     let userRole;
-    if (sessionStorage.user !== undefined) {
-      userRole = JSON.parse(sessionStorage.user_attributes).role;
+    if (localStorage.user !== undefined) {
+      userRole = JSON.parse(localStorage.user_attributes).role;
     }
 
     let createdButton;

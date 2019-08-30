@@ -13,10 +13,10 @@ class EditOrganizationForm extends Component {
 
   componentDidMount() {
     let headers = {};
-    if (sessionStorage.user != undefined) {
-      const userRole = JSON.parse(sessionStorage.user_attributes).role;
+    if (localStorage.user != undefined) {
+      const userRole = JSON.parse(localStorage.user_attributes).role;
       if (userRole === 'organizer') {
-        headers = JSON.parse(sessionStorage.user);
+        headers = JSON.parse(localStorage.user);
       } else {
         this.props.history.push('/');
       }
@@ -28,10 +28,10 @@ class EditOrganizationForm extends Component {
   handleSubmit = (e, organization) => {
     e.preventDefault();
     let headers = {};
-    if (sessionStorage.user) {
-      const userRole = JSON.parse(sessionStorage.user_attributes).role;
+    if (localStorage.user) {
+      const userRole = JSON.parse(localStorage.user_attributes).role;
       if (userRole === 'organizer') {
-        headers = JSON.parse(sessionStorage.user);
+        headers = JSON.parse(localStorage.user);
       }
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -56,8 +56,8 @@ class EditOrganizationForm extends Component {
 
   render() {
     let organizationForm;
-    if (sessionStorage.user) {
-      const userRole = JSON.parse(sessionStorage.user_attributes).role;
+    if (localStorage.user) {
+      const userRole = JSON.parse(localStorage.user_attributes).role;
       if (userRole === 'organizer') {
         organizationForm = <OrganizationForm organization={this.state.organization}
           handleSubmit={this.handleSubmit} handleCancel={this.handleCancel} errors={this.state.errors} />;
