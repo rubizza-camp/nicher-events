@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :users
       resources :organizations
       resources :venues
+      resource  :event_objects
       resources :events do
         resources :attendances, only: [:create, :destroy]
       end
