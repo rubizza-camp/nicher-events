@@ -14,7 +14,7 @@ export default class SigInForm extends React.Component {
   }
 
   componentDidMount() {
-    if (sessionStorage.user){
+    if (localStorage.user){
       this.props.history.push('/');
     }
   }
@@ -26,7 +26,7 @@ export default class SigInForm extends React.Component {
       url: '/auth/sign_in',
       data: this.state.user
     }).then(response => {
-      sessionStorage.setItem('user',
+      localStorage.setItem('user',
         JSON.stringify({
           'access-token': response.request.getResponseHeader('access-token'),
           'token-type': response.request.getResponseHeader('token-type'),
@@ -34,7 +34,7 @@ export default class SigInForm extends React.Component {
           expiry: response.headers['expiry'],
           uid: response.headers['uid']
         }));
-      sessionStorage.setItem('user_attributes',
+      localStorage.setItem('user_attributes',
         JSON.stringify(response.data.data));
       this.props.history.push('/');
     }).catch(error => {

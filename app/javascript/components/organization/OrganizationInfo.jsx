@@ -12,10 +12,10 @@ class OrganizationInfo extends Component {
 
   componentDidMount() {
     let headers = {};
-    if (sessionStorage.user) {
-      const userRole = JSON.parse(sessionStorage.user_attributes).role;
+    if (localStorage.user) {
+      const userRole = JSON.parse(localStorage.user_attributes).role;
       if (userRole === 'organizer') {
-        headers = JSON.parse(sessionStorage.user);
+        headers = JSON.parse(localStorage.user);
       } else {
         this.props.history.push('/');
       }

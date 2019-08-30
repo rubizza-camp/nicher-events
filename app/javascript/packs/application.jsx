@@ -57,14 +57,14 @@ const OrganizationNavigation = () => (
 const DefaultLayout = ({ component: Component, ...rest }) => {
 
   let navbarComponent;
-  if (sessionStorage.user === undefined) {
+  if (localStorage.user === undefined) {
     navbarComponent = <RegisterNavigation />;
   } else {
     navbarComponent = <SignOutNavigation />;
   }
   let organizationComponent;
-  if (sessionStorage.user != null) {
-    const userRole = JSON.parse(sessionStorage.user_attributes).role;
+  if (localStorage.user != null) {
+    const userRole = JSON.parse(localStorage.user_attributes).role;
     if(userRole === 'organizer') {
       organizationComponent = <OrganizationNavigation />;
     }

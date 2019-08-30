@@ -13,8 +13,8 @@ export default class UpdatedEvent extends React.Component {
 
   handleRedirect() {
     let userRole;
-    if (sessionStorage.user !== undefined) {
-      userRole = JSON.parse(sessionStorage.user_attributes).role;
+    if (localStorage.user !== undefined) {
+      userRole = JSON.parse(localStorage.user_attributes).role;
     }
     if (userRole !== 'organizer') {
       this.props.history.push('/events');
@@ -24,8 +24,8 @@ export default class UpdatedEvent extends React.Component {
   componentDidMount() {
     this.handleRedirect();
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     Axios.get(`/api/v1/events/${this.props.match.params.id}`, {
       headers: headers
@@ -36,8 +36,8 @@ export default class UpdatedEvent extends React.Component {
   handleSubmit = (e, event) => {
     e.preventDefault();
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     Axios.patch(`/api/v1/events/${this.props.match.params.id}`, { event: event }, { headers: headers })

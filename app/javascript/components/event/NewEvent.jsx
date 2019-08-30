@@ -12,8 +12,8 @@ export default class NewEvent extends React.Component {
 
   componentDidMount() {
     let userRole;
-    if (sessionStorage.user !== undefined) {
-      userRole = JSON.parse(sessionStorage.user_attributes).role;
+    if (localStorage.user !== undefined) {
+      userRole = JSON.parse(localStorage.user_attributes).role;
     }
     if (userRole !== 'organizer') {
       this.props.history.push('/events');
@@ -23,8 +23,8 @@ export default class NewEvent extends React.Component {
   handleSubmit = (e, event) => {
     e.preventDefault();
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     Axios.post('/api/v1/events', { event: event }, { headers: headers })

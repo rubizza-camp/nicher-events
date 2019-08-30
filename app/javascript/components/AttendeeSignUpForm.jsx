@@ -29,7 +29,7 @@ export default class AttendeeSignUpForm extends React.Component {
       url: '/auth',
       data: this.state.user
     }).then(response => {
-      sessionStorage.setItem('user',
+      localStorage.setItem('user',
         JSON.stringify({
           'access-token': response.request.getResponseHeader('access-token'),
           'token-type': response.request.getResponseHeader('token-type'),
@@ -37,7 +37,7 @@ export default class AttendeeSignUpForm extends React.Component {
           expiry: response.headers['expiry'],
           uid: response.headers['uid']
         }));
-      sessionStorage.setItem('user_attributes', JSON.stringify(response.data.data));
+      localStorage.setItem('user_attributes', JSON.stringify(response.data.data));
       that.props.history.push('/');
     }).catch(error => {
       that.setState({ errors: error.response.data.errors.full_messages });
