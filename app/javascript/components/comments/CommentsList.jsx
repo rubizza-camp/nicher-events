@@ -17,6 +17,8 @@ export default class Comments extends React.Component {
   }
 
   handleSubmit = (e, comment) => {
+    delete this.state.comment;
+    delete this.state.errors;
     e.preventDefault();
     let headers = {};
     if (sessionStorage.user) {
@@ -26,12 +28,15 @@ export default class Comments extends React.Component {
     }
     const that = this;
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    Axios.post('/api/v1/comments', { comment: comment }, { headers: headers })
+    Axios.post(`/api/v1/events/${comment.event_id}/comments`, { comment: comment }, { headers: headers })
       .then(() => {
         that.props.fetchAvailableEvent();
       })
       .catch(error => {
         switch (error.response.statusText) {
+        case 'Not Found':
+          this.setState({ errors: ['You can\'t do it'] });
+          break;
         case 'Unprocessable Entity':
           this.setState({ errors: error.response.data });
           break;
@@ -44,13 +49,10 @@ export default class Comments extends React.Component {
   }
 
   render() {
-    // this.setState({ event_id: this.props.event_id });
-    // const comments = this.props.comments;
     let commentForm;
-    // if (sessionStorage.user !== undefined) {
-    commentForm = <CommentForm comment={this.state.comment} errors={this.state.errors} handleSubmit={this.handleSubmit} />;
-    // }
-
+    if (sessionStorage.user !== undefined) {
+      commentForm = <CommentForm comment={this.state.comment} errors={this.state.errors} handleSubmit={this.handleSubmit} />;
+    }
     return (
       <div>
         <Grid container direction="column" justify="center" alignItems="center" >

@@ -7,7 +7,7 @@ import Rating from '@material-ui/lab/Rating';
 export default class CommentForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { comment: { } };
+    this.state = { comment: {} };
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeRating = this.handleChangeRating.bind(this);
   }
@@ -42,16 +42,25 @@ export default class CommentForm extends React.Component {
         ))}
       </ul>;
     }
+    let responseMessage;
+    if (this.props.response)  {
+      responseMessage = <ul>
+        {this.props.response.map((error) => (
+          <li key={error.id}>{error}</li>
+        ))}
+      </ul>;
+    }
     const { comment } = this.state;
     return (
+
       <form onSubmit={(e) => { this.props.handleSubmit(e, this.state.comment); }}>
         {errorsMessage}
+        {responseMessage}
         <Grid container direction="column" justify="center" alignItems="center" >
           <FormTextField
             value={comment.text}
             name="text"
             rows="3"
-            
             multiline
             onChange={this.handleChange}
           />

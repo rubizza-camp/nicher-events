@@ -6,20 +6,17 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Rating from '@material-ui/lab/Rating';
 
-const useStyles = makeStyles({
-  card: {
-    width: 800,
-    marginBottom:10,
-  },
-  title: {
-    fontSize: 14,
-  },
-  content: {
-    width: 800,
-  },
-});
-
 export const  CommentCard = (params) => {
+  const useStyles = makeStyles({
+    card: {
+      marginBottom:20,
+      width: 550,
+      shadow: 40,
+    },
+    title: {
+      fontSize: 14,
+    },
+  });
   const classes = useStyles();
   let errorsMessage;
   if (params.errors)  {
@@ -34,10 +31,12 @@ export const  CommentCard = (params) => {
       {errorsMessage}
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {params.comment.user_id}
+          {params.comment.user.email}
         </Typography>
-        <Typography className={classes.content} variant="h5" component="h2">
+        <Typography >
           {params.comment.text}
+        </Typography>
+        <Typography>
           <Rating value={params.comment.rating} disabled />
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
