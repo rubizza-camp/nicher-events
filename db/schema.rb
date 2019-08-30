@@ -10,31 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_28_141558) do
+ActiveRecord::Schema.define(version: 2019_08_30_143056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "active_storage_attachments", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
-    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
-  end
-
-  create_table "active_storage_blobs", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
-    t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
-    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
-  end
 
   create_table "attendances", force: :cascade do |t|
     t.bigint "user_id"
@@ -56,11 +35,32 @@ ActiveRecord::Schema.define(version: 2019_08_28_141558) do
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
+  create_table "organization_intives", force: :cascade do |t|
+    t.string "email"
+    t.string "token"
+    t.bigint "user_id"
+    t.bigint "user_organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_organization_intives_on_user_id"
+    t.index ["user_organization_id"], name: "index_organization_intives_on_user_organization_id"
+  end
+
+  create_table "organization_invites", force: :cascade do |t|
+    t.string "email"
+    t.string "token"
+    t.bigint "user_id"
+    t.bigint "user_organization_id"
+    t.index ["user_id"], name: "index_organization_invites_on_user_id"
+    t.index ["user_organization_id"], name: "index_organization_invites_on_user_organization_id"
+  end
+
   create_table "organizations", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "owner_id"
   end
 
   create_table "user_organizations", force: :cascade do |t|
@@ -107,7 +107,11 @@ ActiveRecord::Schema.define(version: 2019_08_28_141558) do
     t.string "name", default: "", null: false
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "events", "users"
+  add_foreign_key "organization_intives", "user_organizations"
+  add_foreign_key "organization_intives", "users"
+  add_foreign_key "organization_invites", "user_organizations"
+  add_foreign_key "organization_invites", "users"
   add_foreign_key "user_organizations", "organizations"
   add_foreign_key "user_organizations", "users"
 end

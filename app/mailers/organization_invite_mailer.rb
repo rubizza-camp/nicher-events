@@ -1,0 +1,2 @@
+class OrganizationInviteMailer < ApplicationMailer
+end
