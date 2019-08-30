@@ -2,9 +2,20 @@ import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import { FormButton } from './Buttons';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
 
-export const CommentDiolog = (params) => {
+const useStyles = makeStyles({
+  button: {
+    padding: 0,
+  },
+  dialog: {
+    width: 800,
+  },
+});
+
+export const CommentDialog = (params) => {
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
   function handleClickOpen() {
@@ -17,7 +28,9 @@ export const CommentDiolog = (params) => {
 
   return (
     <div>
-      <FormButton onClick={handleClickOpen} color="primary" text={params.text_button} />
+      <IconButton className={classes.button} onClick={handleClickOpen}>
+        {params.text_button}
+      </IconButton>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogContent>
           {params.comment_card}

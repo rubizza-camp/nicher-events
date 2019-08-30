@@ -1,8 +1,9 @@
 import React from 'react';
 import Axios from 'axios';
 import { FormButton } from '../../ui/Buttons';
-import { CommentDiolog } from '../../ui/CommentDiolog';
+import { CommentDialog } from '../../ui/CommentDialog';
 import { CommentCard } from '../../ui/CommentCard';
+import { DeleteIcon } from '../../ui/IconsCollection';
 
 export default class CommentDelete extends React.Component {
   constructor(props) {
@@ -11,7 +12,7 @@ export default class CommentDelete extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
   }
 
-  handleDelete = (e, comment_id) => {
+  handleDelete = (e, comment) => {
     e.preventDefault();
     let headers = {};
     if (sessionStorage.user) {
@@ -19,7 +20,7 @@ export default class CommentDelete extends React.Component {
     }
     const that = this;
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    Axios.delete(`/api/v1/comments/${comment_id}`, { headers: headers })
+    Axios.delete(`/api/v1/events/${comment.event_id}/comments/${comment.id}`, { headers: headers })
       .then(() => {
         that.props.fetchAvailableEvent();
       })
@@ -40,15 +41,16 @@ export default class CommentDelete extends React.Component {
     const comment = this.props.comment;
     let buttonDelete;
     let commentCard;
-    let commentDeleteDiolog;
-    // if ( sessionStorage.user !== undefined && (JSON.parse(sessionStorage.user_attributes).id == comment.user.id || JSON.parse(sessionStorage.user_attributes).role == 'organizer')) {
-    buttonDelete = <FormButton onClick={(e) => { this.handleDelete(e, comment.id); }} color="primary" text='Delete' />;
-    commentCard = <CommentCard comment={comment} errors={this.state.errors}/>;
-    commentDeleteDiolog = <CommentDiolog content={buttonDelete} text_button={'Delete'} comment_card={commentCard} />;
-    // }
+    let commentDeleteDialog;
+    if ( sessionStorage.user !== undefined && (JSON.parse(sessionStorage.user_attributes).id == comment.user.id || JSON.parse(sessionStorage.user_attributes).role == 'organizer')) {
+      buttonDelete = <FormButton onClick={(e) => { this.handleDelete(e, comment); }} color="primary" text='Delete' />;
+      commentCard = <CommentCard comment={comment} errors={this.state.errors}/>;
+      const deleteIcon = <DeleteIcon />;
+      commentDeleteDialog = <CommentDialog content={buttonDelete} text_button={deleteIcon} comment_card={commentCard} />;
+    }
     return (
       <div key={comment.id}>
-        {commentDeleteDiolog}
+        {commentDeleteDialog}
       </div>
     );
   }

@@ -1,14 +1,16 @@
 import React from 'react';
 import Axios from 'axios';
-import { CommentDiolog } from '../../ui/CommentDiolog';
+import { CommentDialog } from '../../ui/CommentDialog';
 import CommentForm from './CommentForm';
+import { EditIcon } from '../../ui/IconsCollection';
 
 export default class CommentUpdate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       comment: {},
-      errors: []
+      errors: [],
+      response: []
     };
     this.handleUpdate = this.handleUpdate.bind(this);
   }
@@ -21,8 +23,9 @@ export default class CommentUpdate extends React.Component {
     }
     const that = this;
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    Axios.patch(`/api/v1/comments/${comment.id}`, { comment: comment }, { headers: headers })
+    Axios.patch(`/api/v1/events/${comment.event_id}/comments/${comment.id}`, { comment: comment }, { headers: headers })
       .then(() => {
+        this.setState({ response: ['Comment edited'] });
         that.props.fetchAvailableEvent();
       })
       .catch(error => {
@@ -44,14 +47,15 @@ export default class CommentUpdate extends React.Component {
   render() {
     const comment = this.props.comment;
     let editForm;
-    let commentUpdateDiolog;
-    // if ( sessionStorage.user !== undefined && JSON.parse(sessionStorage.user_attributes).id == comment.user.id) {
-    editForm = <CommentForm comment={comment} errors={this.state.errors} handleSubmit={this.handleUpdate} />;
-    commentUpdateDiolog = <CommentDiolog content={editForm} text_button={'Update'} />;
-    // }
+    let commentUpdateDialog;
+    if ( sessionStorage.user !== undefined && JSON.parse(sessionStorage.user_attributes).id == comment.user.id) {
+      editForm = <CommentForm comment={comment} errors={this.state.errors} response={this.state.response} handleSubmit={this.handleUpdate} />;
+      const editIcon = <EditIcon />;
+      commentUpdateDialog = <CommentDialog content={editForm} text_button={editIcon} />;
+    }
     return (
       <div key={comment.id}>
-        {commentUpdateDiolog}
+        {commentUpdateDialog}
       </div>
     );
   }
