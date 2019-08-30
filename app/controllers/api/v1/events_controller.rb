@@ -14,7 +14,7 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def show
-    return head :forbidden unless @event.social? || (current_user&.organization&.events&.find_by(id: @event.id))
+    return head :forbidden unless @event.social? || organization_event? || subscribed_event?
 
     render json: @event
   end
@@ -44,9 +44,18 @@ class Api::V1::EventsController < ApplicationController
 
   private
 
+  def organization_event?
+    current_user&.organization&.events&.find_by(id: @event.id)
+  end
+
+  def subscribed_event?
+    current_user.attendances.find_by(event_id: @event.id)
+  end
+
   def set_events
     @events = Event.social
     @events += current_user.organization.events.confidential if current_user&.organizer?
+    @events += Event.avaliable_for_user(current_user&.id)
   end
 
   def set_event
