@@ -71,24 +71,11 @@ User.first.events.create([
   }
 ])
 
-User.second.events.create([
-  { name: Faker::Lorem.word,
-    date: Faker::Date.between(from: 2.days.ago, to: Date.today),
-    description: Faker::Lorem.sentence,
-    status: Event.statuses.keys.sample,
-  },
-  { name: Faker::Lorem.word,
-    date: Faker::Date.between(from: 2.days.ago, to: Date.today),
-    description: Faker::Lorem.sentence,
-    status: Event.statuses.keys.sample,
-  }
-])
-
 20.times do
-  Venue.create(
-    name: Faker::Cannabis.brand,
-    address: Faker::Address.full_address,
-    description: Faker::Lorem.paragraph,
-    people_capacity: rand(99)
-  )
+    Venue.create(
+      name: Faker::Cannabis.brand,
+      address: Faker::Address.full_address,
+      description: Faker::Lorem.paragraph,
+      people_capacity: rand(99)
+    )
 end

@@ -5,10 +5,10 @@ import EventForm from './EventForm';
 export default class NewEvent extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { event: { name: '', description: '', status: '', date: '' } };
+    this.state = { event: { name: '', description: '', status: '', date: '', event_layout_attributes: { virtual_map: null } } };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
-  }
+  }я
 
   componentDidMount() {
     let userRole;
@@ -22,12 +22,26 @@ export default class NewEvent extends React.Component {
 
   handleSubmit = (e, event) => {
     e.preventDefault();
+
     let headers = {};
     if (localStorage.user) {
       headers = JSON.parse(localStorage.user);
     }
+
+    const data = new FormData();
+    data.append('event[name]', event.name);
+    data.append('event[description]', event.description);
+    data.append('event[status]', event.status);
+    data.append('event[date]', event.date);
+    data.append('event[event_layout_attributes][virtual_map]', event.event_layout_attributes.virtual_map);
+
+
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    Axios.post('/api/v1/events', { event: event }, { headers: headers })
+    Axios({
+      method: 'post',
+      url: '/api/v1/events', 
+      data: data, 
+      headers: headers })
       .then(response => this.props.history.push(`/events/${response.data.id}`))
       .catch(error => {
         switch (error.response.statusText) {

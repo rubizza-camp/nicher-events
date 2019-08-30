@@ -87,6 +87,12 @@ export default class EventInfo extends React.Component {
         <FormButton onClick={this.handleDelete} text="Delete" color="secondary" />
       </div>
     );
+    const linkMap = <div>
+      <img srcSet={this.state.event.link_map}
+        src="https://robohash.org/sitsequiquia.png?size=300x300&set=set1"
+      />
+    </div>;
+    this.state.event.link_map;
     let subscribeButton;
     if (event.attendance_id) {
       subscribeButton = <FormButton onClick={this.handleUnsubscribe} text='Unsubscribe' color="secondary" />;
@@ -147,6 +153,7 @@ export default class EventInfo extends React.Component {
           {subscribePanel}
           <FormButton component={Link} to={listEventsUrl} text='Cancel' />
         </Grid>
+        {linkMap}
         <hr/>
       </Grid>
     );

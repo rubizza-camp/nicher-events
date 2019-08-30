@@ -15,4 +15,10 @@ class Event < ApplicationRecord
   scope :social, -> { where(status: :social) }
   scope :confidential, -> { where(status: :confidential) }
   scope :available_for_user, ->(user_id) { joins(:attendances).where(attendances: { user_id: user_id }) }
+
+  has_many :event_layouts
+  has_many :venues, through: :event_layouts
+
+  has_one :event_layout
+  accepts_nested_attributes_for :event_layout, allow_destroy: true, reject_if: :all_blank
 end

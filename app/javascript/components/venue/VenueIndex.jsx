@@ -14,12 +14,10 @@ export default class VenueIndex extends React.Component {
 
   componentDidMount() {
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
-    headers['X-CSRF-Token'] = document
-      .querySelector('meta[name=\'csrf-token\']')
-      .getAttribute('content');
+
     Axios.get('/api/v1/venues', {
       headers: headers
     })

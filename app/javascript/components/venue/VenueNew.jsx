@@ -8,7 +8,12 @@ export default class VenueNew extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      venue: { name: '', address: '', description: '', people_capacity: '' }
+      venue: { 
+        name: '',
+        address: '',
+        description: '',
+        people_capacity: ''
+      }
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -63,32 +68,33 @@ export default class VenueNew extends Component {
             style={{ height: 700 }}
             alignItems="center"
           >
-            Name:
+            <h1>Venue</h1>
             <FormTextField
+              label="Name"
               type="text"
               name="name"
               placeholder="Name"
               value={venue.name}
               onChange={this.handleChange}
             />
-            Address:
             <FormTextField
+              label="Address"
               type="text"
               name="address"
               placeholder="Address"
               value={venue.address}
               onChange={this.handleChange}
             />
-            Description:
             <FormTextField
+              label="Description"
               type="text"
               name="description"
               placeholder="Description"
               value={venue.description}
               onChange={this.handleChange}
             />
-            People capacity:
             <FormTextField
+              label="People capacity"
               type="number"
               name="people_capacity"
               value={venue.people_capacity}
