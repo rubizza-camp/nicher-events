@@ -28,7 +28,7 @@ import InviteInfo from '../components/event/InviteInfo';
 const RegisterNavigation = () => (
   <AppBar >
     <Toolbar>
-      <NavButtons text='Main page' to={ { pathname: '/', search: window.location.search } } />
+      <NavButtons text='Main page' to='/' />
       <NavButtons to={ { pathname: '/sign_in', search: window.location.search } }  text='Sign in' />
       <NavButtons to={ { pathname: '/sign_up', search: window.location.search } }  text='Sign up' />
     </Toolbar>

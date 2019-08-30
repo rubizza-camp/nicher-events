@@ -11,7 +11,6 @@ Rails.application.routes.draw do
       resources :events do
         resources :attendances, only: [:create, :destroy]
         resources :event_invites, only: [:create, :show, :update]
-        # post '/event_invite/:id/update', to: 'event_invite#update'
       end
     end
   end

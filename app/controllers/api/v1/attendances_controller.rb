@@ -2,8 +2,8 @@
 # :reek:NilCheck
 
 class Api::V1::AttendancesController < ApplicationController
-  before_action :set_event
   before_action :authenticate_user!
+  before_action :set_event
   before_action :verify_role_user
 
   def create

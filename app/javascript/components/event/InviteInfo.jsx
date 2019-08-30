@@ -10,7 +10,7 @@ export default class InviteInfo extends React.Component {
     const parsed = queryString.parse(this.props.location.search);
     this.state = { invite: { id: '', event: {}, token: parsed.token }};
     this.fetchAvailableEvent = this.fetchAvailableEvent.bind(this);
-    this.handleAccess = this.handleAccess.bind(this);
+    this.handleAccept = this.handleAccept.bind(this);
     this.handleReject = this.handleReject.bind(this);
   }
 
@@ -34,7 +34,7 @@ export default class InviteInfo extends React.Component {
     this.fetchAvailableEvent();
   }
 
-  handleAccess = () => {
+  handleAccept = () => {
     let headers = {};
     if (localStorage.user) {
       headers = JSON.parse(localStorage.user);
@@ -82,7 +82,7 @@ export default class InviteInfo extends React.Component {
         <p>Date: {event.date}</p>
         <p>Description: {event.description}</p>
         <Grid container direction="row" justify="center">
-          <FormButton onClick={this.handleAccess} text='Access' color="primary" />
+          <FormButton onClick={this.handleAccept} text='Access' color="primary" />
           <FormButton onClick={this.handleReject} text='Reject' color="secondary" />
         </Grid>
         <hr/>

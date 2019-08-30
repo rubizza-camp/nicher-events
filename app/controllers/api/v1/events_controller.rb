@@ -55,7 +55,7 @@ class Api::V1::EventsController < ApplicationController
   def set_events
     @events = Event.social
     @events += current_user.organization.events.confidential if current_user&.organizer?
-    @events += Event.avaliable_for_user(current_user&.id)
+    @events += Event.available_for_user(current_user&.id)
   end
 
   def set_event

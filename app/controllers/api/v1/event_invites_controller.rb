@@ -1,14 +1,14 @@
 # :reek:InstanceVariableAssumption
 # :reek:MissingSafeMethod
+# :reek:NilCheck
+# rubocop:disable Metrics/LineLength
 
 class Api::V1::EventInvitesController < ApplicationController
-  before_action :authenticate_user!, only: %i[create show]
+  before_action :authenticate_user!, only: %i[create show update]
   before_action :verify_organizer!, only: %i[create]
   before_action :set_event, only: %i[create]
   before_action :verify_email!, only: %i[create]
   before_action :generate_token, only: %i[create]
-
-  before_action :authenticate_user_for_access, only: %i[update]
   before_action :set_invite, only: %i[show update]
   before_action :verify_token!, only: %i[show update]
 
@@ -25,18 +25,18 @@ class Api::V1::EventInvitesController < ApplicationController
   end
 
   def update
-    return :unprocessable_entity unless current_user.email != params.dig(:event_invite, :email)
+    return :unprocessable_entity unless current_user&.email != params.dig(:event_invite, :email)
 
     update_as_decline if params[:status] == 'reject'
     update_as_access if params[:status] == 'access'
   end
 
   def update_as_decline
-    @invite.update(decline_at: Time.now, token: nil)
+    @invite.update(decline_at: Time.zone.now, token: nil)
   end
 
   def update_as_access
-    @invite.update(access_at: Time.now, token: nil)
+    @invite.update(access_at: Time.zone.now, token: nil)
   end
 
   private
@@ -59,10 +59,6 @@ class Api::V1::EventInvitesController < ApplicationController
     return head :precondition_failed unless @invite[:token] == token
   end
 
-  def authenticate_user_for_access
-    authenticate_user! if params[:status] == 'access'
-  end
-
   def set_event
     @event = Event.find_by(id: params[:event_id]).decorate
   end
@@ -80,3 +76,4 @@ class Api::V1::EventInvitesController < ApplicationController
     EventInviteMailer.with(email_params).event_email.deliver_later
   end
 end
+# rubocop:enable Metrics/LineLength
