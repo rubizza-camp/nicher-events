@@ -1,9 +1,17 @@
 # :reek:InstanceVariableAssumption
 class Api::V1::CommentsController < ApplicationController
   before_action :authenticate_user!, only: %i[create update destroy]
+  before_action :current_event
+  before_action :current_comment, only: %i[update destroy]
+  before_action :comment_params, only: %i[create]
+
+  def index
+    @comments = Comment.where(event_id: current_event.id)
+    render json: @comments
+  end
 
   def create
-    return head :not_found unless current_user
+    return head :not_found unless user_subscribed_for_current_event? || user_organizer_of_event?
     @comment = current_user.comments.new(comment_params)
     if @comment.save
       render json: @comment, status: :created
@@ -13,7 +21,7 @@ class Api::V1::CommentsController < ApplicationController
   end
 
   def update
-    return head :not_found unless current_user_comment?
+    return head :not_found unless current_comment.present? && user_comment?
     if current_comment.update(comment_params)
       render json: current_comment
     else
@@ -22,18 +30,22 @@ class Api::V1::CommentsController < ApplicationController
   end
 
   def destroy
-    return head :not_found unless current_comment && (current_user_comment? || current_user_organizer_of_this_event?)
+    return head :not_found unless current_comment.present? && (user_comment? || user_organizer_of_event?)
     current_comment.destroy
     head :no_content
   end
 
   private
 
-  def current_user_organizer_of_this_event?
-    current_user.events.find_by(id: current_comment.event_id)
+  def user_organizer_of_event?
+    current_user.events.find_by(id: current_event.id).present?
   end
 
-  def current_user_comment?
+  def user_subscribed_for_current_event?
+    current_user.attendances.find_by(event_id: current_event.id).present?
+  end
+
+  def user_comment?
     current_user.comments.find_by(id: params[:id])
   end
 
@@ -43,5 +55,9 @@ class Api::V1::CommentsController < ApplicationController
 
   def current_comment
     @current_comment ||= Comment.find_by(id: params[:id])
+  end
+
+  def current_event
+    @current_event ||= Event.find_by(id: params[:event_id])
   end
 end
