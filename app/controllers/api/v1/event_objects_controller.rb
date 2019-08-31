@@ -2,6 +2,8 @@ require 'aws-sdk-s3'
 
 class Api::V1::EventObjectsController < ApplicationController
   before_action :authenticate_user!
+  before_action :verify_organizer!, only: %i[create update destroy]
+  before_action :set_event_object, only: %i[show update destroy]
 
 
   def index
@@ -9,22 +11,13 @@ class Api::V1::EventObjectsController < ApplicationController
     render json: @events_objects
   end
 
-  # def show
-  #   return head :not_found unless event_object
-  #
-  #   render json: @event_object
-  # end
+  def show
+    render json: @event_object
+  end
 
   def create
-    binding.pry
-    s3 = Aws::S3::Resource.new(region: 'us-east-2',
-                               access_key_id: "AKIAIVH6TP56VWT74CRA",
-                               secret_access_key: "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")
-    original_filename = params['file'].original_filename
-    obj = s3.bucket('nicher-events').object(original_filename)
-    obj.upload_file(params['file'].tempfile)
     @events_objects = EventObject.new(event_object_params)
-    @events_objects.location = obj.public_url
+    @events_objects.location = url_for(@events_objects.file)
     if @events_objects.save
       render json: @events_objects
     else
@@ -33,9 +26,10 @@ class Api::V1::EventObjectsController < ApplicationController
   end
 
   def update
-    return head :not_found unless event_object
-
-    if event_object.update(event_object_params)
+    @event_object.file.purge
+    if @event_object.update(event_object_params)
+      @event_object.location = url_for(@event_object.file)
+      @event_object.save
       render json: @event_object
     else
       render json: @event_object.errors.full_messages, status: :unprocessable_entity
@@ -43,19 +37,22 @@ class Api::V1::EventObjectsController < ApplicationController
   end
 
   def destroy
-    return head :not_found unless event_object
-
     @event_object.destroy
     head :no_content
   end
 
   private
 
-  def event_object_params
-    params.require(:event_object).permit(:name, :description, :file, :location)
+  def set_event_object
+    @event_object ||= EventObject.find_by(id: params[:id])
+    return head :not_found unless @event_object
   end
 
-  def event_object
-    @event_object ||= EventObject.find_by(id: params[:id])
+  def verify_organizer!
+    return head :forbidden unless current_user.organizer?
+  end
+
+  def event_object_params
+    params.permit(:name, :description, :file)
   end
 end

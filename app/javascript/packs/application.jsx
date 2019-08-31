@@ -23,6 +23,10 @@ import UpdatedEvent from '../components/event/UpdatedEvent';
 import EventInfo from '../components/event/EventInfo';
 import NewEvent from '../components/event/NewEvent';
 import UserProfile from '../components/UserProfile';
+import EventObjectList from '../components/event_object/EventObjectList';
+import NewEventObject from '../components/event_object/NewEventObject';
+import EventObjectInfo from '../components/event_object/EventObjectInfo'
+import EditEventObject from '../components/event_object/EditEventObject'
 
 const RegisterNavigation = () => (
   <AppBar >
@@ -102,6 +106,10 @@ const Main = () => (
     <DefaultLayout exact path='/venues/:id' component={VenueShow} />
     <DefaultLayout exact path='/venues/:id/edit' component={VenueEdit} />
     <DefaultLayout exact path='/user_profile' component={UserProfile} />
+    <DefaultLayout exact path='/event_objects' component={EventObjectList} />
+    <DefaultLayout exact path='/event_objects/new' component={NewEventObject} />
+    <DefaultLayout exact path='/event_objects/:id' component={EventObjectInfo} />
+    <DefaultLayout exact path='/event_objects/:id/edit' component={EditEventObject} />
   </Switch>
 );
 
