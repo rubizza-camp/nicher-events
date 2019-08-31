@@ -20,7 +20,7 @@ export default class CommentDelete extends React.Component {
     }
     const that = this;
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    Axios.delete(`/api/v1/events/${comment.event_id}/comments/${comment.id}`, { headers: headers })
+    Axios.delete(`/api/v1/events/${comment.event.id}/comments/${comment.id}`, { headers: headers })
       .then(() => {
         that.props.fetchAvailableEvent();
       })

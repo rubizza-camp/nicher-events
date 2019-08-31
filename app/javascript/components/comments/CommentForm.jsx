@@ -1,8 +1,9 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { FormButton } from '../../ui/Buttons';
-import { FormTextField } from '../../ui/TextFileds';
+import { CommentTextField } from '../../ui/TextFileds';
 import Rating from '@material-ui/lab/Rating';
+import { Message } from '../../ui/Message';
 
 export default class CommentForm extends React.Component {
   constructor(props) {
@@ -34,29 +35,36 @@ export default class CommentForm extends React.Component {
   }
 
   render () {
+    let message;
     let errorsMessage;
-    if (this.props.errors)  {
-      errorsMessage = <ul>
+    if (this.props.errors !== undefined && this.props.errors.length !== 0)  {
+      errorsMessage = <div>
         {this.props.errors.map((error) => (
-          <li key={error.id}>{error}</li>
+          <div key={error.id}>{error}</div>
         ))}
-      </ul>;
+      </div>;
+      message = <Message message={errorsMessage} variant='error' />;
     }
     let responseMessage;
-    if (this.props.response)  {
-      responseMessage = <ul>
+    if (this.props.response !== undefined && this.props.response.length !== 0)  {
+      responseMessage = <div>
         {this.props.response.map((error) => (
-          <li key={error.id}>{error}</li>
+          <div key={error.id}>{error}</div>
         ))}
-      </ul>;
+      </div>;
+      message = <Message message={responseMessage} variant='success' />;
     }
-    const { comment } = this.state;
+
+    let { comment } = this.state;
+    if (this.state.comment.user_id !== undefined && errorsMessage == undefined) {
+      this.setState({ comment: { text: '', rating: ''} });
+      comment = this.state.comment;
+    }
     return (
       <form onSubmit={(e) => { this.props.handleSubmit(e, this.state.comment); }}>
-        {errorsMessage}
-        {responseMessage}
+        {message}
         <Grid container direction="column" justify="center" alignItems="center" >
-          <FormTextField
+          <CommentTextField
             value={comment.text}
             name="text"
             rows="3"

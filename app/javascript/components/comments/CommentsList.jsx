@@ -5,6 +5,7 @@ import { CommentCard } from '../../ui/CommentCard';
 import CommentForm from './CommentForm';
 import CommentDelete from './CommentDelete';
 import CommentUpdate from './CommentUpdate';
+import { List } from '@material-ui/core';
 
 export default class CommentsList extends React.Component {
   constructor(props) {
@@ -17,7 +18,6 @@ export default class CommentsList extends React.Component {
   }
 
   handleSubmit = (e, comment) => {
-    delete this.state.comment;
     delete this.state.errors;
     e.preventDefault();
     let headers = {};
@@ -54,7 +54,7 @@ export default class CommentsList extends React.Component {
       commentForm = <CommentForm comment={this.state.comment} errors={this.state.errors} handleSubmit={this.handleSubmit} />;
     }
     return (
-      <div>
+      <List>
         <Grid container direction="column" justify="center" alignItems="center" >
           {this.props.comments.map(comment => (
             <div key={comment.id}>
@@ -67,7 +67,7 @@ export default class CommentsList extends React.Component {
           ))}
         </Grid>
         {commentForm}
-      </div>
+      </List>
     );
   }
 }

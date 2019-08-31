@@ -16,6 +16,8 @@ export default class CommentUpdate extends React.Component {
   }
 
   handleUpdate = (e, comment) => {
+    delete this.state.response;
+    delete this.state.errors;
     e.preventDefault();
     let headers = {};
     if (localStorage.user) {
@@ -23,7 +25,7 @@ export default class CommentUpdate extends React.Component {
     }
     const that = this;
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    Axios.patch(`/api/v1/events/${comment.event_id}/comments/${comment.id}`, { comment: comment }, { headers: headers })
+    Axios.patch(`/api/v1/events/${comment.event.id}/comments/${comment.id}`, { comment: comment }, { headers: headers })
       .then(() => {
         this.setState({ response: ['Comment edited'] });
         that.props.fetchAvailableEvent();

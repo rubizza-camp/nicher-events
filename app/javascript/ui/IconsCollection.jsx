@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { VpnKey, Home, Edit, Delete } from '@material-ui/icons';
+import { VpnKey, Home, Edit, Delete, Error, CheckCircle } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -10,6 +10,12 @@ const useStyles = makeStyles(theme => ({
   },
   icon: {
     margin: theme.spacing(2),
+  },
+  iconComment: {
+    margin: theme.spacing(1),
+  },
+  iconMessage: {
+    marginRight: theme.spacing(1),
   },
 }));
 
@@ -38,7 +44,7 @@ export const EditIcon = () => {
 
   return (
     <div className={classes.root}>
-      <Edit className={classes.icon} color="primary" />
+      <Edit className={classes.iconComment} color="primary" />
     </div>
   );
 };
@@ -48,7 +54,27 @@ export const DeleteIcon = () => {
 
   return (
     <div className={classes.root}>
-      <Delete className={classes.icon} color="primary" />
+      <Delete className={classes.iconComment} color="primary" />
+    </div>
+  );
+};
+
+export const CheckCircleIcon = () => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <CheckCircle className={classes.iconMessage} />
+    </div>
+  );
+};
+
+export const ErrorIcon = () => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <Error className={classes.iconMessage} />
     </div>
   );
 };
