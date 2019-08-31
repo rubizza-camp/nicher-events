@@ -16,7 +16,7 @@ import { NavButtons } from '../ui/Buttons';
 import AppBar from '@material-ui/core/AppBar';
 import EditOrganizationForm from '../components/organization/EditOrganizationForm';
 import OrganizationInfo from '../components/organization/OrganizationInfo';
-import { Router, Route, NavLink, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { Toolbar } from '@material-ui/core';
 import EventList from '../components/event/EventList';
 import UpdatedEvent from '../components/event/UpdatedEvent';
@@ -26,38 +26,18 @@ import UserProfile from '../components/UserProfile';
 import InviteInfo from '../components/event/InviteInfo';
 
 const RegisterNavigation = () => (
-  <AppBar >
-    <Toolbar>
-      <NavButtons text='Main page' to='/' />
-      <NavButtons to={ { pathname: '/sign_in', search: window.location.search } }  text='Sign in' />
-      <NavButtons to={ { pathname: '/sign_up', search: window.location.search } }  text='Sign up' />
-    </Toolbar>
-  </AppBar>
+  <Box pb={10}>
+    <AppBar >
+      <Toolbar>
+        <NavButtons text='Main page' to="/" />
+        <NavButtons to={ { pathname: '/sign_in', search: window.location.search } }  text='Sign in' />
+        <NavButtons  to={ { pathname: '/sign_up', search: window.location.search } } text='Sign up' />
+      </Toolbar>
+    </AppBar>
+  </Box>
 );
 
-const SignOutNavigation = () => (
-  <AppBar >
-    <Toolbar>
-      <NavButtons to="/" text='Main page' />
-      <NavButtons to="/venues" text='Venues' />
-      <NavButtons to="/user_profile" text='Your profile' />
-      <NavButtons to="/sign_out" text='Sign Out' />
-    </Toolbar>
-  </AppBar>
-);
-
-const OrganizationNavigation = ({userOrganizationId}) => (
-  <NavButtons to={'/organizations/' + userOrganizationId} text='Organization' />
-);
-
-
-const DefaultLayout = ({ component: Component, ...rest }) => {
-  let navbarComponent;
-  if (localStorage.user === undefined) {
-    navbarComponent = <RegisterNavigation />;
-  } else {
-    navbarComponent = <SignOutNavigation />;
-  }
+const SignOutNavigation = () => {
   let organizationComponent;
   if (localStorage.user != null) {
     const userRole = JSON.parse(localStorage.user_attributes).role;
@@ -67,12 +47,36 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
     }
   }
   return (
+    <AppBar >
+      <Toolbar>
+        <NavButtons to="/" text='Main page' />
+        {organizationComponent}
+        <NavButtons to="/user_profile" text='Your profile' />
+        <NavButtons to="/sign_out" text='Sign Out' />
+      </Toolbar>
+    </AppBar>
+);}
+
+const OrganizationNavigation = ({userOrganizationId}) => (
+  <NavButtons to={'/organizations/' + userOrganizationId} text='Organization' />
+);
+
+const DefaultLayout = ({ component: Component, ...rest }) => {
+  let navbarComponent;
+  if (localStorage.user === undefined) {
+    navbarComponent = <RegisterNavigation />;
+  } else {
+    navbarComponent = <SignOutNavigation />;
+  }
+
+  if (location.pathname == '/') {
+    navbarComponent = '';
+  }
+
+  return (
     <Route {...rest} render={matchProps => (
       <div className="DefaultLayout">
-        <Box pb={10}>
-          {navbarComponent}
-        </Box>
-        <div className="Header">{navbarComponent} {organizationComponent}</div>
+        {navbarComponent}
         <Component {...matchProps} />
       </div>
     )}/>
