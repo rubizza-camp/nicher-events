@@ -71,7 +71,7 @@ class Api::V1::EventInvitesController < ApplicationController
   end
 
   def send_invite
-    email_params = attendance_params.merge(author: current_user.email, invite_id: @invite.id)
+    email_params = attendance_params.merge(invite_id: @invite.id)
     EventInviteMailer.with(email_params).event_email.deliver_later
   end
 end
