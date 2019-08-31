@@ -46,14 +46,8 @@ const SignOutNavigation = () => (
   </AppBar>
 );
 
-const OrganizationNavigation = () => (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-    <ul>
-      <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active">Organization</NavLink>
-      </li>
-    </ul>
-  </nav>
+const OrganizationNavigation = ({userOrganizationId}) => (
+  <NavButtons to={'/organizations/' + userOrganizationId} text='Organization' />
 );
 
 
@@ -67,8 +61,9 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
   let organizationComponent;
   if (localStorage.user != null) {
     const userRole = JSON.parse(localStorage.user_attributes).role;
-    if(userRole === 'organizer') {
-      organizationComponent = <OrganizationNavigation />;
+    if(userRole === 'organizer' && JSON.parse(localStorage.user_attributes).organization !== null) {
+      const userOrganizationId = JSON.parse(localStorage.user_attributes).organization.id;
+      organizationComponent = <OrganizationNavigation userOrganizationId={userOrganizationId} />;
     }
   }
   return (

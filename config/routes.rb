@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :users
-      resources :organizations
+      resources :organizations do
+        resources :user_organizations, only: %i[destroy index]
+      end
       resources :venues
       resources :events do
         resources :attendances, only: [:create, :destroy]

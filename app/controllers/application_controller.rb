@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
                                         :photo,
                                         user_organization_attributes:
                                           [organization_attributes:
-                                            %i[description name]]
+                                            %i[id description name]]
                                       ])
     devise_parameter_sanitizer.permit(:account_update,
                                       keys: %i[first_name

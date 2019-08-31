@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 2019_08_28_211942) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "owner_id"
   end
 
   create_table "user_organizations", force: :cascade do |t|

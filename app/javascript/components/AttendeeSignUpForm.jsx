@@ -5,6 +5,13 @@ import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 const queryString = require('query-string');
+import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
+import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
+import MailRoundedIcon from '@material-ui/icons/MailRounded';
+import PhoneRoundedIcon from '@material-ui/icons/PhoneRounded';
+import HttpsIcon from '@material-ui/icons/Https';
+import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
 
 export default class AttendeeSignUpForm extends React.Component {
   constructor(props) {
@@ -92,67 +99,78 @@ export default class AttendeeSignUpForm extends React.Component {
     }
     return (
       <div>
-        <div className="errors">
-          {errorMessages}
-        </div>
-        <Grid container direction="column" justify="center" alignItems="center">
-          <h1>Sign Up</h1>
-        </Grid>
-        <form onSubmit={this.handleSignUp}>
+        <Box borderColor="secondary.main" borderRadius={10}>
           <Grid container direction="column" justify="center" alignItems="center">
-            <div>
-              <FormTextField type="text"
-                name="first_name"
-                label="First name"
-                value={user.first_name}
-                onChange={this.handleChange} />
-            </div>
+            <Card style={{width:600}}>
+              <div className="errors">
+                {errorMessages}
+              </div>
+              <Grid container direction="column" justify="center" alignItems="center">
+                <h1>Sign Up</h1>
+              </Grid>
+              <form onSubmit={this.handleSignUp}>
+                <Grid container direction="column" justify="center" alignItems="center">
+                  <div>
+                    <PersonRoundedIcon fontSize='large' alignItems="center" />
+                    <FormTextField type="text"
+                      name="first_name"
+                      label="First name"
+                      value={user.first_name}
+                      onChange={this.handleChange} />
+                  </div>
 
-            <div>
-              <FormTextField type="text"
-                name="last_name"
-                label="Last name"
-                value={user.last_name}
-                onChange={this.handleChange} />  
-            </div>
+                  <div>
+                    <PersonOutlineRoundedIcon fontSize='large' />
+                    <FormTextField type="text"
+                      name="last_name"
+                      label="Last name"
+                      value={user.last_name}
+                      onChange={this.handleChange} />  
+                  </div>
 
-            <div>
-              <FormTextField type="text"
-                name="email"
-                label="E-mail"
-                value={user.email}
-                onChange={this.handleChange} />  
-            </div>
+                  <div>
+                    <MailRoundedIcon fontSize='large' />
+                    <FormTextField type="text"
+                      name="email"
+                      label="E-mail"
+                      value={user.email}
+                      onChange={this.handleChange} />  
+                  </div>
 
-            <div>
-              <FormTextField type="text"
-                name="phone"
-                label="Phone"
-                value={user.phone}
-                onChange={this.handleChange} />  
-            </div>
+                  <div>
+                    <PhoneRoundedIcon fontSize='large' />
+                    <FormTextField type="text"
+                      name="phone"
+                      label="Phone"
+                      value={user.phone}
+                      onChange={this.handleChange} />  
+                  </div>
 
-            <div>
-              <FormTextField type="password"
-                name="password"
-                label="Password"
-                value={user.password}
-                onChange={this.handleChange} />  
-            </div>
+                  <div>
+                    <HttpsIcon fontSize='large' />
+                    <FormTextField type="password"
+                      name="password"
+                      label="Password"
+                      value={user.password}
+                      onChange={this.handleChange} />  
+                  </div>
 
-            <div>
-              <Typography variant="h6">
-                Avatar:
-              </Typography>
-              <input type="file"
-                name="photo"
-                accept="image/*"
-                onChange={this.handleChangeFile}
-              />
-            </div>
-            <FormButton text="Sign up" />
+                  <div>
+                    <Typography variant="h6">
+                      Avatar:
+                    </Typography>
+                    <input type="file"
+                      name="photo"
+                      accept="image/*"
+                      onChange={this.handleChangeFile}
+                    />
+                  </div>
+                  <FormButton text="Sign up" />
+                </Grid>
+              </form>
+            </Card>
           </Grid>
-        </form>
+        </Box>
       </div>
     );
   }
