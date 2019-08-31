@@ -55,8 +55,8 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def send_notify
-    @subscribers = User.subscribers(@event.id)
-    email_params = { author: current_user.email, subscriber: @subscribers.first, event: @event }
+    @subscribers = User.subscribers(@event.id).to_a
+    email_params = { author: current_user.email, subscribers: @subscribers, event: @event }
     EventMailer.with(email_params).event_deleted_email.deliver_later
   end
 
@@ -67,7 +67,7 @@ class Api::V1::EventsController < ApplicationController
   def set_events
     @events = Event.social
     @events += current_user.organization.events.confidential if current_user&.organizer?
-    @events += Event.available_for_user(current_user&.id)
+    @events += Event.confidential.available_for_user(current_user&.id)
   end
 
   def set_event

@@ -5,7 +5,7 @@ class EventMailer < ActionMailer::Base
   def event_deleted_email
     @email = params[:email]
     @event = params[:event]
-    @subscriber = params[:subscriber]
-    mail(to: @subscriber.email, subject: 'Notify event deleted')
+    @subscribers_email = params[:subscribers].pluck(:email)
+    mail(to: @subscribers_email, subject: 'Notify event deleted')
   end
 end
