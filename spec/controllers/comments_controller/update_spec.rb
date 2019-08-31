@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Api::V1::CommentsController, type: :controller do
   let!(:comment_attributes) { %w[id text rating created_at user event] }
 
-  describe 'POST #create' do
+  describe 'PATCH #update' do
     let(:user) { create(:user) }
     let(:organizer) { create(:user, role: :organizer) }
     let!(:attendance) { create(:attendance, event_id: event.id, user_id: user.id) }

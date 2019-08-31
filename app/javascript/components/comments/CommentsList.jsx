@@ -6,7 +6,7 @@ import CommentForm from './CommentForm';
 import CommentDelete from './CommentDelete';
 import CommentUpdate from './CommentUpdate';
 
-export default class Comments extends React.Component {
+export default class CommentsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
