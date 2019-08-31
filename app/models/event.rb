@@ -14,4 +14,5 @@ class Event < ApplicationRecord
 
   scope :social, -> { where(status: :social) }
   scope :confidential, -> { where(status: :confidential) }
+  scope :available_for_user, ->(user_id) { joins(:attendances).where(attendances: { user_id: user_id }) }
 end

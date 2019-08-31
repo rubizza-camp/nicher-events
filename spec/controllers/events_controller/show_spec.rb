@@ -20,8 +20,9 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         expect(json_response['status']).to eq(social_event.status)
       end
     end
+
     context 'when status event is confidential' do
-      context 'user is\'t organizer' do
+      context 'user is attendee' do
         let(:attendee) { create(:user, role: :attendee) }
         let(:confidential_event) { create(:event, status: :confidential, user: current_organizer) }
 
@@ -30,9 +31,21 @@ RSpec.describe Api::V1::EventsController, type: :controller do
           request.headers.merge!(@auth_token)
         end
 
-        it 'returns forbidden status' do
-          get :show, params: { id: confidential_event.id }
-          expect(response).to have_http_status(:forbidden)
+        context 'doesn\'t subscribe to event' do
+          it 'returns forbidden status' do
+            get :show, params: { id: confidential_event.id }
+            expect(response).to have_http_status(:forbidden)
+          end
+        end
+
+        context 'subscribe to event' do
+          let!(:attendance) { create(:attendance, event_id: confidential_event.id, user_id: attendee.id) }
+
+          it 'returns json response with event' do
+            get :show, params: { id: confidential_event.id }
+            expect(json_response.keys.to_set).to eq(event_attributes.to_set)
+            expect(response).to have_http_status(:ok)
+          end
         end
       end
 

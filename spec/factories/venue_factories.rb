@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :venue do
     name { Faker::Cannabis.brand }
     address { Faker::Address.full_address }
-    description { Faker::String.random(length: 20) }
+    description { Faker::Lorem.sentence }
     people_capacity { rand(99) }
   end
 end
