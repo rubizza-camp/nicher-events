@@ -1,12 +1,11 @@
 # :reek:InstanceVariableAssumption
 class Api::V1::CommentsController < ApplicationController
   before_action :authenticate_user!, only: %i[create update destroy]
-  before_action :current_event
-  before_action :current_comment, only: %i[update destroy]
-  before_action :comment_params, only: %i[create]
+  before_action :set_current_event
+  before_action :set_current_comment, only: %i[update destroy]
 
   def index
-    @comments = Comment.where(event_id: current_event.id)
+    @comments = Comment.where(event_id: @current_event.id)
     render json: @comments
   end
 
@@ -21,43 +20,45 @@ class Api::V1::CommentsController < ApplicationController
   end
 
   def update
-    return head :not_found unless current_comment.present? && user_comment?
-    if current_comment.update(comment_params)
-      render json: current_comment
+    return head :not_found unless user_comment?
+    if @current_comment.update(comment_params)
+      render json: @current_comment
     else
-      render json: current_comment.errors.full_messages, status: :unprocessable_entity
+      render json: @current_comment.errors.full_messages, status: :unprocessable_entity
     end
   end
 
   def destroy
-    return head :not_found unless current_comment.present? && (user_comment? || user_organizer_of_event?)
-    current_comment.destroy
+    return head :not_found unless user_comment? || user_organizer_of_event?
+    @current_comment.destroy
     head :no_content
   end
 
   private
 
   def user_organizer_of_event?
-    current_user.events.find_by(id: current_event.id).present?
+    current_user.events.find_by(id: @current_event.id).present?
   end
 
   def user_subscribed_for_current_event?
-    current_user.attendances.find_by(event_id: current_event.id).present?
+    current_user.attendances.find_by(event_id: @current_event.id).present?
   end
 
   def user_comment?
-    current_user.comments.find_by(id: params[:id])
+    current_user.comments.find_by(id: params[:id]).present?
   end
 
   def comment_params
     @comment_params ||= params.require(:comment).permit(:text, :rating, :user_id, :event_id)
   end
 
-  def current_comment
-    @current_comment ||= Comment.find_by(id: params[:id])
+  def set_current_comment
+    @current_comment = Comment.find_by(id: params[:id])
+    return head :not_found unless @current_comment.present?
   end
 
-  def current_event
-    @current_event ||= Event.find_by(id: params[:event_id])
+  def set_current_event
+    @current_event = Event.find_by(id: params[:event_id])
+    return head :not_found unless @current_event.present?
   end
 end
