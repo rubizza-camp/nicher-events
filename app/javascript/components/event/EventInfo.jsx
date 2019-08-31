@@ -133,9 +133,9 @@ export default class EventInfo extends React.Component {
       </ul>;
     }
 
-    let comments_temp;
+    let commentsList;
     if (event.comments !== undefined) {
-      comments_temp = <CommentsList comments={this.state.comments} event_id={event.id} fetchAvailableEvent={this.fetchAvailableEvent} />;
+      commentsList = <CommentsList comments={this.state.comments} event_id={event.id} fetchAvailableEvent={this.fetchAvailableEvent} />;
     }
   
     return (
@@ -157,7 +157,7 @@ export default class EventInfo extends React.Component {
           <FormButton component={Link} to={listEventsUrl} text='Cancel' />
         </Grid>
         <hr/>
-        {comments_temp}
+        {commentsList}
       </Grid>
     );
   }

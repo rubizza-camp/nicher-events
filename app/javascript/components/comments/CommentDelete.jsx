@@ -15,8 +15,8 @@ export default class CommentDelete extends React.Component {
   handleDelete = (e, comment) => {
     e.preventDefault();
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     const that = this;
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
@@ -36,15 +36,15 @@ export default class CommentDelete extends React.Component {
       });
   }
 
-
   render() {
     const comment = this.props.comment;
     let buttonDelete;
     let commentCard;
     let commentDeleteDialog;
-    if ( sessionStorage.user !== undefined && (JSON.parse(sessionStorage.user_attributes).id == comment.user.id || JSON.parse(sessionStorage.user_attributes).role == 'organizer')) {
+    const userAtttributes = JSON.parse(localStorage.user_attributes);
+    if ( localStorage.user !== undefined && (userAtttributes.id == comment.user.id || userAtttributes.role == 'organizer')) {
       buttonDelete = <FormButton onClick={(e) => { this.handleDelete(e, comment); }} color="primary" text='Delete' />;
-      commentCard = <CommentCard comment={comment} errors={this.state.errors}/>;
+      commentCard = <CommentCard comment={comment} errors={this.state.errors} />;
       const deleteIcon = <DeleteIcon />;
       commentDeleteDialog = <CommentDialog content={buttonDelete} text_button={deleteIcon} comment_card={commentCard} />;
     }

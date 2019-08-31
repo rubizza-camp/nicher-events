@@ -21,9 +21,9 @@ export default class Comments extends React.Component {
     delete this.state.errors;
     e.preventDefault();
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
-      comment.user_id = JSON.parse(sessionStorage.user_attributes).id;
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
+      comment.user_id = JSON.parse(localStorage.user_attributes).id;
       comment.event_id = this.props.event_id;
     }
     const that = this;
@@ -50,7 +50,7 @@ export default class Comments extends React.Component {
 
   render() {
     let commentForm;
-    if (sessionStorage.user !== undefined) {
+    if (localStorage.user !== undefined) {
       commentForm = <CommentForm comment={this.state.comment} errors={this.state.errors} handleSubmit={this.handleSubmit} />;
     }
     return (
@@ -60,8 +60,8 @@ export default class Comments extends React.Component {
             <div key={comment.id}>
               <CommentCard
                 comment={comment}
-                delete_button={<CommentDelete comment={comment} fetchAvailableEvent={this.props.fetchAvailableEvent}/>}
-                update_form={<CommentUpdate comment={comment} errors={this.state.errors} fetchAvailableEvent={this.props.fetchAvailableEvent}/>}
+                delete_button={<CommentDelete comment={comment} fetchAvailableEvent={this.props.fetchAvailableEvent} />}
+                update_form={<CommentUpdate comment={comment} errors={this.state.errors} fetchAvailableEvent={this.props.fetchAvailableEvent} />}
               />
             </div>
           ))}

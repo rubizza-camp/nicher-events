@@ -18,8 +18,8 @@ export default class CommentUpdate extends React.Component {
   handleUpdate = (e, comment) => {
     e.preventDefault();
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     const that = this;
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
@@ -48,7 +48,7 @@ export default class CommentUpdate extends React.Component {
     const comment = this.props.comment;
     let editForm;
     let commentUpdateDialog;
-    if ( sessionStorage.user !== undefined && JSON.parse(sessionStorage.user_attributes).id == comment.user.id) {
+    if ( localStorage.user !== undefined && JSON.parse(localStorage.user_attributes).id == comment.user.id) {
       editForm = <CommentForm comment={comment} errors={this.state.errors} response={this.state.response} handleSubmit={this.handleUpdate} />;
       const editIcon = <EditIcon />;
       commentUpdateDialog = <CommentDialog content={editForm} text_button={editIcon} />;

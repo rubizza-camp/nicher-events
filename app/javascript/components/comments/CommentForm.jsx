@@ -52,7 +52,6 @@ export default class CommentForm extends React.Component {
     }
     const { comment } = this.state;
     return (
-
       <form onSubmit={(e) => { this.props.handleSubmit(e, this.state.comment); }}>
         {errorsMessage}
         {responseMessage}
