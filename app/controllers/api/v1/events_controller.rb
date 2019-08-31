@@ -38,6 +38,7 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def destroy
+    send_notify
     @event.attendances.destroy_all
     @event.destroy
     head :no_content
@@ -51,6 +52,12 @@ class Api::V1::EventsController < ApplicationController
 
   def subscribed_event?
     current_user.attendances.find_by(event_id: @event.id).present?
+  end
+
+  def send_notify
+    @subscribers = User.subscribers(@event.id)
+    email_params = { author: current_user.email, subscriber: @subscribers.first, event: @event }
+    EventMailer.with(email_params).event_deleted_email.deliver_later
   end
 
   def verify_date!

@@ -86,7 +86,7 @@ export default class EventInfo extends React.Component {
       </div>
     );
     let subscribeButton;
-    if (event.attendance_id !== null) {
+    if (event.attendance_id) {
       subscribeButton = <FormButton onClick={this.handleUnsubscribe} text='Unsubscribe' color="secondary" />;
     }
     else {
