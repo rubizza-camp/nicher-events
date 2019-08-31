@@ -8,6 +8,7 @@ class Api::V1::EventsController < ApplicationController
   before_action :set_events, only: %i[index]
   before_action :set_event, only: %i[show update destroy]
   before_action :verify_organization!, only: %i[update destroy]
+  before_action :verify_date!, only: %i[destroy]
 
   def index
     render json: @events
@@ -50,6 +51,10 @@ class Api::V1::EventsController < ApplicationController
 
   def subscribed_event?
     current_user.attendances.find_by(event_id: @event.id).present?
+  end
+
+  def verify_date!
+    return head :unprocessable_entity if @event.date < Time.now
   end
 
   def set_events
