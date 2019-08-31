@@ -45,11 +45,11 @@ class Api::V1::EventsController < ApplicationController
   private
 
   def organization_event?
-    current_user&.organization&.events&.find_by(id: @event.id)
+    current_user&.organization&.events&.find_by(id: @event.id).present?
   end
 
   def subscribed_event?
-    current_user.attendances.find_by(event_id: @event.id)
+    current_user.attendances.find_by(event_id: @event.id).present?
   end
 
   def set_events

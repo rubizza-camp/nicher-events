@@ -1,7 +1,6 @@
 # :reek:InstanceVariableAssumption
 # :reek:MissingSafeMethod
 # :reek:NilCheck
-# rubocop:disable Metrics/LineLength
 
 class Api::V1::EventInvitesController < ApplicationController
   before_action :authenticate_user!, only: %i[create show update]
@@ -28,15 +27,15 @@ class Api::V1::EventInvitesController < ApplicationController
     return :unprocessable_entity unless current_user&.email != params.dig(:event_invite, :email)
 
     update_as_decline if params[:status] == 'reject'
-    update_as_access if params[:status] == 'access'
+    update_as_accept if params[:status] == 'accept'
   end
 
   def update_as_decline
     @invite.update(decline_at: Time.zone.now, token: nil)
   end
 
-  def update_as_access
-    @invite.update(access_at: Time.zone.now, token: nil)
+  def update_as_accept
+    @invite.update(accept_at: Time.zone.now, token: nil)
   end
 
   private
@@ -47,7 +46,7 @@ class Api::V1::EventInvitesController < ApplicationController
 
   def verify_email!
     @user = User.find_by(email: params.dig(:event_invite, :email))
-    render json: { error: 'User has already subcribed on this event' }, status: :unprocessable_entity if @user && @event.already_subscribed_by_user?(@user.id)
+    return head :unprocessable_entity if @user && @event.already_subscribed_by_user?(@user.id)
   end
 
   def set_invite
@@ -76,4 +75,3 @@ class Api::V1::EventInvitesController < ApplicationController
     EventInviteMailer.with(email_params).event_email.deliver_later
   end
 end
-# rubocop:enable Metrics/LineLength

@@ -60,7 +60,7 @@ RSpec.describe Api::V1::EventInvitesController, type: :controller do
         let!(:attendance) { create(:attendance, event_id: event.id, user_id: user.id) }
         let(:invite_params) { { event_invite: { email: user.email }, event_id: event.id } }
 
-        it 'doesn\'t create invite and returns already_reported status' do
+        it 'doesn\'t create invite and returns unprocessable_entity status' do
           expect { create_action }.to_not change { EventInvite.all.count }
           expect(response).to have_http_status(:unprocessable_entity)
         end

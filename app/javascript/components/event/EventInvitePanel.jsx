@@ -30,7 +30,7 @@ export default class EventInvitePanel extends React.Component {
     Axios.post(createInviteUrl, { event_invite: { email: this.state.invite.email } }, { headers: headers })
       .catch(error => {
         if ( error.response.statusText === 'Unprocessable Entity') {
-          this.setState({ errors: error.response.data.error });
+          this.setState({ error: 'User has already subcribed on this event' });
         }}
       );
   }
@@ -39,7 +39,7 @@ export default class EventInvitePanel extends React.Component {
     const { invite } = this.state;
     return (
       <Grid container direction="column" justify="center" alignItems="center">
-        {this.state.errors}
+        {this.state.error}
         <FormTextField
           value={invite.email}
           name="email" 

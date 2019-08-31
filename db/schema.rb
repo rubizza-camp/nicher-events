@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 2019_08_28_141558) do
     t.bigint "event_id"
     t.string "email", null: false
     t.string "token"
-    t.datetime "access_at"
+    t.datetime "accept_at"
     t.datetime "decline_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

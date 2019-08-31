@@ -43,7 +43,7 @@ export default class InviteInfo extends React.Component {
     const params = this.props.match.params;
     const inviteRejectUrl = `/api/v1/events/${params.event_id}/event_invites/${params.id}`;
     const parsed = queryString.parse(this.props.location.search);
-    Axios.patch(inviteRejectUrl, { status: 'access', token: parsed.token }, { headers: headers })
+    Axios.patch(inviteRejectUrl, { status: 'accept', token: parsed.token }, { headers: headers })
       .then(() => {
         Axios.post(`/api/v1/events/${this.props.match.params.event_id}/attendances`, { }, { headers: headers })
           .then(() => {
@@ -82,7 +82,7 @@ export default class InviteInfo extends React.Component {
         <p>Date: {event.date}</p>
         <p>Description: {event.description}</p>
         <Grid container direction="row" justify="center">
-          <FormButton onClick={this.handleAccept} text='Access' color="primary" />
+          <FormButton onClick={this.handleAccept} text='Accept' color="primary" />
           <FormButton onClick={this.handleReject} text='Reject' color="secondary" />
         </Grid>
         <hr/>

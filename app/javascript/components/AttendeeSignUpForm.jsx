@@ -60,8 +60,7 @@ export default class AttendeeSignUpForm extends React.Component {
       localStorage.setItem('user_attributes', JSON.stringify(response.data.data));
       if (this.state.redirect_url) {
         this.props.history.push(this.state.redirect_url);
-      }
-      else {
+      } else {
         this.props.history.go(-1);
       }
     }).catch(error => {

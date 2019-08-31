@@ -7,7 +7,7 @@ class CreateEventInvites < ActiveRecord::Migration[5.2]
       t.belongs_to :event
       t.string :email, null: false
       t.string :token
-      t.datetime :access_at
+      t.datetime :accept_at
       t.datetime :decline_at
 
       t.timestamps

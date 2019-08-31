@@ -35,20 +35,20 @@ RSpec.describe Api::V1::EventInvitesController, type: :controller do
         end
       end
 
-      context 'when invite was accessed' do
-        let(:invite_params) { { id: invite.id, event_id: invite.event_id, status: 'access', token: invite.token } }
+      context 'when invite was accepted' do
+        let(:invite_params) { { id: invite.id, event_id: invite.event_id, status: 'accept', token: invite.token } }
 
-        it 'updates accesss_at and removes token in db' do
-          patch :update, params: { id: invite.id, event_id: invite.event_id, status: 'access', token: invite.token }
+        it 'updates accept_at and removes token in db' do
+          patch :update, params: { id: invite.id, event_id: invite.event_id, status: 'accept', token: invite.token }
           @invite = EventInvite.find(invite.id)
-          expect(@invite.access_at).to be_truthy
+          expect(@invite.accept_at).to be_truthy
           expect(@invite.token).to be_nil
         end
       end
     end
 
     context 'user is unregistered' do
-      let(:invite_params) { { id: invite.id, event_id: invite.event_id, status: 'access', token: invite.token } }
+      let(:invite_params) { { id: invite.id, event_id: invite.event_id, status: 'accept', token: invite.token } }
 
       it 'doesn\'t update invite and returns unauthorized status' do
         patch :update, params: invite_params
