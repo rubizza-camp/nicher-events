@@ -6,6 +6,7 @@ import { FormButton } from '../../ui/Buttons';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { Message } from '../../ui/Message';
+import { makeStyles } from '@material-ui/core/styles';
 
 class OrganizationInfo extends Component {
   constructor(props) {
@@ -20,11 +21,13 @@ class OrganizationInfo extends Component {
     let headers = {};
     if (localStorage.user) {
       const userRole = JSON.parse(localStorage.user_attributes).role;
-      if (userRole === 'organizer' && JSON.parse(localStorage.user_attributes).organization !== null) {
+      if (userRole === 'organizer' && JSON.parse(localStorage.user_attributes).organization.id !== this.props.match.params.id) {
         headers = JSON.parse(localStorage.user);
       } else {
         this.props.history.push('/');
       }
+    } else {
+      this.props.history.push('/');
     }
     axios.all([
       axios.get(`/api/v1/organizations/${this.props.match.params.id}`, { headers: headers }),
@@ -45,6 +48,8 @@ class OrganizationInfo extends Component {
       } else {
         this.props.history.push('/');
       }
+    } else {
+      this.props.history.push('/');
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     axios.delete(`/api/v1/organizations/${this.props.match.params.id}/user_organizations/${user_organization_id}`, { headers: headers })
@@ -79,6 +84,31 @@ class OrganizationInfo extends Component {
       errorsMessage = <Message message={this.state.errors} variant='error' />;
     }
 
+    const useStyles = makeStyles(theme => ({
+      card: {
+        minWidth: 275,
+        margin: theme.spacing(3),
+      },
+      bullet: {
+        display: 'inline-block',
+        margin: '0 2px',
+        transform: 'scale(0.8)',
+      },
+      title: {
+        fontSize: 14,
+      },
+      pos: {
+        marginBottom: 12,
+      },
+      h3: {
+        minWidth: 300,
+        maxWidth: 500,
+        margin: 5,
+        marginTop: 1,
+        alignItems: 'flex-start'
+      },
+    }));
+
     let userlist;
     if (this.isnotEmpty(this.state.user_organization)) {
       userlist = <div>{this.state.user_organization.map((user_org) => (
@@ -109,10 +139,17 @@ class OrganizationInfo extends Component {
       </div>;
     }
 
+    const OrganizationDescription = () => {
+      const classes = useStyles();
+      return (
+        <h3 className={classes.h3}>{this.state.organization.description}</h3>
+      );
+    }
+
     return (
       <div>
         <Grid container direction="column" justify="center" alignItems="center">
-          <Card style={{width: 1000}}>
+          <Card >
             <div>
               <Grid container direction="row" justify="center" alignItems="center" >
                 <p>{errorsMessage}</p>
@@ -125,7 +162,7 @@ class OrganizationInfo extends Component {
                 <div>
                   <Grid container direction="column" justify="flex-start" alignItems="flex-start">
                     <Grid container direction="row" justify="flex-start" alignItems="flex-start" style={{margin: 100}}>
-                      <h3>{this.state.organization.description}</h3>
+                      <OrganizationDescription />
                     </Grid>
                     <Grid container direction="row" justify="flex-start" alignItems="flex-start">
                       <div>

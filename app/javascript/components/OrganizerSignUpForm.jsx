@@ -4,13 +4,7 @@ import { FormButton } from '../ui/Buttons';
 import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
-import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
-import MailRoundedIcon from '@material-ui/icons/MailRounded';
-import PhoneRoundedIcon from '@material-ui/icons/PhoneRounded';
-import HttpsIcon from '@material-ui/icons/Https';
-import StoreIcon from '@material-ui/icons/Store';
-import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
+import { PersonRoundedIcon, PersonOutlineRoundedIcon, MailRoundedIcon, PhoneRoundedIcon, HttpsIcon, StoreIcon, SpeakerNotesIcon } from '../ui/IconsCollection';
 import Card from '@material-ui/core/Card';
 import { Message } from '../ui/Message';
 
@@ -111,7 +105,7 @@ export default class OrganizerSignUpForm extends React.Component {
                 <div>
                   <Grid container direction="column" justify="flex-start" alignItems="center">
                     <div>
-                      <PersonRoundedIcon fontSize='large' alignItems="flex-end" />
+                      <PersonRoundedIcon />
                       <FormTextField type="text"
                         name="first_name"
                         label="First name"
@@ -120,7 +114,7 @@ export default class OrganizerSignUpForm extends React.Component {
                     </div>
 
                     <div>
-                      <PersonOutlineRoundedIcon fontSize='large' />
+                      <PersonOutlineRoundedIcon />
                       <FormTextField type="text"
                         name="last_name"
                         label="Last name"
@@ -129,7 +123,7 @@ export default class OrganizerSignUpForm extends React.Component {
                     </div>
 
                     <div>
-                      <MailRoundedIcon fontSize='large' />
+                      <MailRoundedIcon />
                       <FormTextField type="text"
                         name="email"
                         label="E-mail"
@@ -138,7 +132,7 @@ export default class OrganizerSignUpForm extends React.Component {
                     </div>
 
                     <div>
-                      <PhoneRoundedIcon fontSize='large' />
+                      <PhoneRoundedIcon />
                       <FormTextField type="text"
                         name="phone"
                         label="Phone"
@@ -147,7 +141,7 @@ export default class OrganizerSignUpForm extends React.Component {
                     </div>
 
                     <div>
-                      <HttpsIcon fontSize='large' />
+                      <HttpsIcon />
                       <FormTextField type="password"
                         name="password"
                         label="Password"
@@ -172,7 +166,7 @@ export default class OrganizerSignUpForm extends React.Component {
                   <Grid container direction="column" justify="flex-end" alignItems="flex-start" style={{margin: 20 }}>
                     <h1>Create Organization</h1>
                     <div>
-                      <StoreIcon fontSize='large' />
+                      <StoreIcon />
                       <FormTextField type="text"
                         name="name"
                         label="Organization Name"
@@ -181,7 +175,7 @@ export default class OrganizerSignUpForm extends React.Component {
                     </div>
                     <br/>
                     <div>
-                      <SpeakerNotesIcon fontSize='large' />
+                      <SpeakerNotesIcon />
                       <FormTextField type="text"
                         name="description"
                         label="Organization Description"

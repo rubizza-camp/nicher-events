@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { VpnKey, Home, Edit, Delete, Error, CheckCircle } from '@material-ui/icons';
+import { PersonRounded, PersonOutlineRounded, MailRounded, PhoneRounded, Https, Store, SpeakerNotes } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,6 +17,10 @@ const useStyles = makeStyles(theme => ({
   },
   iconMessage: {
     marginRight: theme.spacing(1),
+  },
+  signIcon: {
+    alignItems: 'flex-end',
+    marginTop: theme.spacing(3),
   },
 }));
 
@@ -78,3 +83,60 @@ export const ErrorIcon = () => {
     </div>
   );
 };
+
+export const PersonRoundedIcon = () => {
+  const classes = useStyles();
+
+  return (
+      <PersonRounded className={classes.signIcon} color="primary" fontSize='large' />
+  );
+};
+
+export const PersonOutlineRoundedIcon = () => {
+  const classes = useStyles();
+
+  return (
+      <PersonOutlineRounded className={classes.signIcon} color="primary" fontSize='large' />
+  );
+};
+
+export const MailRoundedIcon = () => {
+  const classes = useStyles();
+
+  return (
+      <MailRounded className={classes.signIcon} color="primary" fontSize='large' />
+  );
+};
+
+export const PhoneRoundedIcon = () => {
+  const classes = useStyles();
+
+  return (
+      <PhoneRounded className={classes.signIcon} color="primary" fontSize='large' />
+  );
+};
+
+export const HttpsIcon = () => {
+  const classes = useStyles();
+
+  return (
+      <Https className={classes.signIcon} color="primary" fontSize='large' />
+  );
+};
+
+export const StoreIcon = () => {
+  const classes = useStyles();
+
+  return (
+      <Store className={classes.signIcon} color="primary" fontSize='large' />
+  );
+};
+
+export const SpeakerNotesIcon = () => {
+  const classes = useStyles();
+
+  return (
+      <SpeakerNotes className={classes.signIcon} color="primary" fontSize='large' />
+  );
+};
+

@@ -5,11 +5,7 @@ import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 const queryString = require('query-string');
-import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
-import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
-import MailRoundedIcon from '@material-ui/icons/MailRounded';
-import PhoneRoundedIcon from '@material-ui/icons/PhoneRounded';
-import HttpsIcon from '@material-ui/icons/Https';
+import { PersonRoundedIcon, PersonOutlineRoundedIcon, MailRoundedIcon, PhoneRoundedIcon, HttpsIcon } from '../ui/IconsCollection';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import { Message } from '../ui/Message';
@@ -96,78 +92,80 @@ export default class AttendeeSignUpForm extends React.Component {
     }
     return (
       <div>
-        <Box borderColor="secondary.main" borderRadius={10}>
           <Grid container direction="column" justify="center" alignItems="center">
-            <Card style={{width:600}}>
+            <Card >
               <div className="errors">
                 {errorMessages}
               </div>
-              <Grid container direction="column" justify="center" alignItems="center">
+              <Grid container direction="row" justify="center" alignItems="center">
                 <h1>Sign Up</h1>
               </Grid>
               <form onSubmit={this.handleSignUp}>
-                <Grid container direction="column" justify="center" alignItems="center">
+                <Grid container direction="row" justify="flex-start" alignItems="center" style={{margin: 20}}>
                   <div>
-                    <PersonRoundedIcon fontSize='large' alignItems="center" />
-                    <FormTextField type="text"
-                      name="first_name"
-                      label="First name"
-                      value={user.first_name}
-                      onChange={this.handleChange} />
-                  </div>
+                  <Grid container direction="column" justify="center" alignItems="center">
+                    <div>
+                      <PersonRoundedIcon />
+                      <FormTextField type="text"
+                        name="first_name"
+                        label="First name"
+                        value={user.first_name}
+                        onChange={this.handleChange} />
+                    </div>
 
-                  <div>
-                    <PersonOutlineRoundedIcon fontSize='large' />
-                    <FormTextField type="text"
-                      name="last_name"
-                      label="Last name"
-                      value={user.last_name}
-                      onChange={this.handleChange} />  
-                  </div>
+                    <div>
+                      <PersonOutlineRoundedIcon />
+                      <FormTextField type="text"
+                        name="last_name"
+                        label="Last name"
+                        value={user.last_name}
+                        onChange={this.handleChange} />  
+                    </div>
 
-                  <div>
-                    <MailRoundedIcon fontSize='large' />
-                    <FormTextField type="text"
-                      name="email"
-                      label="E-mail"
-                      value={user.email}
-                      onChange={this.handleChange} />  
-                  </div>
+                    <div>
+                      <MailRoundedIcon />
+                      <FormTextField type="text"
+                        name="email"
+                        label="E-mail"
+                        value={user.email}
+                        onChange={this.handleChange} />  
+                    </div>
 
-                  <div>
-                    <PhoneRoundedIcon fontSize='large' />
-                    <FormTextField type="text"
-                      name="phone"
-                      label="Phone"
-                      value={user.phone}
-                      onChange={this.handleChange} />  
-                  </div>
+                    <div>
+                      <PhoneRoundedIcon />
+                      <FormTextField type="text"
+                        name="phone"
+                        label="Phone"
+                        value={user.phone}
+                        onChange={this.handleChange} />  
+                    </div>
 
-                  <div>
-                    <HttpsIcon fontSize='large' />
-                    <FormTextField type="password"
-                      name="password"
-                      label="Password"
-                      value={user.password}
-                      onChange={this.handleChange} />  
-                  </div>
+                    <div>
+                      <HttpsIcon />
+                      <FormTextField type="password"
+                        name="password"
+                        label="Password"
+                        value={user.password}
+                        onChange={this.handleChange} />  
+                    </div>
 
-                  <div>
-                    <Typography variant="h6">
-                      Avatar:
-                    </Typography>
-                    <input type="file"
-                      name="photo"
-                      accept="image/*"
-                      onChange={this.handleChangeFile}
-                    />
+                    <div>
+                      <Typography variant="h6">
+                        Avatar:
+                      </Typography>
+                      <input type="file"
+                        name="photo"
+                        accept="image/*"
+                        onChange={this.handleChangeFile}
+                      />
+                    </div>
+                    <FormButton text="Sign up" />
+                  </Grid>
                   </div>
-                  <FormButton text="Sign up" />
                 </Grid>
-              </form>
+              </form>              
             </Card>
           </Grid>
-        </Box>
       </div>
     );
   }

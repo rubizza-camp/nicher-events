@@ -21,6 +21,8 @@ class EditOrganizationForm extends Component {
       } else {
         this.props.history.push('/');
       }
+    } else {
+      this.props.history.push('/');
     }
     axios.get(`/api/v1/organizations/${this.props.match.params.id}`, { headers: headers })
       .then(res => { this.setState({ organization: res.data }); });
@@ -34,6 +36,8 @@ class EditOrganizationForm extends Component {
       if (userRole === 'organizer') {
         headers = JSON.parse(localStorage.user);
       }
+    } else {
+      this.props.history.push('/');
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     axios.patch(`/api/v1/organizations/${this.props.match.params.id}`, organization,
