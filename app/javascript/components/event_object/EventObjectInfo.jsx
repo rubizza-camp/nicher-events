@@ -10,6 +10,7 @@ export default class EventInfo extends React.Component {
     this.state = { eventObject: {} };
     this.handleDelete = this.handleDelete.bind(this);
     this.fetchAvailableEvent = this.fetchAvailableEvent.bind(this);
+    this.backPath = this.backPath.bind(this);
   }
 
   fetchAvailableEvent() {
@@ -24,6 +25,10 @@ export default class EventInfo extends React.Component {
 
   componentDidMount() {
     this.fetchAvailableEvent();
+  }
+
+  backPath() {
+    this.props.history.goBack()
   }
 
   handleDelete() {
@@ -70,6 +75,7 @@ export default class EventInfo extends React.Component {
         <p>Description: {eventObject.description}</p>
         <Grid container direction="row" justify="center">
           {EventObjectPanel}
+          <FormButton  onClick={this.backPath} text='Cancel' />
         </Grid>
         <hr/>
       </Grid>

@@ -78,7 +78,7 @@ export default class EventInfo extends React.Component {
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     const attendanceId = this.state.event.attendance_id;
-    const attendanceDeleteUrl = `/api/v1/events/${this.props.match.params.id}/attendances/${attendanceId}`;
+    const attendanceDeleteUrl = `/api/v1/events/${this.state.event.id}/attendances/${attendanceId}`;
     Axios.delete(attendanceDeleteUrl, { headers: headers })
       .then(() => {
         this.fetchAvailableEvent();
@@ -88,8 +88,7 @@ export default class EventInfo extends React.Component {
   render() {
     const { event } = this.state;
     const editEventUrl = `/events/${event.id}/edit`;
-    const listEventsUrl = '/events';
-    const eventInfo =  `${event.id} - ${event.status}`;
+    const listEventsUrl = '/events'
     const EventPanel = () => (
       <div>
         <FormButton component={Link} to={editEventUrl} text="Edit" color="primary" />
@@ -104,20 +103,14 @@ export default class EventInfo extends React.Component {
       subscribeButton = <FormButton onClick={this.handleSubscribe} text='Subscribe' color="primary" />;
     }
     let eventPanel;
-    let homeIcon;
     let invitePanel;
     if (event.available_for_edit) {
       eventPanel = <EventPanel />;
-      homeIcon = <HomeIcon />;
       if (event.status === 'confidential') {
         invitePanel = <div>
           <EventInvitePanel eventId={event.id} />
         </div>;
       }
-    }
-    let keyIcon;
-    if (event.status === 'confidential') {
-      keyIcon = <KeyIcon />;
     }
     let subscribePanel;
     if (!event.available_for_edit) {
@@ -130,7 +123,7 @@ export default class EventInfo extends React.Component {
 
     let memberList;
     if (this.state.event.users)  {
-      memberList = <div> <h2>Subscribers</h2><AttendancesList attendances={this.state.event.users} /><AttendancesList attendances={this.state.event.users} /></div>
+      memberList = <div> <h2>Subscribers</h2><AttendancesList attendances={this.state.event.users} /></div>
     }
 
     let commentsList;
