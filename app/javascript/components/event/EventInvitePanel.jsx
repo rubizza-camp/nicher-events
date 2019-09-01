@@ -3,6 +3,7 @@ import Axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { FormButton } from '../../ui/Buttons';
 import { FormTextField } from '../../ui/FormTextField';
+import { Message } from '../../ui/Message';
 
 export default class EventInvitePanel extends React.Component {
   constructor(props) {
@@ -28,18 +29,28 @@ export default class EventInvitePanel extends React.Component {
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     const createInviteUrl = `/api/v1/events/${this.props.eventId}/event_invites`;
     Axios.post(createInviteUrl, { event_invite: { email: this.state.invite.email } }, { headers: headers })
+      .then(() => {
+        this.setState({ response: ['An email has been sent'] });
+      })
       .catch(error => {
         if ( error.response.statusText === 'Unprocessable Entity') {
-          this.setState({ error: 'User has already subcribed on this event' });
+          this.setState({ errors: ['User has already subcribed on this event'] });
         }}
       );
   }
 
   render () {
     const { invite } = this.state;
+    let message;
+    if (this.state.errors)  {
+      message = <Message message={this.state.errors} variant='error' />;
+    }
+    if (this.state.response)  {
+      message = <Message message={this.state.response} variant='success' />;
+    }
     return (
       <Grid container direction="column" justify="center" alignItems="center">
-        {this.state.error}
+        {message}
         <FormTextField
           value={invite.email}
           name="email" 
