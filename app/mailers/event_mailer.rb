@@ -1,6 +1,6 @@
 # :reek:InstanceVariableAssumption
 class EventMailer < ActionMailer::Base
-  default from: 'nicher@example.com'
+  default from: 'nicher.events.2.0@gmail.com'
 
   def event_deleted_email
     @email = params[:email]
