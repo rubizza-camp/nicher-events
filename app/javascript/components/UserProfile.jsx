@@ -86,7 +86,7 @@ export default class UserProfile extends React.Component {
         src="https://robohash.org/sitsequiquia.png?size=300x300&set=set1"
         className="Avatar"
         alt="avatar"
-        width="300px"
+        width="200px"
         height="300px"
       />
     </div>;
@@ -100,18 +100,18 @@ export default class UserProfile extends React.Component {
         <Card>
           <CardContent>
             <Grid container direction="column" justify="center" alignItems="center">
-              <Grid container direction="row" justify="center" alignItems="center" >
                 <Grid item>
                   {image}
                 </Grid>
                 <Grid item>
+                <Grid container direction="column" justify="center" alignItems="center">
                   <Typography variant="h6"> Avatar: </Typography>
                   <input type="file"
                     name="photo"
                     accept="image/*"
                     onChange={this.handleChangeFile}
                   />
-                </Grid>
+                  </Grid>
               </Grid>
               <Typography variant="h5">
                 {userInfo}

@@ -46,7 +46,7 @@ export default class App extends React.Component {
         <Box px={2} py={2}>
           <h1>
             <Emoji symbol="🔥" />
-            <NavButtons to="/events" text='Public events' />
+            <NavButtons to="/events" text='Events' />
           </h1>
         </Box>
         <Box px={2} py={2}>
