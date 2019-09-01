@@ -4,7 +4,6 @@ import { FormButton } from '../ui/Buttons';
 import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
 import { MailRoundedIcon } from '../ui/IconsCollection';
-import Card from '@material-ui/core/Card';
 import { Title } from '../ui/Title';
 require('dotenv').config();
 import { Message } from '../ui/Message';
@@ -50,35 +49,33 @@ export default class ForgotPasswordForm extends React.Component {
     }
     return (
       <Grid container direction="column" justify="center" alignItems="center">
-        <Card>
-          <div>
-            <div className="message">
-              {message}
-            </div>
-            <form onSubmit={this.handleForgotPassword}>
-              <Grid container direction="column" justify="center"
-                alignItems="center">
-
-                <Title title={title} />
-                <h3>
-                  Please enter your email address and we will send you <br />
-                  instructions on how to reset your password
-                </h3>
-
-                <div>
-                  <MailRoundedIcon />
-                  <FormTextField type="text"
-                    name="email"
-                    label="Email"
-                    value={this.state.user.email}
-                    onChange={this.handleChange} />
-                </div>
-
-                <FormButton text="Submit" />
-              </Grid>
-            </form>
+        <div>
+          <div className="message">
+            {message}
           </div>
-        </Card>
+          <form onSubmit={this.handleForgotPassword}>
+            <Grid container direction="column" justify="center"
+              alignItems="center">
+
+              <Title title={title} />
+              <h3>
+                Please enter your email address and we will send you <br />
+                instructions on how to reset your password
+              </h3>
+
+              <div>
+                <MailRoundedIcon />
+                <FormTextField type="text"
+                  name="email"
+                  label="Email"
+                  value={this.state.user.email}
+                  onChange={this.handleChange} />
+              </div>
+
+              <FormButton text="Submit" />
+            </Grid>
+          </form>
+        </div>
       </Grid>
     );
   }

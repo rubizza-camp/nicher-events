@@ -88,7 +88,7 @@ export default class EventInfo extends React.Component {
   render() {
     const { event } = this.state;
     const editEventUrl = `/events/${event.id}/edit`;
-    const listEventsUrl = '/events'
+    const listEventsUrl = '/events';
     const EventPanel = () => (
       <div>
         <FormButton component={Link} to={editEventUrl} text="Edit" color="primary" />
@@ -123,7 +123,7 @@ export default class EventInfo extends React.Component {
 
     let memberList;
     if (this.state.event.users)  {
-      memberList = <div> <h2>Subscribers</h2><AttendancesList attendances={this.state.event.users} /></div>
+      memberList = <div> <h2>Subscribers</h2><AttendancesList attendances={this.state.event.users} /></div>;
     }
 
     let commentsList;

@@ -16,7 +16,7 @@ class EditOrganizationForm extends Component {
     let headers = {};
     if (localStorage.user != undefined) {
       const userRole = JSON.parse(localStorage.user_attributes).role;
-      if (userRole === 'organizer') {
+      if (userRole === 'organizer' && JSON.parse(localStorage.user_attributes).organization.id == this.props.match.params.id) {
         headers = JSON.parse(localStorage.user);
       } else {
         this.props.history.push('/');

@@ -24,7 +24,7 @@ export default class SigInForm extends React.Component {
   }
 
   componentDidMount() {
-    if (localStorage.user){
+    if (localStorage.user ){
       this.props.history.push('/');
     }
   }
@@ -52,7 +52,7 @@ export default class SigInForm extends React.Component {
         this.props.history.go(-1);
       }
     }).catch(error => {
-      this.setState({errors: error.response.data.errors})
+      this.setState({errors: error.response.data.errors});
     });
   };
 

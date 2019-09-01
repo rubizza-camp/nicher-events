@@ -4,9 +4,10 @@ import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { FormButton } from '../../ui/Buttons';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import { Message } from '../../ui/Message';
-import { makeStyles } from '@material-ui/core/styles';
+import { OrganizationEventCard, OrganizationMemberCard } from '../../ui/OrganizationEventCard';
+import { OrganizationDescription } from '../../ui/OrganizationDescription';
+import { Title } from '../../ui/Title';
 
 class OrganizationInfo extends Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class OrganizationInfo extends Component {
     let headers = {};
     if (localStorage.user) {
       const userRole = JSON.parse(localStorage.user_attributes).role;
-      if (userRole === 'organizer' && JSON.parse(localStorage.user_attributes).organization.id !== this.props.match.params.id) {
+      if (userRole === 'organizer' && JSON.parse(localStorage.user_attributes).organization.id == this.props.match.params.id) {
         headers = JSON.parse(localStorage.user);
       } else {
         this.props.history.push('/');
@@ -84,67 +85,16 @@ class OrganizationInfo extends Component {
       errorsMessage = <Message message={this.state.errors} variant='error' />;
     }
 
-    const useStyles = makeStyles(theme => ({
-      card: {
-        minWidth: 275,
-        margin: theme.spacing(3),
-      },
-      bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-      },
-      title: {
-        fontSize: 14,
-      },
-      pos: {
-        marginBottom: 12,
-      },
-      h3: {
-        minWidth: 300,
-        maxWidth: 500,
-        margin: 5,
-        marginTop: 1,
-        alignItems: 'flex-start'
-      },
-    }));
-
-    let userlist;
+    let users;
     if (this.isnotEmpty(this.state.user_organization)) {
-      userlist = <div>{this.state.user_organization.map((user_org) => (
-        <div key={user_org.user.id}>
-          <hr/>
-          <p><i>{user_org.user.first_name} {user_org.user.last_name}</i></p>
-          <p>{user_org.user.email}</p>
-          {this.deleteButton(user_org.id, user_org.user.id)}
-        </div>
-      ))}
-      </div>;    
+      users = <OrganizationMemberCard users={this.state.user_organization} />;
     }
 
-    let eventList;
+    let events;
     if (this.state.organization.events !== undefined) {
-      eventList = <div>
-        {this.state.organization.events.map((event) => (
-          <div key={event.id}>
-            <Card>
-              <CardContent>
-                <Link to={'/events/' + event.id}><h3>{event.name}</h3></Link>
-                <p>{event.date}</p>
-                <p>{event.status}</p>
-              </CardContent>
-            </Card>
-          </div>
-        ))}
-      </div>;
-    }
-
-    const OrganizationDescription = () => {
-      const classes = useStyles();
-      return (
-        <h3 className={classes.h3}>{this.state.organization.description}</h3>
-      );
-    }
+      events =  this.state.organization.events.map((event) => (
+        <OrganizationEventCard event={event} />
+      ));}
 
     return (
       <div>
@@ -153,7 +103,7 @@ class OrganizationInfo extends Component {
             <div>
               <Grid container direction="row" justify="center" alignItems="center" >
                 <p>{errorsMessage}</p>
-                <h1>{this.state.organization.name}</h1>
+                <Title title={this.state.organization.name} />
               </Grid>
             </div>
           
@@ -162,11 +112,11 @@ class OrganizationInfo extends Component {
                 <div>
                   <Grid container direction="column" justify="flex-start" alignItems="flex-start">
                     <Grid container direction="row" justify="flex-start" alignItems="flex-start" style={{margin: 100}}>
-                      <OrganizationDescription />
+                      <OrganizationDescription description={this.state.organization.description} />
                     </Grid>
                     <Grid container direction="row" justify="flex-start" alignItems="flex-start">
                       <div>
-                        {eventList}
+                        {events}
                       </div>
                     </Grid>
                   </Grid>
@@ -174,12 +124,7 @@ class OrganizationInfo extends Component {
 
                 <div>
                   <Grid container direction="column" justify="flex-end" alignItems="flex-start">
-                    <Card style={{padding: 16}}>
-                      <div>
-                        <h3>Members</h3>
-                      </div>
-                      <div>{userlist}</div>
-                    </Card>
+                    {users}
                   </Grid>
                 </div>
               </Grid>

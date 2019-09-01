@@ -8,14 +8,29 @@ const useStyles = makeStyles(theme => ({
     fontSize: 40,
     color: '#0000CD'
   },
+  preTitle: {
+    fontWeight: 'bold',
+    fontSize: 30,
+    color: '#0000CD'
+  },
 }));
 
-export const Title = (params) => {debugger;
+export const Title = (params) => {
   const classes = useStyles();
   const title = params.title;
   return(
     <Typography>
       <h1 className={classes.title}>{title}</h1>
+    </Typography>
+  );
+}
+
+export const PreTitle = (params) => {
+  const classes = useStyles();
+  const title = params.title;
+  return(
+    <Typography>
+      <h1 className={classes.preTitle}>{title}</h1>
     </Typography>
   );
 }

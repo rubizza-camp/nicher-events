@@ -6,9 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 const queryString = require('query-string');
 import { PersonRoundedIcon, PersonOutlineRoundedIcon, MailRoundedIcon, PhoneRoundedIcon, HttpsIcon } from '../ui/IconsCollection';
-import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import { Message } from '../ui/Message';
+import { Title } from '../ui/Title';
 
 export default class AttendeeSignUpForm extends React.Component {
   constructor(props) {
@@ -86,23 +86,24 @@ export default class AttendeeSignUpForm extends React.Component {
 
   render() {
     const { user } = this.state;
+    const title = 'Sign Up';
     let errorMessages;
     if (this.state.errors) {
       errorMessages = <Message message={this.state.errors} variant='error' />;
     }
     return (
       <div>
-          <Grid container direction="column" justify="center" alignItems="center">
-            <Card >
-              <div className="errors">
-                {errorMessages}
-              </div>
-              <Grid container direction="row" justify="center" alignItems="center">
-                <h1>Sign Up</h1>
-              </Grid>
-              <form onSubmit={this.handleSignUp}>
-                <Grid container direction="row" justify="flex-start" alignItems="center" style={{margin: 20}}>
-                  <div>
+        <Grid container direction="column" justify="center" alignItems="center">
+          <Card >
+            <div className="errors">
+              {errorMessages}
+            </div>
+            <Grid container direction="row" justify="center" alignItems="center">
+              <Title title={title} />
+            </Grid>
+            <form onSubmit={this.handleSignUp}>
+              <Grid container direction="row" justify="flex-start" alignItems="center" style={{margin: 20}}>
+                <div>
                   <Grid container direction="column" justify="center" alignItems="center">
                     <div>
                       <PersonRoundedIcon />
@@ -161,11 +162,11 @@ export default class AttendeeSignUpForm extends React.Component {
                     </div>
                     <FormButton text="Sign up" />
                   </Grid>
-                  </div>
-                </Grid>
-              </form>              
-            </Card>
-          </Grid>
+                </div>
+              </Grid>
+            </form>              
+          </Card>
+        </Grid>
       </div>
     );
   }

@@ -32,7 +32,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const EventCard = (params) => {
-  debugger;
   const classes = useStyles();
   const { event } = params;
   function IconPanel(props) {

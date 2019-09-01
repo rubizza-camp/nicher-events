@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { PersonRoundedIcon, PersonOutlineRoundedIcon, MailRoundedIcon, PhoneRoundedIcon, HttpsIcon, StoreIcon, SpeakerNotesIcon } from '../ui/IconsCollection';
 import Card from '@material-ui/core/Card';
 import { Message } from '../ui/Message';
+import { Title } from '../ui/Title';
 
 export default class OrganizerSignUpForm extends React.Component {
   constructor(props) {
@@ -86,6 +87,7 @@ export default class OrganizerSignUpForm extends React.Component {
 
   render() {
     const { user } = this.state;
+    const title = 'Sign Up';
     let errorMessages;
     if (this.state.errors) {
       errorMessages = <Message message={this.state.errors} variant='error' />;
@@ -98,7 +100,7 @@ export default class OrganizerSignUpForm extends React.Component {
               {errorMessages}
             </div>
             <Grid container direction="row" justify="center" alignItems="center">
-              <h1>Sign Up</h1>
+              <Title title={title} />
             </Grid>
             <form onSubmit={this.handleSignUp}>
               <Grid container direction="row" justify="center" alignItems="center">
