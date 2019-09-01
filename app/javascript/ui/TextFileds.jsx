@@ -6,12 +6,12 @@ const useStyles = makeStyles(theme => ({
   textFieldForm: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: 350,
+    width: 400,
   },
   textFieldComment: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: 550,
+    width: 400,
   }
 }));
 

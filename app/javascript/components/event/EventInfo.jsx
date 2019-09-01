@@ -6,6 +6,8 @@ import { FormButton } from '../../ui/Buttons';
 import { HomeIcon, KeyIcon } from '../../ui/IconsCollection';
 import EventInvitePanel from './EventInvitePanel';
 import CommentsList from '../comments/CommentsList';
+import { AttendancesList } from '../../ui/AttendancesList';
+import { EventCardInfo } from '../../ui/EventCardInfo';
 
 export default class EventInfo extends React.Component {
   constructor(props) {
@@ -107,7 +109,9 @@ export default class EventInfo extends React.Component {
       eventPanel = <EventPanel />;
       homeIcon = <HomeIcon />;
       if (event.status === 'confidential') {
-        invitePanel = <EventInvitePanel eventId={event.id} />;
+        invitePanel = <div>
+          <EventInvitePanel eventId={event.id} />
+        </div>;
       }
     }
     let keyIcon;
@@ -126,13 +130,10 @@ export default class EventInfo extends React.Component {
         ))}
       </div>;
     }
+
     let memberList;
     if (this.state.event.users)  {
-      memberList = <ul>
-        {this.state.event.users.map((user) => (
-          <li key={user.id}>{user.first_name}</li>
-        ))}
-      </ul>;
+      memberList = <div> <h2>Subscribers</h2><AttendancesList attendances={this.state.event.users} /></div>
     }
 
     let commentsList;
@@ -141,25 +142,23 @@ export default class EventInfo extends React.Component {
     }
   
     return (
-      <Grid container direction="column" justify="center" alignItems="center">
-        {errorsMessage}
-        {memberList}
-        {invitePanel}
-        <h2>{event.name}</h2>
-        <Grid container direction="row" justify="center">
-          {homeIcon}
-          {keyIcon}
+      <Grid container direction="row" justify="space-around" alignItems="flex-start" >
+        <Grid item >
+          {errorsMessage}
+          <EventCardInfo key={event.id} event={event} />
+          <Grid container direction="row" justify="center">
+            {eventPanel}
+            {subscribePanel}
+            <FormButton component={Link} to={listEventsUrl} text='Cancel' />
+          </Grid>
+          {invitePanel}
+          <Grid container direction="column" justify="center" alignItems="center">
+            {memberList}
+          </Grid>
         </Grid>
-        <p>Info: {eventInfo}</p>
-        <p>Date: {event.date}</p>
-        <p>Description: {event.description}</p>
-        <Grid container direction="row" justify="center">
-          {eventPanel}
-          {subscribePanel}
-          <FormButton component={Link} to={listEventsUrl} text='Cancel' />
+        <Grid item>
+          {commentsList}
         </Grid>
-        <hr/>
-        {commentsList}
       </Grid>
     );
   }

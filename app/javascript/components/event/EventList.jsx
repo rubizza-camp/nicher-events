@@ -4,6 +4,7 @@ import Axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { FormButton } from '../../ui/Buttons';
 import { EventCard } from '../../ui/EventCard';
+import Box from '@material-ui/core/Box';
 
 export default class EventList extends React.Component {
   constructor(props) {
@@ -41,9 +42,13 @@ export default class EventList extends React.Component {
 
     return (
       <div>
-        {createdButton}
+        <Box  position="fixed">
+          {createdButton}
+        </Box>
         <Grid container direction="row" justify="center" alignItems="center">
-          {this.state.events.map(event => ( <EventCard key={event.id} event={event} /> ))}
+          {this.state.events.map(event => (
+            <EventCard key={event.id} event={event} />
+          ))}
         </Grid>
       </div>
     );

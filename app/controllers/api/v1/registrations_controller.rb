@@ -78,6 +78,7 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::RegistrationsControlle
       if @resource.send(resource_update_method, account_update_params)
         yield @resource if block_given?
         @resource.link_photo = rails_blob_path(@resource.photo, only_path: true) if params[:photo]
+        @resource.save
         render_update_success
       else
         render_update_error

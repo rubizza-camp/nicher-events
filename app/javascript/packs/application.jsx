@@ -47,14 +47,16 @@ const SignOutNavigation = () => {
     }
   }
   return (
-    <AppBar >
-      <Toolbar>
-        <NavButtons to="/" text='Main page' />
-        {organizationComponent}
-        <NavButtons to="/user_profile" text='Your profile' />
-        <NavButtons to="/sign_out" text='Sign Out' />
-      </Toolbar>
-    </AppBar>
+    <Box pb={10}>
+      <AppBar>
+        <Toolbar>
+          <NavButtons to="/" text='Main page' />
+          {organizationComponent}
+          <NavButtons to="/user_profile" text='Your profile' />
+          <NavButtons to="/sign_out" text='Sign Out' />
+        </Toolbar>
+      </AppBar>
+    </Box>
 );}
 
 const OrganizationNavigation = ({userOrganizationId}) => (
