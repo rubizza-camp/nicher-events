@@ -48,7 +48,7 @@ const SignOutNavigation = () => {
     }
   }
   return (
-    <Box pb={10}>\
+    <Box pb={10}>
       <AppBar >
         <Toolbar>
           <NavButtons to="/" text='Main page' />

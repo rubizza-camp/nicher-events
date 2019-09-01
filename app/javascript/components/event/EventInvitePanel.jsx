@@ -51,6 +51,7 @@ export default class EventInvitePanel extends React.Component {
     return (
       <Grid container direction="column" justify="center" alignItems="center">
         {message}
+        <h2>Send invitation link</h2>
         <FormTextField
           value={invite.email}
           name="email" 

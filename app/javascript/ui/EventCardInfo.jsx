@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3),
     padding: 10,
     marginBottom:20,
-    width: 380,
+    width: 650,
     shadow: 40,
   },
   bullet: {
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const EventCard = (params) => {
+export const EventCardInfo = (params) => {
   const classes = useStyles();
   const { event } = params;
   function IconPanel(props) {
@@ -70,11 +70,6 @@ export const EventCard = (params) => {
           {event.description}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Grid>
-          <Button size="small"><Link to={`/events/${event.id}`} color='primary'>Learn more</Link></Button>
-        </Grid>
-      </CardActions>
     </Card>
   );
 };

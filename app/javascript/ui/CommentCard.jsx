@@ -10,7 +10,7 @@ export const  CommentCard = (params) => {
   const useStyles = makeStyles({
     card: {
       marginBottom:20,
-      width: 550,
+      width: 400,
       shadow: 40,
     },
     title: {

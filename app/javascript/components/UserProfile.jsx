@@ -98,7 +98,19 @@ export default class UserProfile extends React.Component {
         <Card>
           <CardContent>
             <Grid container direction="column" justify="center" alignItems="center">
-              {image}
+              <Grid container direction="row" justify="center" alignItems="center" >
+                <Grid item>
+                  {image}
+                </Grid>
+                <Grid item>
+                    <Typography variant="h6"> Avatar: </Typography>
+                    <input type="file"
+                      name="photo"
+                      accept="image/*"
+                      onChange={this.handleChangeFile}
+                    />
+                </Grid>
+              </Grid>
               <Typography variant="h5">
                 {userInfo}
               </Typography>
@@ -107,49 +119,33 @@ export default class UserProfile extends React.Component {
               </Typography>
             </Grid>
             <form onSubmit={this.handleSave}>
-              <Grid container direction="row" justify="center" alignItems="center">
-                <div>
+              <Grid container direction="column" justify="flex-start" alignItems="center" >
+                <Grid item>
                   <FormTextField type="text"
                     name="first_name"
                     label="First name"
                     value={user.first_name}
                     onChange={this.handleChange} />
-                </div>
-
-                <div>
+                </Grid>
+                <Grid item>
                   <FormTextField type="text"
                     name="last_name"
                     label="Last name"
                     value={user.last_name}
                     onChange={this.handleChange} />
-                </div>
-              </Grid>
-              <Grid container direction="row" justify="space-around" alignItems="center">
-                <div>
+                </Grid>
+                <Grid item>
                   <FormTextField type="text"
                     name="phone"
                     label="Phone"
                     value={user.phone}
                     onChange={this.handleChange}
                     mx="auto" />
-                </div>
-
-                <div>
-                  <Typography variant="h6">
-                    Avatar:
-                  </Typography>
-                  <input type="file"
-                    name="photo"
-                    accept="image/*"
-                    onChange={this.handleChangeFile}
-                  />
-                </div>
-
+                </Grid>
               </Grid>
               <Grid container justify="center" alignItems="center">
                 <FormButton color="primary" text="update" />
               </Grid>
-
             </form>
           </CardContent>
         </Card>
