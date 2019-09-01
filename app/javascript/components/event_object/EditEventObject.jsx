@@ -17,7 +17,7 @@ export default class EditEventObject extends React.Component {
       userRole = JSON.parse(localStorage.user_attributes).role;
     }
     if (userRole !== 'organizer') {
-      this.props.history.push('/event_objects');
+      this.props.history.goBack();
     }
   }
 
@@ -45,25 +45,12 @@ export default class EditEventObject extends React.Component {
     data.append('file', eventObjects.file);
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     Axios.patch(`/api/v1/event_objects/${this.props.match.params.id}`, data, { headers: headers })
-    .then(() => this.props.history.push(`/event_objects/${this.state.eventObject.id}`))
-    .catch(error => {
-      debugger;
-      switch (error.response.statusText) {
-        case 'Unprocessable Entity':
-          this.setState({ errors: error.response.data });
-          break;
-        case 'Unauthorized':
-          this.setState({ errors: error.response.data.errors });
-          break;
-        case 'Not Found':
-          this.setState({ errors: ['You can\'t do this'] });
-          break;
-      }
-    });
+    .then(() => this.props.history.goBack())
+    .catch(error => this.setState({ errors: error.response.data.errors}));
   }
 
   handleCancel = () => {
-    this.props.history.push(`/event_objects/${this.state.eventObject.id}`);
+    this.props.history.goBack();
   }
 
   render() {

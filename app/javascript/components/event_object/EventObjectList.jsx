@@ -36,7 +36,7 @@ export default class EventObjectList extends React.Component {
 
     let createdButton;
     if (userRole === 'organizer') {
-      createdButton =  <FormButton component={Link} to={createEventUrl} color="primary" text='Create Event Object' />;
+      createdButton =  <FormButton component={Link} to={{pathname: createEventUrl, state:{id: this.props.props.match.params.id}}} color="primary" text='Create Event Object' />;
     }
     const EventObjectsList = () => {
       return (
@@ -44,7 +44,7 @@ export default class EventObjectList extends React.Component {
               {this.state.eventObjects.map(eventObjects => (
                 <ListItem key={eventObjects.id}>
                   <div>
-                  <p><Link to={`/event_objects/${eventObjects.id}`}>{eventObjects.name}</Link></p>
+                  <p><Link to={{pathname: `/event_objects/${eventObjects.id}`, state:{id: this.props.props.match.params.id}}}>{eventObjects.name}</Link></p>
                   <img srcSet={eventObjects.location}
                        className="Avatar"
                        alt="avatar"

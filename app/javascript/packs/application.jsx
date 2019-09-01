@@ -20,7 +20,7 @@ import { Router, Route, NavLink, Switch } from 'react-router-dom';
 import { Toolbar } from '@material-ui/core';
 import EventList from '../components/event/EventList';
 import UpdatedEvent from '../components/event/UpdatedEvent';
-import EventInfo from '../components/event/EventInfo';
+import EventInfoForm from '../components/event/EventInfoForm';
 import NewEvent from '../components/event/NewEvent';
 import UserProfile from '../components/UserProfile';
 import EventObjectList from '../components/event_object/EventObjectList';
@@ -100,7 +100,7 @@ const Main = () => (
     <DefaultLayout exact path="/events/new" component={NewEvent} />
     <DefaultLayout exact path='/events/:id/edit' component={UpdatedEvent} />
     <DefaultLayout exact path='/events' component={EventList} />
-    <DefaultLayout exact path='/events/:id' component={EventInfo} />
+    <DefaultLayout exact path='/events/:id' component={EventInfoForm} />
     <DefaultLayout exact path='/venues' component={VenueIndex} />
     <DefaultLayout exact path="/venues/new" component={VenueNew} />
     <DefaultLayout exact path='/venues/:id' component={VenueShow} />

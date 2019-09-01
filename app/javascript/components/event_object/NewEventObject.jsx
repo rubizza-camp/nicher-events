@@ -16,7 +16,7 @@ export default class NewEventObject extends React.Component {
       userRole = JSON.parse(localStorage.user_attributes).role;
     }
     if (userRole !== 'organizer') {
-      this.props.history.push('/event_objects');
+      this.props.history.goBack();
     }
   }
 
@@ -32,7 +32,7 @@ export default class NewEventObject extends React.Component {
     data.append('file', eventObject.file);
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     Axios.post('/api/v1/event_objects', data, { headers: headers })
-    .then(() => this.props.history.push(`/event_objects`))
+    .then(() => this.props.history.goBack())
     .catch(error => {
         switch (error.response.statusText) {
           case 'Unprocessable Entity':
@@ -47,7 +47,7 @@ export default class NewEventObject extends React.Component {
   }
 
   handleCancel = () => {
-    this.props.history.push('/events');
+    this.props.history.goBack();
   }
 
   render() {
