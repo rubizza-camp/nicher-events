@@ -4,6 +4,7 @@ import { FormTextField } from '../../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
 import StoreIcon from '@material-ui/icons/Store';
 import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
+import { Message } from '../../ui/Message';
 
 class OrganizationForm extends Component {
   constructor(props) {
@@ -25,10 +26,14 @@ class OrganizationForm extends Component {
 
   render() {
     const {organization} = this.state;
+    let errorsMessage;
+    if (this.props.errors)  {
+      errorsMessage = <Message message={this.props.errors} variant='error' />;
+    }
     return(
       <form onSubmit={(e) => {this.props.handleSubmit(e, this.state.organization);}}>
         <Grid container direction="column" justify="center" alignItems="center">
-          <p>{this.props.errors}</p>
+          <p>{errorsMessage}</p>
           <div>
             <StoreIcon fontSize='large' />
             <FormTextField type="text"

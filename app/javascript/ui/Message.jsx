@@ -12,9 +12,11 @@ const variantIcon = {
 const useStyles = makeStyles(theme => ({
   success: {
     backgroundColor: green[600],
+    marginBottom: 5,
   },
   error: {
     backgroundColor: theme.palette.error.dark,
+    marginBottom: 5,
   },
   message: {
     display: 'flex',
@@ -27,15 +29,20 @@ export const  Message = (params) => {
   const classes = useStyles();
   const Icon = variantIcon[params.variant];
   return (
-    <SnackbarContent
-      className={classes[params.variant]}
-      aria-describedby="client-snackbar"
-      message={
-        <span id="client-snackbar" className={classes.message}>
-          <Icon />
-          {params.message}
-        </span>
-      }
-    />
+    <div>
+      {params.message.map((message) => (
+        <SnackbarContent
+          key={message.id}
+          className={classes[params.variant]}
+          aria-describedby="client-snackbar"
+          message={
+            <span id="client-snackbar" className={classes.message}>
+              <Icon />
+              {message}
+            </span>
+          }
+        />
+      ))}
+    </div>
   );
 };

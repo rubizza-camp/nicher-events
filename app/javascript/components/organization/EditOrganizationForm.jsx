@@ -43,10 +43,10 @@ class EditOrganizationForm extends Component {
       })
       .catch(error => {
         if (error.response.statusText == 'Unauthorized') {
-          this.setState({ errors: error.response.statusText });
+          this.setState({ errors: error.response.data.errors });
         }
         if (error.response.statusText == 'Unprocessable Entity') {
-          this.setState({ errors: error.response.statusText });
+          this.setState({ errors: error.response.data });
         }
       });
   }

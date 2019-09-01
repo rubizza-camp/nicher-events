@@ -14,8 +14,8 @@ export default class VenueIndex extends React.Component {
 
   componentDidMount() {
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     headers['X-CSRF-Token'] = document
       .querySelector('meta[name=\'csrf-token\']')
@@ -46,8 +46,8 @@ export default class VenueIndex extends React.Component {
     );
 
     let userRole;
-    if (sessionStorage.user !== undefined) {
-      userRole = JSON.parse(sessionStorage.user_attributes).role;
+    if (localStorage.user !== undefined) {
+      userRole = JSON.parse(localStorage.user_attributes).role;
     }
 
     let createButton;

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { FormButton } from '../../ui/Buttons';
+import { Message } from '../../ui/Message';
 
 export default class VenueShow extends React.Component {
   constructor(props) {
@@ -13,8 +14,8 @@ export default class VenueShow extends React.Component {
 
   componentDidMount() {
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     headers['X-CSRF-Token'] = document
       .querySelector('meta[name=\'csrf-token\']')
@@ -26,8 +27,8 @@ export default class VenueShow extends React.Component {
 
   handleDelete = () => {
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     headers['X-CSRF-Token'] = document
       .querySelector('meta[name=\'csrf-token\']')
@@ -56,8 +57,8 @@ export default class VenueShow extends React.Component {
     );
 
     let userRole;
-    if (sessionStorage.user !== undefined) {
-      userRole = JSON.parse(sessionStorage.user_attributes).role;
+    if (localStorage.user !== undefined) {
+      userRole = JSON.parse(localStorage.user_attributes).role;
     }
 
     let editButtons;
@@ -67,11 +68,7 @@ export default class VenueShow extends React.Component {
 
     let message;
     if (this.state.errors) {
-      message = (
-        <div>
-          {this.state.errors.map(error => <p key={error.id}>{error}</p>)}
-        </div>
-      );
+      message = <Message message={this.state.errors} variant='error' />;
     }
 
     return (

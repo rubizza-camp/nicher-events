@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import { FormButton } from '../../ui/Buttons';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import { Message } from '../../ui/Message';
 
 class OrganizationInfo extends Component {
   constructor(props) {
@@ -75,11 +76,7 @@ class OrganizationInfo extends Component {
     const mainPageUrl = '/';
     let errorsMessage;
     if (this.state.errors)  {
-      errorsMessage = <div>
-        {this.state.errors.map((error) => (
-          <p key={error.id}>{error}</p>
-        ))}
-      </div>;
+      errorsMessage = <Message message={this.state.errors} variant='error' />;
     }
 
     let userlist;

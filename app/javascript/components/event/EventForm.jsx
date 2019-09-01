@@ -4,6 +4,7 @@ import { FormButton } from '../../ui/Buttons';
 import { RadioGroupStatus } from '../../ui/RadioGroupStatus';
 import { FormTextField } from '../../ui/FormTextField';
 import DatePicker from '../../ui/DatePicker';
+import { Message } from '../../ui/Message';
 
 export default class EventForm extends React.Component {
   constructor(props) {
@@ -27,11 +28,7 @@ export default class EventForm extends React.Component {
   render () {
     let errorsMessage;
     if (this.props.errors)  {
-      errorsMessage = <ul>
-        {this.props.errors.map((error) => (
-          <li key={error.id}>{error}</li>
-        ))}
-      </ul>;
+      errorsMessage = <Message message={this.props.errors} variant='error' />;
     }
     const { event } = this.state;
     return (
