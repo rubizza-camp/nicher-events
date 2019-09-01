@@ -103,12 +103,12 @@ export default class UserProfile extends React.Component {
                   {image}
                 </Grid>
                 <Grid item>
-                    <Typography variant="h6"> Avatar: </Typography>
-                    <input type="file"
-                      name="photo"
-                      accept="image/*"
-                      onChange={this.handleChangeFile}
-                    />
+                  <Typography variant="h6"> Avatar: </Typography>
+                  <input type="file"
+                    name="photo"
+                    accept="image/*"
+                    onChange={this.handleChangeFile}
+                  />
                 </Grid>
               </Grid>
               <Typography variant="h5">

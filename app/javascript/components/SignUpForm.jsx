@@ -66,18 +66,18 @@ export default class SignUpForm extends React.Component {
       return(
         <div className={classes.root}>
           <Grid container direction="column" justify="center" alignItems="center">
-          <Paper position="static">
-            <Tabs variant="standard" value={value} onChange={handleChange} centered textColor="inherit">
-              <Tab label="Sign up as Attendee" {...a11yProps(0)}/>
-              <Tab label="Sign up as Organizer" {...a11yProps(1)}/>
-            </Tabs>
-          </Paper>
-          <TabPanel value={value} index={0}>
-            <AttendeeSignUpForm history={this.props.history} />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <OrganizerSignUpForm history={this.props.history} />
-          </TabPanel>
+            <Paper position="static">
+              <Tabs variant="standard" value={value} onChange={handleChange} centered textColor="inherit">
+                <Tab label="Sign up as Attendee" {...a11yProps(0)}/>
+                <Tab label="Sign up as Organizer" {...a11yProps(1)}/>
+              </Tabs>
+            </Paper>
+            <TabPanel value={value} index={0}>
+              <AttendeeSignUpForm history={this.props.history} />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <OrganizerSignUpForm history={this.props.history} />
+            </TabPanel>
           </Grid>
         </div>
       );
