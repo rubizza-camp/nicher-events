@@ -86,6 +86,8 @@ export default class UserProfile extends React.Component {
         src="https://robohash.org/sitsequiquia.png?size=300x300&set=set1"
         className="Avatar"
         alt="avatar"
+        width="300px"
+        height="300px"
       />
     </div>;
 
@@ -103,12 +105,12 @@ export default class UserProfile extends React.Component {
                   {image}
                 </Grid>
                 <Grid item>
-                    <Typography variant="h6"> Avatar: </Typography>
-                    <input type="file"
-                      name="photo"
-                      accept="image/*"
-                      onChange={this.handleChangeFile}
-                    />
+                  <Typography variant="h6"> Avatar: </Typography>
+                  <input type="file"
+                    name="photo"
+                    accept="image/*"
+                    onChange={this.handleChangeFile}
+                  />
                 </Grid>
               </Grid>
               <Typography variant="h5">

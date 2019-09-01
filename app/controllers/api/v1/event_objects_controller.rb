@@ -16,6 +16,7 @@ class Api::V1::EventObjectsController < ApplicationController
   end
 
   def create
+    if params[:file] != 'null'
     @events_objects = EventObject.new(event_object_params)
     @events_objects.location = url_for(@events_objects.file)
     if @events_objects.save
@@ -23,12 +24,17 @@ class Api::V1::EventObjectsController < ApplicationController
     else
       render json: @events_objects.errors.full_messages, status: :unprocessable_entity
     end
+    else
+      render json: ['file necessary'], status: :unprocessable_entity
+    end
   end
 
   def update
-    @event_object.file.purge
+    if params[:file] == 'undefined'
+      params.slice!(:name, :description)
+    end
     if @event_object.update(event_object_params)
-      @event_object.location = url_for(@event_object.file)
+      @event_object.location = url_for(@event_object.file) if params[:file]
       @event_object.save
       render json: @event_object
     else

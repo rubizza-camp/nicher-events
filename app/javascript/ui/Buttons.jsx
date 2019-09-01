@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
     width: 165,
-  }
+  },
 }));
 
 export const NavButtons = ({text: text = required, ...params}) => {

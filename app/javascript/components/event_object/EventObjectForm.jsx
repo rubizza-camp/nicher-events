@@ -65,7 +65,6 @@ export default class EventObjectForm extends React.Component {
           <FormTextField
             type='file'
             name="file"
-            required
             onChange={this.handleChangeFile}
           />
           <div className="btn-group">

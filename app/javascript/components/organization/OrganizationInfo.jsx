@@ -4,8 +4,10 @@ import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { FormButton } from '../../ui/Buttons';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import { Message } from '../../ui/Message';
+import { OrganizationEventCard, OrganizationMemberCard } from '../../ui/OrganizationEventCard';
+import { OrganizationDescription } from '../../ui/OrganizationDescription';
+import { Title } from '../../ui/Title';
 
 class OrganizationInfo extends Component {
   constructor(props) {
@@ -20,11 +22,13 @@ class OrganizationInfo extends Component {
     let headers = {};
     if (localStorage.user) {
       const userRole = JSON.parse(localStorage.user_attributes).role;
-      if (userRole === 'organizer' && JSON.parse(localStorage.user_attributes).organization !== null) {
+      if (userRole === 'organizer' && JSON.parse(localStorage.user_attributes).organization.id == this.props.match.params.id) {
         headers = JSON.parse(localStorage.user);
       } else {
         this.props.history.push('/');
       }
+    } else {
+      this.props.history.push('/');
     }
     axios.all([
       axios.get(`/api/v1/organizations/${this.props.match.params.id}`, { headers: headers }),
@@ -45,6 +49,8 @@ class OrganizationInfo extends Component {
       } else {
         this.props.history.push('/');
       }
+    } else {
+      this.props.history.push('/');
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     axios.delete(`/api/v1/organizations/${this.props.match.params.id}/user_organizations/${user_organization_id}`, { headers: headers })
@@ -79,44 +85,25 @@ class OrganizationInfo extends Component {
       errorsMessage = <Message message={this.state.errors} variant='error' />;
     }
 
-    let userlist;
+    let users;
     if (this.isnotEmpty(this.state.user_organization)) {
-      userlist = <div>{this.state.user_organization.map((user_org) => (
-        <div key={user_org.user.id}>
-          <hr/>
-          <p><i>{user_org.user.first_name} {user_org.user.last_name}</i></p>
-          <p>{user_org.user.email}</p>
-          {this.deleteButton(user_org.id, user_org.user.id)}
-        </div>
-      ))}
-      </div>;    
+      users = <OrganizationMemberCard users={this.state.user_organization} />;
     }
 
-    let eventList;
+    let events;
     if (this.state.organization.events !== undefined) {
-      eventList = <div>
-        {this.state.organization.events.map((event) => (
-          <div key={event.id}>
-            <Card>
-              <CardContent>
-                <Link to={'/events/' + event.id}><h3>{event.name}</h3></Link>
-                <p>{event.date}</p>
-                <p>{event.status}</p>
-              </CardContent>
-            </Card>
-          </div>
-        ))}
-      </div>;
-    }
+      events =  this.state.organization.events.map((event) => (
+        <OrganizationEventCard event={event} />
+      ));}
 
     return (
       <div>
         <Grid container direction="column" justify="center" alignItems="center">
-          <Card style={{width: 1000}}>
+          <Card >
             <div>
               <Grid container direction="row" justify="center" alignItems="center" >
                 <p>{errorsMessage}</p>
-                <h1>{this.state.organization.name}</h1>
+                <Title title={this.state.organization.name} />
               </Grid>
             </div>
           
@@ -125,11 +112,11 @@ class OrganizationInfo extends Component {
                 <div>
                   <Grid container direction="column" justify="flex-start" alignItems="flex-start">
                     <Grid container direction="row" justify="flex-start" alignItems="flex-start" style={{margin: 100}}>
-                      <h3>{this.state.organization.description}</h3>
+                      <OrganizationDescription description={this.state.organization.description} />
                     </Grid>
                     <Grid container direction="row" justify="flex-start" alignItems="flex-start">
                       <div>
-                        {eventList}
+                        {events}
                       </div>
                     </Grid>
                   </Grid>
@@ -137,12 +124,7 @@ class OrganizationInfo extends Component {
 
                 <div>
                   <Grid container direction="column" justify="flex-end" alignItems="flex-start">
-                    <Card style={{padding: 16}}>
-                      <div>
-                        <h3>Members</h3>
-                      </div>
-                      <div>{userlist}</div>
-                    </Card>
+                    {users}
                   </Grid>
                 </div>
               </Grid>

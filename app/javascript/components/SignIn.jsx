@@ -6,9 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import { NavButtons } from '../ui/Buttons';
 const queryString = require('query-string');
 import Card from '@material-ui/core/Card';
-import MailRoundedIcon from '@material-ui/icons/MailRounded';
-import HttpsIcon from '@material-ui/icons/Https';
 import { Message } from '../ui/Message';
+import { MailRoundedIcon, HttpsIcon } from '../ui/IconsCollection';
+import { Title } from '../ui/Title';
 
 export default class SigInForm extends React.Component {
   constructor(props) {
@@ -24,7 +24,7 @@ export default class SigInForm extends React.Component {
   }
 
   componentDidMount() {
-    if (localStorage.user){
+    if (localStorage.user ){
       this.props.history.push('/');
     }
   }
@@ -52,7 +52,7 @@ export default class SigInForm extends React.Component {
         this.props.history.go(-1);
       }
     }).catch(error => {
-      this.setState({errors: error.response.data.errors})
+      this.setState({errors: error.response.data.errors});
     });
   };
 
@@ -64,6 +64,7 @@ export default class SigInForm extends React.Component {
 
   render() {
     let errorMessages;
+    const title = 'Sign In';
     if (this.state.errors) {
       errorMessages = <Message message={this.state.errors} variant='error' />;
     }
@@ -77,13 +78,13 @@ export default class SigInForm extends React.Component {
             </div>
             <div>
               <Grid container direction="column" justify="center" alignItems="center">
-                <h1>Sign In</h1>
+                <Title title={title} />
               </Grid>  
             </div>
             <form onSubmit={this.handleSignIn}>
               <Grid container direction="column" justify="center" alignItems="center">
                 <div>
-                  <MailRoundedIcon fontSize='large' />
+                  <MailRoundedIcon />
                   <FormTextField type="text"
                     name="email"
                     label="Email"
@@ -91,7 +92,7 @@ export default class SigInForm extends React.Component {
                     onChange={this.handleChange} />
                 </div>
                 <div>
-                  <HttpsIcon fontSize='large' />
+                  <HttpsIcon />
                   <FormTextField type="password"
                     name="password"
                     label="Password"
