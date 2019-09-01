@@ -8,6 +8,7 @@ const queryString = require('query-string');
 import Card from '@material-ui/core/Card';
 import MailRoundedIcon from '@material-ui/icons/MailRounded';
 import HttpsIcon from '@material-ui/icons/Https';
+import { Message } from '../ui/Message';
 
 export default class SigInForm extends React.Component {
   constructor(props) {
@@ -50,6 +51,8 @@ export default class SigInForm extends React.Component {
       } else {
         this.props.history.go(-1);
       }
+    }).catch(error => {
+      this.setState({errors: error.response.data.errors})
     });
   };
 
@@ -62,11 +65,7 @@ export default class SigInForm extends React.Component {
   render() {
     let errorMessages;
     if (this.state.errors) {
-      errorMessages = <div>
-        {this.state.errors.map((error) => (
-          <p key={error.id}>{error}</p>
-        ))}
-      </div>;
+      errorMessages = <Message message={this.state.errors} variant='error' />;
     }
 
     return (

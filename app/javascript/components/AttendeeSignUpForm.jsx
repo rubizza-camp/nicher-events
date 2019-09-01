@@ -12,6 +12,7 @@ import PhoneRoundedIcon from '@material-ui/icons/PhoneRounded';
 import HttpsIcon from '@material-ui/icons/Https';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
+import { Message } from '../ui/Message';
 
 export default class AttendeeSignUpForm extends React.Component {
   constructor(props) {
@@ -91,11 +92,7 @@ export default class AttendeeSignUpForm extends React.Component {
     const { user } = this.state;
     let errorMessages;
     if (this.state.errors) {
-      errorMessages = <div>
-        {this.state.errors.map((error) => (
-          <p key={error.id}>{error}</p>
-        ))}
-      </div>;
+      errorMessages = <Message message={this.state.errors} variant='error' />;
     }
     return (
       <div>

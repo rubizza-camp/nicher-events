@@ -4,6 +4,7 @@ import { FormButton } from '../ui/Buttons';
 import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
 require('dotenv').config();
+import { Message } from '../ui/Message';
 
 export default class ForgotPasswordForm extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ export default class ForgotPasswordForm extends React.Component {
       url: '/auth/password',
       data: this.state.user
     }).then(response => {
-      this.setState({ response_message: response.data.message });
+      this.setState({ response_message: [response.data.message] });
     }).catch(error => {
       this.setState({ errors: error.response.data.errors });
     });
@@ -37,16 +38,11 @@ export default class ForgotPasswordForm extends React.Component {
   render() {
     let message;
     if (this.state.errors) {
-      message = <div>
-        {this.state.errors.map((error) => (
-          <p key={error.id}>{error}</p>
-        ))}
-      </div>;
+      message = <Message message={this.state.errors} variant='error' />;
+      
     }
     if (this.state.response_message) {
-      message = <div>
-        {this.state.response_message}
-      </div>;
+      message = <Message message={this.state.response_message} variant='success' />;
     }
     return (
       <div>

@@ -6,6 +6,7 @@ import { FormButton } from '../../ui/Buttons';
 import { HomeIcon, KeyIcon } from '../../ui/IconsCollection';
 import EventInvitePanel from './EventInvitePanel';
 import CommentsList from '../comments/CommentsList';
+import { Message } from '../../ui/Message';
 
 export default class EventInfo extends React.Component {
   constructor(props) {
@@ -120,11 +121,7 @@ export default class EventInfo extends React.Component {
     }
     let errorsMessage;
     if (this.state.errors)  {
-      errorsMessage = <div>
-        {this.state.errors.map((error) => (
-          <p key={error.id}>{error}</p>
-        ))}
-      </div>;
+      errorsMessage = <Message message={this.state.errors} variant='error' />;
     }
     let memberList;
     if (this.state.event.users)  {

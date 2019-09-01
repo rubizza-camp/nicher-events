@@ -36,27 +36,15 @@ export default class CommentForm extends React.Component {
 
   render () {
     let message;
-    let errorsMessage;
     if (this.props.errors !== undefined && this.props.errors.length !== 0)  {
-      errorsMessage = <div>
-        {this.props.errors.map((error) => (
-          <div key={error.id}>{error}</div>
-        ))}
-      </div>;
-      message = <Message message={errorsMessage} variant='error' />;
+      message = <Message message={this.props.errors} variant='error' />;
     }
-    let responseMessage;
     if (this.props.response !== undefined && this.props.response.length !== 0)  {
-      responseMessage = <div>
-        {this.props.response.map((error) => (
-          <div key={error.id}>{error}</div>
-        ))}
-      </div>;
-      message = <Message message={responseMessage} variant='success' />;
+      message = <Message message={this.props.response} variant='success' />;
     }
 
     let { comment } = this.state;
-    if (this.state.comment.user_id !== undefined && errorsMessage == undefined) {
+    if (this.state.comment.user_id !== undefined && message == undefined) {
       this.setState({ comment: { text: '', rating: ''} });
       comment = this.state.comment;
     }

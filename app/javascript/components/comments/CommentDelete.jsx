@@ -41,8 +41,7 @@ export default class CommentDelete extends React.Component {
     let buttonDelete;
     let commentCard;
     let commentDeleteDialog;
-    const userAtttributes = JSON.parse(localStorage.user_attributes);
-    if ( localStorage.user !== undefined && (userAtttributes.id == comment.user.id || userAtttributes.role == 'organizer')) {
+    if ( localStorage.user !== undefined && (JSON.parse(localStorage.user_attributes).id == comment.user.id || JSON.parse(localStorage.user_attributes).role == 'organizer')) {
       buttonDelete = <FormButton onClick={(e) => { this.handleDelete(e, comment); }} color="primary" text='Delete' />;
       commentCard = <CommentCard comment={comment} errors={this.state.errors} />;
       const deleteIcon = <DeleteIcon />;

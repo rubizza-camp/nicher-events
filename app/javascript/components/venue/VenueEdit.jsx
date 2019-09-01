@@ -3,6 +3,7 @@ import Axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { FormTextField } from '../../ui/TextFileds';
 import { FormButton } from '../../ui/Buttons';
+import { Message } from '../../ui/Message';
 
 export default class VenueEdit extends Component {
   constructor(props) {
@@ -24,8 +25,8 @@ export default class VenueEdit extends Component {
   handleSubmit = event => {
     event.preventDefault();
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     headers['X-CSRF-Token'] = document
       .querySelector('meta[name=\'csrf-token\']')
@@ -48,11 +49,7 @@ export default class VenueEdit extends Component {
   render() {
     let message;
     if (this.state.errors) {
-      message = (
-        <div>
-          {this.state.errors.map(error => <p key={error.id}>{error}</p>)}
-        </div>
-      );
+      message = <Message message={this.state.errors} variant='error' />;
     }
 
     const { venue } = this.state;

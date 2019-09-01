@@ -4,6 +4,7 @@ import { FormButton } from '../ui/Buttons';
 import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
 const queryString = require('query-string');
+import { Message } from '../ui/Message';
 
 export default class ResetPasswordForm extends React.Component {
   constructor(props) {
@@ -43,11 +44,7 @@ export default class ResetPasswordForm extends React.Component {
   render() {
     let message;
     if (this.state.errors) {
-      message = <div>
-        {this.state.errors.map((error) => (
-          <p key={error.id}>{error}</p>
-        ))}
-      </div>;
+      message = <Message message={this.state.errors} variant='error' />;
     }
     return (
       <div>

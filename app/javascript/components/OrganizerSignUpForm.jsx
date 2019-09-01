@@ -12,6 +12,7 @@ import HttpsIcon from '@material-ui/icons/Https';
 import StoreIcon from '@material-ui/icons/Store';
 import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
 import Card from '@material-ui/core/Card';
+import { Message } from '../ui/Message';
 
 export default class OrganizerSignUpForm extends React.Component {
   constructor(props) {
@@ -93,11 +94,7 @@ export default class OrganizerSignUpForm extends React.Component {
     const { user } = this.state;
     let errorMessages;
     if (this.state.errors) {
-      errorMessages = <div>
-        {this.state.errors.map((error) => (
-          <p key={error.id}>{error}</p>
-        ))}
-      </div>;
+      errorMessages = <Message message={this.state.errors} variant='error' />;
     } 
     return (
       <div>
