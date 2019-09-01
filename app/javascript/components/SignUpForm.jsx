@@ -11,6 +11,12 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 export default class SignUpForm extends React.Component {
+  componentDidMount() {
+    if (localStorage.user){
+      this.props.history.push('/');
+    }
+  }
+
   render() {
     const useStyles = makeStyles(theme => ({
       root: {

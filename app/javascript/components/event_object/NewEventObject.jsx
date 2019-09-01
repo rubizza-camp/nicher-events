@@ -5,7 +5,7 @@ import EventObjectForm from './EventObjectForm';
 export default class NewEventObject extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { eventObject: {name: '', description: '', file: '', location: '' } };
+    this.state = { eventObject: {name: '', description: '', file: null, location: '' } };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
