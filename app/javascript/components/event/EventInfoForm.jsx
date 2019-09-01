@@ -1,6 +1,6 @@
 import React from 'react';
-import AttendeeSignUpForm from './AttendeeSignUpForm';
-import OrganizerSignUpForm from './OrganizerSignUpForm';
+import EventInfo from './EventInfo';
+import EventObjectList from '../event_object/EventObjectList';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-export default class SignUpForm extends React.Component {
+export default class EventInfoForm extends React.Component {
   render() {
     const useStyles = makeStyles(theme => ({
       root: {
@@ -56,22 +56,21 @@ export default class SignUpForm extends React.Component {
       function handleChange(event, newValue) {
         setValue(newValue);
       }
-
       return(
         <div className={classes.root}>
           <Grid container direction="column" justify="center" alignItems="center">
-          <Paper position="static">
-            <Tabs variant="standard" value={value} onChange={handleChange} centered textColor="inherit">
-              <Tab label="Sign up as Attendee" {...a11yProps(0)}/>
-              <Tab label="Sign up as Organizer" {...a11yProps(1)}/>
-            </Tabs>
-          </Paper>
-          <TabPanel value={value} index={0}>
-            <AttendeeSignUpForm history={this.props.history} />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <OrganizerSignUpForm history={this.props.history} />
-          </TabPanel>
+            <Paper position="static">
+              <Tabs variant="standard" value={value} onChange={handleChange} centered textColor="inherit">
+                <Tab label="Event Info" {...a11yProps(0)}/>
+                <Tab label="Event Object Info" {...a11yProps(1)}/>
+              </Tabs>
+            </Paper>
+            <TabPanel value={value} index={0}>
+              <EventInfo props={this.props} />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <EventObjectList props={this.props} />
+            </TabPanel>
           </Grid>
         </div>
       );

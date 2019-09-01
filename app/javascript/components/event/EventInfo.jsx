@@ -25,10 +25,10 @@ export default class EventInfo extends React.Component {
     if (localStorage.user) {
       headers = JSON.parse(localStorage.user);
     }
-    Axios.get(`/api/v1/events/${this.props.match.params.id}`, { headers: headers })
+    Axios.get(`/api/v1/events/${this.props.props.match.params.id}`, { headers: headers })
       .then(response => {
         this.setState({ event: response.data });
-        Axios.get(`/api/v1/events/${this.props.match.params.id}/comments`, { headers: headers })
+        Axios.get(`/api/v1/events/${this.props.props.match.params.id}/comments`, { headers: headers })
           .then(response => {
             this.setState({ comments: response.data });
           })
@@ -61,7 +61,7 @@ export default class EventInfo extends React.Component {
       headers = JSON.parse(localStorage.user);
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    Axios.post(`/api/v1/events/${this.props.match.params.id}/attendances`, {}, { headers: headers })
+    Axios.post(`/api/v1/events/${this.props.props.match.params.id}/attendances`, {}, { headers: headers })
       .then(() => {
         this.fetchAvailableEvent();
       })
