@@ -57,11 +57,11 @@ class Api::V1::EventsController < ApplicationController
   def send_notify
     @subscribers = User.subscribers(@event.id).to_a
     email_params = { author: current_user.email, subscribers: @subscribers, event: @event }
-    EventMailer.with(email_params).event_deleted_email.deliver_later
+    EventMailer.with(email_params).cancelled_event_email.deliver_later
   end
 
   def verify_date!
-    return head :unprocessable_entity if @event.date < Time.now
+    render json: { errors: ['This event took place'] }, status: :unprocessable_entity if @event.date < Time.zone.now
   end
 
   def set_events

@@ -2,10 +2,10 @@
 class EventMailer < ActionMailer::Base
   default from: 'nicher@example.com'
 
-  def event_deleted_email
+  def cancelled_event_email
     @email = params[:email]
     @event = params[:event]
     @subscribers_email = params[:subscribers].pluck(:email)
-    mail(to: @subscribers_email, subject: 'Notify event deleted')
+    mail(to: @subscribers_email, subject: "Event \"#{@event.name}\" is cancelled")
   end
 end

@@ -40,7 +40,9 @@ export default class EventInfo extends React.Component {
       .then(() => { this.props.history.push('/events');})
       .catch((error) => {
         if (error.response.statusText === 'Unprocessable Entity')
-          this.setState({ errors: ['This event took place'] });
+        {
+          this.setState({ errors: error.response.data.errors });
+        }
       });
   }
 
