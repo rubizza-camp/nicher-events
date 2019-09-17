@@ -8,7 +8,7 @@ class Api::V1::UserOrganizationsController < ApplicationController
   before_action :set_user, only: %i[destroy]
 
   def destroy
-    if current_user.organization_member?(@organization.id) && current_user.id == @organization.owner_id
+    if UserOrganizationDestroyChecker.call(current_user, @organization)
       unless @user == current_user
         @user_organization.destroy
         head :no_content
@@ -19,7 +19,7 @@ class Api::V1::UserOrganizationsController < ApplicationController
   end
 
   def index
-    if current_user.organization_member?(@current_user_organization.id)
+    if UserOrganizationAccessChecker.call(current_user, @current_user_organization)
       @user_organizations = UserOrganization.all.where(organization_id: @current_user_organization.id)
       render json: @user_organizations
     else

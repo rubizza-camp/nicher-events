@@ -9,9 +9,6 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::RegistrationsControlle
   skip_after_action :update_auth_header, only: [:create, :destroy]
 
   def create
-    # if params[:user_organization_attributes]
-    #   params[:user_organization_attributes] = JSON.parse(params[:user_organization_attributes])
-    # end
     build_resource
 
     unless @resource.present?
