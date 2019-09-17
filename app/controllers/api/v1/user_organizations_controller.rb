@@ -8,11 +8,9 @@ class Api::V1::UserOrganizationsController < ApplicationController
   before_action :set_user, only: %i[destroy]
 
   def destroy
-    if UserOrganizationDestroyChecker.call(current_user, @organization)
-      unless @user == current_user
-        @user_organization.destroy
-        head :no_content
-      end
+    if UserOrganizationDestroyChecker.call(@user, current_user, @organization)
+      @user_organization.destroy
+      head :no_content
     else
       head :forbidden
     end
