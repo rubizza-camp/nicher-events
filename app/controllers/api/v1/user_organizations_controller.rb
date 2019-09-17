@@ -42,7 +42,7 @@ class Api::V1::UserOrganizationsController < ApplicationController
   end
 
   def set_user_organization
-    @user_organization = UserOrganization.find_by(id: params[:id])
+    @user_organization = UserOrganization.find(params[:id])
   end
 
   def user_organization_params

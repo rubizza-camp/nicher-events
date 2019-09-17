@@ -16,14 +16,14 @@ RSpec.describe Api::V1::UserOrganizationsController, type: :controller do
       context 'when user isn\'t organization owner' do
         it 'returns no_content status' do
           organization.users << user
-          delete :destroy, params: { id: user.user_organization.id }
+          delete :destroy, params: { organization_id: user.organization.id, id: user.user_organization.id }
           expect(response).to have_http_status(:no_content)
         end
       end
 
       context 'when user is organization owner' do
         it 'returns forbidden status' do
-          delete :destroy, params: { id: owner.user_organization.id }
+          delete :destroy, params: { organization_id: owner.organization.id, id: owner.user_organization.id }
           expect(response).to have_http_status(:forbidden)
         end
       end
@@ -43,7 +43,7 @@ RSpec.describe Api::V1::UserOrganizationsController, type: :controller do
       end
 
       it 'returns users' do
-        get :index
+        get :index, params: { organization_id: organization.id }
         expect(json_response.count).to eq(organization.users.count)
       end
     end
