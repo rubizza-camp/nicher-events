@@ -37,8 +37,12 @@ export default class EventInfo extends React.Component {
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     Axios.delete(`/api/v1/events/${this.props.match.params.id}`, { headers: headers })
-      .then(() => {
-        this.props.history.push('/events');
+      .then(() => { this.props.history.push('/events');})
+      .catch((error) => {
+        if (error.response.statusText === 'Unprocessable Entity')
+        {
+          this.setState({ errors: error.response.data.errors });
+        }
       });
   }
 
@@ -84,7 +88,7 @@ export default class EventInfo extends React.Component {
       </div>
     );
     let subscribeButton;
-    if (event.attendance_id !== null) {
+    if (event.attendance_id) {
       subscribeButton = <FormButton onClick={this.handleUnsubscribe} text='Unsubscribe' color="secondary" />;
     }
     else {

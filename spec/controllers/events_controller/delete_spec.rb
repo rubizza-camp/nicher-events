@@ -17,11 +17,26 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         request.headers.merge!(@header)
       end
 
-      let(:event_params) { { id: event_of_current_organization.id } }
+      context 'event took place in past' do
+        let(:date) { Faker::Date.between(from: 2.days.ago, to: Date.today) }
+        let!(:past_event) { create(:event, user_id: first_organizer.id, date: date) }
+        let(:event_params) { { id: past_event.id } }
 
-      it 'event is deleted' do
-        expect { destroy_action }.to change { Event.all.count }.by(-1)
-        expect(response).to have_http_status(:no_content)
+        it 'doesn\'t delete event and returns unprocessable_entity status' do
+          expect { destroy_action }.to_not change { Event.all.count }
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+
+      context 'event will take place in future' do
+        let(:date) { Faker::Date.between(from: 1.days.from_now, to: 2.days.from_now) }
+        let!(:future_event) { create(:event, user_id: first_organizer.id, date: date) }
+        let(:event_params) { { id: future_event.id } }
+
+        it 'future event is deleted' do
+          expect { destroy_action }.to change { Event.all.count }.by(-1)
+          expect(response).to have_http_status(:no_content)
+        end
       end
 
       context 'when event doesn\'t exist' do
