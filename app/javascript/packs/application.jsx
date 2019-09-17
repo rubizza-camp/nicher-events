@@ -56,7 +56,7 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
     navbarComponent = <SignOutNavigation />;
   }
 
-  if (location.pathname == '/') {
+  if (location.pathname === '/') {
     navbarComponent = '';
   }
 
