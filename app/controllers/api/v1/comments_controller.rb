@@ -5,7 +5,7 @@ class Api::V1::CommentsController < ApplicationController
   before_action :set_current_comment, only: %i[update destroy]
 
   def index
-    @comments = Comment.where(event_id: @current_event.id)
+    @comments = @current_event.comments
     render json: @comments
   end
 
@@ -20,7 +20,7 @@ class Api::V1::CommentsController < ApplicationController
   end
 
   def update
-    return head :not_found unless user_comment?
+    return head :not_found unless own_comment?
     if @current_comment.update(comment_params)
       render json: @current_comment
     else
@@ -29,7 +29,7 @@ class Api::V1::CommentsController < ApplicationController
   end
 
   def destroy
-    return head :not_found unless user_comment? || user_organizer_of_event?
+    return head :forbidden unless own_comment? || user_organizer_of_event?
     @current_comment.destroy
     head :no_content
   end
@@ -44,7 +44,7 @@ class Api::V1::CommentsController < ApplicationController
     current_user.attendances.find_by(event_id: @current_event.id).present?
   end
 
-  def user_comment?
+  def own_comment?
     current_user.comments.find_by(id: params[:id]).present?
   end
 

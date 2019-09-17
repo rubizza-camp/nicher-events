@@ -25,26 +25,22 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
       end
     end
 
-    context 'when params is invalid' do
-      before do
-        @header = user.create_new_auth_token
-        request.headers.merge!(@header)
-      end
+    context 'when params are invalid' do
 
       it 'returns message errors' do
-        post :create, params: { comment: invalid_comment.attributes, event_id: event.id }
-        @errors = ['Text can\'t be blank', 'Rating can\'t be blank']
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response.to_set).to eq(@errors.to_set)
+        post :create, params: { comment: correct_comment.attributes, event_id: event.id }
+        @errors = ['You need to sign in or sign up before continuing.']
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response['errors'].to_set).to eq(@errors.to_set)
       end
     end
 
-    context 'when no headres' do
-      it 'returns message errors' do
+    context 'when no headers' do
+      it 'returns error messages' do
         post :create, params: { comment: correct_comment.attributes, event_id: event.id }
-        @errors = [['errors', ['You need to sign in or sign up before continuing.']]]
+        @errors = ['You need to sign in or sign up before continuing.']
         expect(response).to have_http_status(:unauthorized)
-        expect(json_response.to_set).to eq(@errors.to_set)
+        expect(json_response['errors'].to_set).to eq(@errors.to_set)
       end
     end
   end

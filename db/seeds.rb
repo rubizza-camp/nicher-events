@@ -97,14 +97,14 @@ Comment.create([
   {
     text: 'Good',
     rating: 5,
-    user_id: 1,
-    event_id: 2
+    user_id: User.first.id,
+    event_id: Event.first.id
   },
 
   {
     text: 'Bad',
     rating: 2,
-    user_id: 2,
-    event_id: 2
+    user_id: User.second.id,
+    event_id: Event.last.id
   }
 ])

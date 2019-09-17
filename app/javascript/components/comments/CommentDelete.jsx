@@ -26,7 +26,7 @@ export default class CommentDelete extends React.Component {
       })
       .catch(error => {
         switch (error.response.statusText) {
-        case 'Not Found':
+        case 'Forbidden':
           this.setState({ errors: ['You can\'t do it'] });
           break;
         case 'Unauthorized':
@@ -42,7 +42,11 @@ export default class CommentDelete extends React.Component {
     let commentCard;
     let commentDeleteDialog;
     const userAtttributes = JSON.parse(localStorage.user_attributes);
-    if ( localStorage.user !== undefined && (userAtttributes.id == comment.user.id || userAtttributes.role == 'organizer')) {
+    const userAuthenticated = localStorage.user !== undefined
+    const isCommentOwner = userAtttributes.id == comment.user.id
+    const isOrganizer = userAtttributes.role == 'organizer'
+    const allowedToDeleteComment = userAuthenticated && (isCommentOwner || isOrganizer)
+    if ( allowedToDeleteComment ) {
       buttonDelete = <FormButton onClick={(e) => { this.handleDelete(e, comment); }} color="primary" text='Delete' />;
       commentCard = <CommentCard comment={comment} errors={this.state.errors} />;
       const deleteIcon = <DeleteIcon />;
