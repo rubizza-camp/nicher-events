@@ -11,7 +11,7 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
     let(:correct_comment) { build(:comment, event_id: event.id) }
     let(:invalid_comment) { build(:comment, text: nil, rating: nil, event_id: event.id) }
 
-    context 'when params is valid' do
+    context 'when params are valid' do
       before do
         @header = user.create_new_auth_token
         request.headers.merge!(@header)
@@ -26,8 +26,7 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
     end
 
     context 'when params are invalid' do
-
-      it 'returns message errors' do
+      it 'returns message with errors' do
         post :create, params: { comment: correct_comment.attributes, event_id: event.id }
         @errors = ['You need to sign in or sign up before continuing.']
         expect(response).to have_http_status(:unauthorized)
@@ -36,7 +35,7 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
     end
 
     context 'when no headers' do
-      it 'returns error messages' do
+      it 'returns message with errors' do
         post :create, params: { comment: correct_comment.attributes, event_id: event.id }
         @errors = ['You need to sign in or sign up before continuing.']
         expect(response).to have_http_status(:unauthorized)

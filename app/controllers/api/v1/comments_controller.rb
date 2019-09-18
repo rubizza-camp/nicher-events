@@ -10,7 +10,8 @@ class Api::V1::CommentsController < ApplicationController
   end
 
   def create
-    return head :not_found unless user_subscribed_for_current_event? || user_organizer_of_event?
+    return head :forbidden unless user_subscribed_for_current_event? || user_organizer_of_event?
+
     @comment = current_user.comments.new(comment_params)
     if @comment.save
       render json: @comment, status: :created
@@ -20,7 +21,8 @@ class Api::V1::CommentsController < ApplicationController
   end
 
   def update
-    return head :not_found unless own_comment?
+    return head :forbidden unless own_comment?
+
     if @current_comment.update(comment_params)
       render json: @current_comment
     else
@@ -30,6 +32,7 @@ class Api::V1::CommentsController < ApplicationController
 
   def destroy
     return head :forbidden unless own_comment? || user_organizer_of_event?
+
     @current_comment.destroy
     head :no_content
   end

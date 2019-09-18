@@ -10,7 +10,6 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
   let!(:comment_by_organizer) { create(:comment, user_id: organizer.id, event_id: event.id) }
   let(:destroy_user_comment) { delete :destroy, params: { id: comment_by_user.id, event_id: event.id } }
   let(:destroy_invalid_comment) { delete :destroy, params: { id: -1, event_id: event.id } }
-  let(:destroy_stranger_comment) { delete :destroy, params: { id: comment_by_organizer.id, event_id: event.id } }
   let(:destroy_organizer_comment) { delete :destroy, params: { id: comment_by_organizer.id, event_id: event.id } }
   describe 'DELETE #destroy' do
     context 'when user adds current comment' do
@@ -20,49 +19,49 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
       end
 
       it 'can be deleted' do
-        expect destroy_user_comment
+        expect { destroy_user_comment }
           .to change { Comment.count }.by(-1)
         expect(response).to have_http_status(:no_content)
       end
 
-      it 'can\'t delete by invalid id' do
-        expect destroy_invalid_comment.to_not change { Comment.count }
-        expect(response).to have_http_status(:forbidden)
+      it 'can\'t be deleted by invalid id' do
+        expect { destroy_invalid_comment }.to_not change { Comment.count }
+        expect(response).to have_http_status(:not_found)
       end
 
-      it 'can\'t delete comment of other user' do
-        expect destroy_stranger_comment
+      it 'can\'t be deleted, unless it belongs to current user' do
+        expect { destroy_organizer_comment }
           .to_not change { Comment.count }
         expect(response).to have_http_status(:forbidden)
       end
     end
 
-    context 'when user is organizer of current event' do
+    context 'when user is organizer of current event and manages comments' do
       before do
         @header = organizer.create_new_auth_token
         request.headers.merge!(@header)
       end
 
       it 'can be deleted' do
-        expect destroy_organizer_comment
+        expect { destroy_organizer_comment }
           .to change { Comment.all.count }.by(-1)
         expect(response).to have_http_status(:no_content)
       end
 
-      it 'can\'t delete by invalid id' do
-        expect destroy_invalid_comment
-        expect(response).to have_http_status(:forbidden)
+      it 'can\'t be deleted by invalid id' do
+        expect { destroy_invalid_comment }.to_not change { Comment.all.count }
+        expect(response).to have_http_status(:not_found)
       end
 
-      it 'can delete comment of other user' do
-        expect destroy_user_comment
+      it 'can be deleted, even if it belongs to other user' do
+        expect { destroy_user_comment }
           .to change { Comment.all.count }.by(-1)
         expect(response).to have_http_status(:no_content)
       end
     end
 
     context 'when no headers' do
-      it 'returns message errors' do
+      it 'returns message with errors' do
         destroy_user_comment
         @errors = [['errors', ['You need to sign in or sign up before continuing.']]]
         expect(response).to have_http_status(:unauthorized)
