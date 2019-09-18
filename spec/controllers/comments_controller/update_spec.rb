@@ -11,7 +11,7 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
     let!(:correct_comment) { create(:comment, user_id: user.id, event_id: event.id) }
     let!(:invalid_comment) { build(:comment, text: nil, rating: nil, user_id: user.id, event_id: event.id) }
 
-    context 'when user add current comment and user update current comment' do
+    context 'when user adds comment and updates current comment' do
       before do
         @header = user.create_new_auth_token
         request.headers.merge!(@header)
@@ -24,7 +24,7 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
         expect(json_response['text']).to eq(correct_comment.text)
       end
 
-      it 'returns message errors' do
+      it 'returns message with errors for invalid attributes' do
         patch :update, params: { id: correct_comment.id, event_id: event.id, comment: invalid_comment.attributes }
         expect(response).to have_http_status(:unprocessable_entity)
         @errors = ['Text can\'t be blank', 'Rating can\'t be blank']
@@ -32,20 +32,20 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
       end
     end
 
-    context 'when user add current comment and organizer update current comment' do
+    context 'when user adds comment and organizer updates comment' do
       before do
         @header = organizer.create_new_auth_token
         request.headers.merge!(@header)
       end
 
-      it 'returns message errors' do
+      it 'returns message with errors' do
         patch :update, params: { id: correct_comment.id, event_id: event.id, comment: correct_comment.attributes }
-        expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status(:forbidden)
       end
     end
 
-    context 'when no headres' do
-      it 'returns message errors' do
+    context 'when no headers' do
+      it 'returns message with errors' do
         patch :update, params: { id: correct_comment.id, event_id: event.id, comment: correct_comment.attributes }
         @errors = [['errors', ['You need to sign in or sign up before continuing.']]]
         expect(response).to have_http_status(:unauthorized)
