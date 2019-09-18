@@ -22,21 +22,22 @@ class Api::V1::EventsController < ApplicationController
 
   def create
     @event = current_user.events.new(event_params)
+    set_link_map_for_event_layout
     if @event.save
       render json: @event, status: :created
     else
       render json: @event.errors.full_messages, status: :unprocessable_entity
     end
-    set_link_map_for_event_layout
   end
 
   def update
+    update_link_map_for_event_layout
     if @event.update(event_params)
+      binding.pry
       render json: @event
     else
       render json: @event.errors.full_messages, status: :unprocessable_entity
     end
-    @event.event_layout.link_map = rails_blob_path(@event.event_layout.virtual_map, only_path: true)
   end
 
   def destroy
@@ -88,11 +89,17 @@ class Api::V1::EventsController < ApplicationController
   def event_params
     status_str = params.dig(:event, :status)
     status = Event.statuses[status_str]
-    params.require(:event).permit(:name, :date, :description, event_layout_attributes: [:virtual_map]).merge(status: status)
+    params['event']['event_layouts_attributes']=[params.dig(:event, :event_layouts_attributes)]
+    params.require(:event).permit(:name, :date, :description, event_layouts_attributes: [:virtual_map]).merge(status: status)
   end
 
   def set_link_map_for_event_layout
-    @event.event_layout.link_map= url_for(@event.event_layout.virtual_map)
-    @event.event_layout.save
+    current_layout = @event.event_layouts.take
+    current_layout.link_map= url_for(current_layout.virtual_map)
+  end
+
+  def update_link_map_for_event_layout
+    current_layout = @event.event_layouts.take
+    current_layout.link_map= rails_blob_path(current_layout.virtual_map, only_path: true)
   end
 end

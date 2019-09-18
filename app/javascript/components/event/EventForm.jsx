@@ -9,7 +9,8 @@ import Axios from 'axios';
 export default class EventForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { event: {name: '', description: '', status: '', date: new Date(), event_layout_attributes: { virtual_map: null }, event_venue: '' }, venues: [] };
+    this.state = { event: {name: '', description: '', status: '', date: new Date(), event_layouts_attributes: { virtual_map: null }, event_venue: '' }, venues: [],
+    prev_event: {name: '', description: '', status: '', date: new Date()} };
     this.fetchVenues = this.fetchVenues.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeForEventLayout = this.handleChangeForEventLayout.bind(this);
@@ -41,7 +42,7 @@ export default class EventForm extends React.Component {
   handleChangeForEventLayout = (event) => {
     var prevState = {...this.state};
     var updatedEvent = {...this.state.event};
-    updatedEvent['event_layout_attributes'][event.target.name] = event.target.files[0];
+    updatedEvent['event_layouts_attributes'][event.target.name] = event.target.files[0];
     this.setState({ ...prevState, event: updatedEvent });
   }
 

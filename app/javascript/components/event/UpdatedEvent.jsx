@@ -5,7 +5,8 @@ import EventForm from './EventForm';
 export default class UpdatedEvent extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { event: {name: '', description: '', status: '', date: new Date(), event_layout_attributes: { virtual_map: null } } };
+    this.state = { event: {name: '', description: '', status: '', date: new Date(), event_layouts_attributes: { virtual_map: null } },
+                   prev_event: {name: '', description: '', status: '', date: new Date()} };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleRedirect = this.handleRedirect.bind(this);
@@ -27,10 +28,13 @@ export default class UpdatedEvent extends React.Component {
     if (localStorage.user) {
       headers = JSON.parse(localStorage.user);
     }
-    Axios.get(`/api/v1/events/${this.props.match.params.id}`, {
+
+    Axios({
+      method: 'get',
+      url: `/api/v1/events/${this.props.match.params.id}`, 
       headers: headers
     })
-      .then(res => { this.setState({ event: res.data });});
+      .then(res => { this.setState({ prev_event: res.data });});
   }
 
   handleSubmit = (e, event) => {
@@ -39,13 +43,12 @@ export default class UpdatedEvent extends React.Component {
     if (localStorage.user) {
       headers = JSON.parse(localStorage.user);
     }
-
     const data = new FormData();
-    data.append('name', event.name);
-    data.append('description', event.description);
-    data.append('status', event.status);
-    data.append('date', event.date);
-    data.append('event_layout_attributes', event.event_layout_attributes.virtual_map);
+    data.append('event[name]', event.name);
+    data.append('event[description]', event.description);
+    data.append('event[status]', event.status);
+    data.append('event[date]', event.date);
+    data.append('event[event_layouts_attributes][virtual_map]', event.event_layouts_attributes.virtual_map);
 
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     Axios({
@@ -72,11 +75,12 @@ export default class UpdatedEvent extends React.Component {
   handleCancel = () => {
     this.props.history.push(`/events/${this.state.event.id}`);
   }
-
+debugger
   render() {
+    debugger;
     return (
       <div>
-        <EventForm event={this.state.event} errors={this.state.errors} handleSubmit={this.handleSubmit} handleCancel={this.handleCancel} />
+        <EventForm event={this.state.prev_event} errors={this.state.errors} handleSubmit={this.handleSubmit} handleCancel={this.handleCancel} />
       </div>
     );
   }
