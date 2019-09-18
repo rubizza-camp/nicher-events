@@ -17,10 +17,8 @@ class EventSerializer < ActiveModel::Serializer
   end
 
   def link_map
-    begin
-    object.event_layout.link_map
-    rescue
-      return '#'
-    end
+    object.event_layouts.take.link_map
+  rescue NoMethodError
+    '#'
   end
 end

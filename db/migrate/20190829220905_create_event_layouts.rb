@@ -1,3 +1,4 @@
+# :reek:UncommunicativeVariableName
 class CreateEventLayouts < ActiveRecord::Migration[5.2]
   def change
     create_table :event_layouts do |t|

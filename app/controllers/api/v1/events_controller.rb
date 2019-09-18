@@ -1,6 +1,7 @@
 # :reek:InstanceVariableAssumption
 # :reek:NilCheck
 # :reek:MissingSafeMethod
+# :reek:TooManyMethods
 
 class Api::V1::EventsController < ApplicationController
   before_action :authenticate_user!, only: %i[create update destroy]
@@ -23,20 +24,20 @@ class Api::V1::EventsController < ApplicationController
   def create
     @event = current_user.events.new(event_params)
     if @event.save
+      set_link_map_for_event_layout unless params.dig(:event, :event_layouts_attributes).nil?
       render json: @event, status: :created
     else
       render json: @event.errors.full_messages, status: :unprocessable_entity
     end
-    set_link_map_for_event_layout
   end
 
   def update
     if @event.update(event_params)
+      update_link_map_for_event_layout unless params.dig(:event, :event_layouts_attributes).nil?
       render json: @event
     else
       render json: @event.errors.full_messages, status: :unprocessable_entity
     end
-    @event.event_layout.link_map = rails_blob_path(@event.event_layout.virtual_map, only_path: true)
   end
 
   def destroy
@@ -88,11 +89,27 @@ class Api::V1::EventsController < ApplicationController
   def event_params
     status_str = params.dig(:event, :status)
     status = Event.statuses[status_str]
-    params.require(:event).permit(:name, :date, :description, event_layout_attributes: [:virtual_map]).merge(status: status)
+    check_for_virtual_map
+    # rubocop:disable Metrics/LineLength
+    params.require(:event).permit(:name, :date, :description, event_layouts_attributes: [:virtual_map]).merge(status: status)
+    # rubocop:enable Metrics/LineLength
   end
 
   def set_link_map_for_event_layout
-    @event.event_layout.link_map= url_for(@event.event_layout.virtual_map)
-    @event.event_layout.save
+    current_layout = @event.event_layouts.take
+    current_layout.link_map = url_for(current_layout.virtual_map)
+  end
+
+  def update_link_map_for_event_layout
+    current_layout = @event.event_layouts.take
+    current_layout.link_map = rails_blob_path(current_layout.virtual_map, only_path: true)
+  end
+
+  def check_for_virtual_map
+    if params.dig(:event, :event_layouts_attributes, :virtual_map).class == ActionDispatch::Http::UploadedFile
+      params['event']['event_layouts_attributes'] = [params.dig(:event, :event_layouts_attributes)]
+    else
+      params['event'].delete :event_layouts_attributes
+    end
   end
 end
