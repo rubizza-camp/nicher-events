@@ -27,5 +27,5 @@ class User < ApplicationRecord
   def token_validation_response
     UserSerializer.new(self).as_json
   end
-scope :subscribers, ->(event_id) { joins(:attendances).where(attendances: { event_id: event_id }) }
+  scope :subscribers, ->(event_id) { joins(:attendances).where(attendances: { event_id: event_id }) }
 end
