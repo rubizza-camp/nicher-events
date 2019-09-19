@@ -21,7 +21,7 @@ export default class EventInfo extends React.Component {
     if (localStorage.user) {
       headers = JSON.parse(localStorage.user);
     }
-    Axios.get(`/api/v1/events/${this.props.match.params.id}`, { headers: headers })
+    Axios.get(`/api/v1/events/${this.props.props.match.params.id}`, { headers: headers })
       .then(response => this.setState({ event: response.data }))
       .catch(() => this.props.history.push('/events'));
   }
@@ -36,13 +36,9 @@ export default class EventInfo extends React.Component {
       headers = JSON.parse(localStorage.user);
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    Axios.delete(`/api/v1/events/${this.props.match.params.id}`, { headers: headers })
-      .then(() => { this.props.history.push('/events');})
-      .catch((error) => {
-        if (error.response.statusText === 'Unprocessable Entity')
-        {
-          this.setState({ errors: error.response.data.errors });
-        }
+    Axios.delete(`/api/v1/events/${this.props.props.match.params.id}`, { headers: headers })
+      .then(() => {
+        this.props.history.push('/events');
       });
   }
 
@@ -52,7 +48,7 @@ export default class EventInfo extends React.Component {
       headers = JSON.parse(localStorage.user);
     }
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
-    Axios.post(`/api/v1/events/${this.props.match.params.id}/attendances`, {}, { headers: headers })
+    Axios.post(`/api/v1/events/${this.props.props.match.params.id}/attendances`, {}, { headers: headers })
       .then(() => {
         this.fetchAvailableEvent();
       })
