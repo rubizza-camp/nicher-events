@@ -16,7 +16,7 @@ import { NavButtons } from '../ui/Buttons';
 import AppBar from '@material-ui/core/AppBar';
 import EditOrganizationForm from '../components/organization/EditOrganizationForm';
 import OrganizationInfo from '../components/organization/OrganizationInfo';
-import { Router, Route, NavLink, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { Toolbar } from '@material-ui/core';
 import EventList from '../components/event/EventList';
 import UpdatedEvent from '../components/event/UpdatedEvent';
