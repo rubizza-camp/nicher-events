@@ -2,7 +2,8 @@ import React from 'react';
 import AttendeeSignUpForm from './AttendeeSignUpForm';
 import OrganizerSignUpForm from './OrganizerSignUpForm';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import PropTypes from 'prop-types';
@@ -58,18 +59,20 @@ export default class SignUpForm extends React.Component {
 
       return(
         <div className={classes.root}>
-          <AppBar position="static">
-            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+          <Grid container direction="column" justify="center" alignItems="center">
+          <Paper position="static">
+            <Tabs variant="standard" value={value} onChange={handleChange} centered textColor="inherit">
               <Tab label="Sign up as Attendee" {...a11yProps(0)}/>
               <Tab label="Sign up as Organizer" {...a11yProps(1)}/>
             </Tabs>
-          </AppBar>
+          </Paper>
           <TabPanel value={value} index={0}>
             <AttendeeSignUpForm history={this.props.history} />
           </TabPanel>
           <TabPanel value={value} index={1}>
             <OrganizerSignUpForm history={this.props.history} />
           </TabPanel>
+          </Grid>
         </div>
       );
     };
