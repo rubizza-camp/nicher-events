@@ -8,7 +8,24 @@ class Api::V1::EventsController < ApplicationController
   before_action :set_events, only: %i[index]
   before_action :set_event, only: %i[show update destroy]
   before_action :verify_organization!, only: %i[update destroy]
-  before_action :verify_date!, only: %i[destroy]
+  include Swagger::Blocks
+  swagger_path '/api/v1/events' do
+    operation :get do
+      key :summary, 'Fetches all events available for current user'
+      key :description, 'Returns all social events for unauthorized user, social and private - for atendee,'\
+    ' all by his/her organization for organizer'
+      key :operationId, 'FetchEvents'
+      key :tags, ['event']
+      response 200 do
+        schema do
+          key :type, :array
+          items do
+            key :'$ref', :Event
+          end
+        end
+      end
+    end
+  end
 
   def index
     render json: @events
@@ -38,7 +55,6 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def destroy
-    send_notify
     @event.attendances.destroy_all
     @event.destroy
     head :no_content
@@ -54,20 +70,10 @@ class Api::V1::EventsController < ApplicationController
     current_user.attendances.find_by(event_id: @event.id).present?
   end
 
-  def send_notify
-    @subscribers = User.subscribers(@event.id).to_a
-    email_params = { author: current_user.email, subscribers: @subscribers, event: @event }
-    EventMailer.with(email_params).cancelled_event_email.deliver_later
-  end
-
-  def verify_date!
-    render json: { errors: ['This event took place'] }, status: :unprocessable_entity if @event.date < Time.zone.now
-  end
-
   def set_events
     @events = Event.social
     @events += current_user.organization.events.confidential if current_user&.organizer?
-    @events += Event.confidential.available_for_user(current_user&.id)
+    @events += Event.available_for_user(current_user&.id)
   end
 
   def set_event

@@ -7,7 +7,7 @@ class ApidocsController < ActionController::Base
       key :version, '1.0.0'
       key :title, 'Swagger Nicher-events'
       key :description, 'API that uses a nicher-events'
-     # key :termsOfService, 'http://helloreverb.com/terms/'
+      # key :termsOfService, 'http://helloreverb.com/terms/'
       contact do
         key :name, 'Cybergizer'
       end
@@ -30,9 +30,11 @@ class ApidocsController < ActionController::Base
 
   # A list of all classes that have swagger_* declarations.
   SWAGGERED_CLASSES = [
-      Api::V1::VenuesController,
-      Venue,
-      self,
+    Api::V1::VenuesController,
+    Api::V1::EventsController,
+    Venue,
+    Event,
+    self
   ].freeze
 
   def index

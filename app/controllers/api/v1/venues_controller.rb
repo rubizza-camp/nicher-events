@@ -10,6 +10,7 @@ class Api::V1::VenuesController < ApplicationController
       key :summary, 'Fetches all venues'
       key :description, 'Returns all venues'
       key :operationId, 'FetchVenues'
+      key :tags, ['venue']
       response 200 do
         schema do
           key :type, :array
@@ -23,10 +24,10 @@ class Api::V1::VenuesController < ApplicationController
       key :description, 'Creates a new venue.  Duplicates doesn\'t allowed'
       key :operationId, 'addVenue'
       key :produces, [
-          'application/json'
+        'application/json'
       ]
       key :tags, [
-          'venue'
+        'venue'
       ]
       parameter do
         key :name, :venue
@@ -52,7 +53,7 @@ class Api::V1::VenuesController < ApplicationController
       key :description, 'Returns a single venue if the user has access'
       key :operationId, 'findVenueById'
       key :tags, [
-          'venue'
+        'venue'
       ]
       parameter do
         key :name, :id
