@@ -1,4 +1,6 @@
 # :reek:InstanceVariableAssumption :reek:NilCheck
+# rubocop:disable Metrics/BlockLength
+# rubocop:disable Metrics/ClassLength
 class Api::V1::VenuesController < ApplicationController
   before_action :authenticate_user!
   before_action :organizer?, only: %i[create update destroy]
@@ -118,3 +120,5 @@ class Api::V1::VenuesController < ApplicationController
     params.require(:venue).permit(:name, :address, :description, :people_capacity)
   end
 end
+# rubocop:enable Metrics/BlockLength
+# rubocop:enable Metrics/ClassLength

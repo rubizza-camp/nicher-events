@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 class Event < ApplicationRecord
   include Swagger::Blocks
   enum status: %i[social confidential]
@@ -16,33 +17,47 @@ class Event < ApplicationRecord
   swagger_schema :Event do
     property :id do
       key :type, :integer
+      key :description, 'Id of event'
+      key :example, 1
     end
     property :name do
       key :type, :string
+      key :description, 'Name of event'
+      key :example, 'Ruby meetup'
     end
     property :date do
       key :type, :string
+      key :description, 'Date of event'
+      key :example, '2019-09-18T00:00'
     end
     property :description do
       key :type, :string
+      key :description, 'Description of event'
+      key :example, 'Omnis quis accusantium labore.'
     end
     property :status do
       key :type, :string
+      key :description, 'Type of event'
+      key :enum, %w[social confidential]
     end
     property :organization do
       key :type, :object
+      key :description, 'Host of event'
     end
     property :available_for_edit do
+      key :description, 'Whether can be edited by current user'
       key :type, :boolean
     end
     property :users do
       key :type, :array
+      key :description, 'Participants of event'
       items do
         key :type, :object
       end
     end
     property :attendance_id do
       key :type, :boolean
+      key :description, 'Can user enter the event(false if already entered)'
     end
   end
 
@@ -50,3 +65,4 @@ class Event < ApplicationRecord
   scope :confidential, -> { where(status: :confidential) }
   scope :available_for_user, ->(user_id) { joins(:attendances).where(attendances: { user_id: user_id }) }
 end
+# rubocop:enable Metrics/BlockLength

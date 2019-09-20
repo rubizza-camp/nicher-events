@@ -1,7 +1,8 @@
 # :reek:InstanceVariableAssumption
 # :reek:NilCheck
 # :reek:MissingSafeMethod
-
+# rubocop:disable Metrics/BlockLength
+# rubocop:disable Metrics/ClassLength
 class Api::V1::EventsController < ApplicationController
   before_action :authenticate_user!, only: %i[create update destroy]
   before_action :verify_organizer!, only: %i[create update destroy]
@@ -11,10 +12,11 @@ class Api::V1::EventsController < ApplicationController
   include Swagger::Blocks
   swagger_path '/api/v1/events' do
     operation :get do
+      key :description, 'event response'
       key :summary, 'Fetches all events available for current user'
       key :description, 'Returns all social events for unauthorized user, social and private - for atendee,'\
     ' all by his/her organization for organizer'
-      key :operationId, 'FetchEvents'
+      key :operationId, 'IndexEvents'
       key :tags, ['event']
       response 200 do
         schema do
@@ -22,6 +24,42 @@ class Api::V1::EventsController < ApplicationController
           items do
             key :'$ref', :Event
           end
+        end
+      end
+    end
+  end
+
+  swagger_path '/api/v1/events/:id' do
+    operation :get do
+      parameter do
+        key :name, :id
+        key :in, :path
+        key :description, 'ID of event to fetch'
+        key :required, true
+        key :type, :integer
+        key :example, 1
+      end
+      key :description, 'event response'
+      key :summary, 'Fetches event by id'
+      key :description, 'Checks whether event is available for user'\
+      ' and returns event object with given id'
+      key :operationId, 'ShowEvent'
+      key :tags, ['event']
+      response 200 do
+        schema do
+          key :'$ref', :Event
+        end
+      end
+      response 403 do
+        key :description, 'Current user has no access to this event'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+      response 404 do
+        key :description, 'Invalid id provided'
+        schema do
+          key :'$ref', :ErrorModel
         end
       end
     end
@@ -95,3 +133,5 @@ class Api::V1::EventsController < ApplicationController
     params.require(:event).permit(:name, :date, :description).merge(status: status)
   end
 end
+# rubocop:enable Metrics/BlockLength
+# rubocop:enable Metrics/ClassLength

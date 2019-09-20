@@ -17,7 +17,7 @@ class ApidocsController < ActionController::Base
     end
     tag do
       key :name, 'nicher'
-      key :description, 'Pets operations'
+      key :description, 'API for events navigation'
       externalDocs do
         key :description, 'Find more info here'
         key :url, 'https://swagger.io'
