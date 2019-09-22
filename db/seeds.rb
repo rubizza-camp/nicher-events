@@ -62,12 +62,12 @@ User.first.events.create([
   { name: Faker::Lorem.word,
     date: Faker::Date.between(from: 2.days.ago, to: Date.today),
     description: Faker::Lorem.sentence,
-    status: Event.statuses.keys.sample,
+    status: Event.statuses.keys.sample
   },
   { name: Faker::Lorem.word,
     date: Faker::Date.between(from: 2.days.ago, to: Date.today),
     description: Faker::Lorem.sentence,
-    status: Event.statuses.keys.sample,
+    status: Event.statuses.keys.sample
   }
 ])
 
@@ -75,12 +75,12 @@ User.second.events.create([
   { name: Faker::Lorem.word,
     date: Faker::Date.between(from: 2.days.ago, to: Date.today),
     description: Faker::Lorem.sentence,
-    status: Event.statuses.keys.sample,
+    status: Event.statuses.keys.sample
   },
   { name: Faker::Lorem.word,
     date: Faker::Date.between(from: 2.days.ago, to: Date.today),
     description: Faker::Lorem.sentence,
-    status: Event.statuses.keys.sample,
+    status: Event.statuses.keys.sample
   }
 ])
 
