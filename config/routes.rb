@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       resources :events do
         resources :attendances, only: [:create, :destroy]
         resources :event_invites, only: [:create, :show, :update]
+        resources :comments
       end
     end
   end

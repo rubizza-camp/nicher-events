@@ -1,7 +1,8 @@
 # :reek:NilCheck
 
 class EventSerializer < ActiveModel::Serializer
-  attributes :id, :name, :date, :description, :status, :organization, :available_for_edit, :users, :attendance_id
+  attributes :id, :name, :date, :description, :status, :organization,
+             :available_for_edit, :users, :attendance_id, :comments
 
   def date
     Time.parse(object.date.to_s).strftime('%Y-%m-%dT%H:%M')

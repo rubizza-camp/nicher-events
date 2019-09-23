@@ -5,11 +5,12 @@ import Grid from '@material-ui/core/Grid';
 import { FormButton } from '../../ui/Buttons';
 import { HomeIcon, KeyIcon } from '../../ui/IconsCollection';
 import EventInvitePanel from './EventInvitePanel';
+import CommentsList from '../comments/CommentsList';
 
 export default class EventInfo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { event: {} };
+    this.state = { event: {}, comments: [] };
     this.handleDelete = this.handleDelete.bind(this);
     this.fetchAvailableEvent = this.fetchAvailableEvent.bind(this);
     this.handleSubscribe = this.handleSubscribe.bind(this);
@@ -22,7 +23,14 @@ export default class EventInfo extends React.Component {
       headers = JSON.parse(localStorage.user);
     }
     Axios.get(`/api/v1/events/${this.props.match.params.id}`, { headers: headers })
-      .then(response => this.setState({ event: response.data }))
+      .then(response => {
+        this.setState({ event: response.data });
+        Axios.get(`/api/v1/events/${this.props.match.params.id}/comments`, { headers: headers })
+          .then(response => {
+            this.setState({ comments: response.data });
+          })
+          .catch(() => this.props.history.push('/events'));
+      })
       .catch(() => this.props.history.push('/events'));
   }
 
@@ -128,6 +136,11 @@ export default class EventInfo extends React.Component {
         ))}
       </ul>;
     }
+
+    let commentsList;
+    if (event.comments !== undefined) {
+      commentsList = <CommentsList comments={this.state.comments} event_id={event.id} fetchAvailableEvent={this.fetchAvailableEvent} />;
+    }
   
     return (
       <Grid container direction="column" justify="center" alignItems="center">
@@ -148,6 +161,7 @@ export default class EventInfo extends React.Component {
           <FormButton component={Link} to={listEventsUrl} text='Cancel' />
         </Grid>
         <hr/>
+        {commentsList}
       </Grid>
     );
   }

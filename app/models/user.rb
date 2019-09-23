@@ -18,6 +18,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :user_organization
   accepts_nested_attributes_for :organization
 
+  has_many :comments
   has_many :attendances
   has_many :events
   has_one_attached :photo
