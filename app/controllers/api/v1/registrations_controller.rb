@@ -137,7 +137,7 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::RegistrationsControlle
   def render_create_success
     render json: {
       status: 'success',
-      data:   resource_data(resource_json: @resource.token_validation_response)
+      data:   resource_data
     }
   end
 
