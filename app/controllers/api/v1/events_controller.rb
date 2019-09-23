@@ -11,7 +11,7 @@ class Api::V1::EventsController < ApplicationController
   before_action :verify_organization!, only: %i[update destroy]
   before_action :verify_date!, only: %i[destroy]
   include Swagger::Blocks
-  swagger_path '/api/v1/events' do
+  swagger_path '/api/v1/attendances' do
     operation :get do
       key :summary, 'Fetches all events available for current user'
       key :description, 'Returns all social events for unauthorized user, social and private - for atendee,'\
@@ -67,7 +67,7 @@ class Api::V1::EventsController < ApplicationController
     end
   end
 
-  swagger_path '/api/v1/events/:id' do
+  swagger_path '/api/v1/events/{id}' do
     operation :get do
       parameter do
         key :name, :id
@@ -159,7 +159,7 @@ class Api::V1::EventsController < ApplicationController
       parameter do
         key :name, :id
         key :in, :path
-        key :description, 'ID of event to update'
+        key :description, 'ID of event to delete'
         key :required, true
         key :type, :integer
         key :example, 1

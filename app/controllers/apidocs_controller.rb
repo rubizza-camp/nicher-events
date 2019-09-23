@@ -23,7 +23,7 @@ class ApidocsController < ActionController::Base
         key :url, 'https://swagger.io'
       end
     end
-    key :host, 'http://localhost:3000/'
+    key :host, 'localhost:3000/'
     key :consumes, ['application/json']
     key :produces, ['application/json']
   end
@@ -32,8 +32,11 @@ class ApidocsController < ActionController::Base
   SWAGGERED_CLASSES = [
     Api::V1::VenuesController,
     Api::V1::EventsController,
+    Api::V1::AttendancesController,
+    Api::V1::EventInvitesController,
     Venue,
     Event,
+    EventInvite,
     ErrorModel,
     ErrorListModel,
     self
