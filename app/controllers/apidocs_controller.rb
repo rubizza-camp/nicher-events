@@ -34,6 +34,8 @@ class ApidocsController < ActionController::Base
     Api::V1::EventsController,
     Venue,
     Event,
+    ErrorModel,
+    ErrorListModel,
     self
   ].freeze
 

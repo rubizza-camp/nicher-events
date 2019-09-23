@@ -14,6 +14,33 @@ class Event < ApplicationRecord
   has_many :attendances
   has_many :users, through: :attendances
 
+  swagger_schema :EventInput do
+    property :name do
+      key :type, :string
+      key :required, true
+      key :description, 'Name of event'
+      key :example, 'Ruby conference'
+    end
+    property :date do
+      key :type, :string
+      key :required, true
+      key :description, 'Date of event'
+      key :example, '2019-09-18T00:00'
+    end
+    property :description do
+      key :type, :string
+      key :required, true
+      key :description, 'Description of event'
+      key :example, 'Quos rerum non at.'
+    end
+    property :status do
+      key :type, :string
+      key :required, true
+      key :description, 'Type of event'
+      key :enum, %w[social confidential]
+    end
+  end
+
   swagger_schema :Event do
     property :id do
       key :type, :integer

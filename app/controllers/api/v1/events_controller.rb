@@ -13,10 +13,9 @@ class Api::V1::EventsController < ApplicationController
   include Swagger::Blocks
   swagger_path '/api/v1/events' do
     operation :get do
-      key :description, 'event response'
       key :summary, 'Fetches all events available for current user'
       key :description, 'Returns all social events for unauthorized user, social and private - for atendee,'\
-    ' all by his/her organization for organizer'
+    ' all by his/her organization - for organizer'
       key :operationId, 'IndexEvents'
       key :tags, ['event']
       response 200 do
@@ -25,6 +24,44 @@ class Api::V1::EventsController < ApplicationController
           items do
             key :'$ref', :Event
           end
+        end
+      end
+    end
+    operation :post do
+      key :summary, 'Creates new event'
+      key :description, 'Creates new event, if user is organizer'
+      key :operationId, 'CreateEvents'
+      key :tags, ['event']
+      parameter do
+        key :name, :event
+        key :in, :query
+        key :description, 'Parameters of new event'
+        key :required, true
+        schema do
+          key :'$ref', :EventInput
+        end
+      end
+      response 200 do
+        schema do
+          key :'$ref', :Event
+        end
+      end
+      response 401 do
+        key :description, 'Current user is not logged in'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+      response 403 do
+        key :description, 'Current user can not create events, he is attendee'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+      response 422 do
+        key :description, 'Params of the event are invalid'
+        schema do
+          key :'$ref', :ErrorListModel
         end
       end
     end
@@ -42,7 +79,7 @@ class Api::V1::EventsController < ApplicationController
       end
       key :description, 'event response'
       key :summary, 'Fetches event by id'
-      key :description, 'Checks whether event is available for user'\
+      key :description, 'Checks, whether event is available for user'\
       ' and returns event object with given id'
       key :operationId, 'ShowEvent'
       key :tags, ['event']
@@ -61,6 +98,103 @@ class Api::V1::EventsController < ApplicationController
         key :description, 'Invalid id provided'
         schema do
           key :'$ref', :ErrorModel
+        end
+      end
+    end
+    operation :patch do
+      parameter do
+        key :name, :id
+        key :in, :path
+        key :description, 'ID of event to update'
+        key :required, true
+        key :type, :integer
+        key :example, 1
+      end
+      parameter do
+        key :name, :event
+        key :in, :query
+        key :description, 'Parameters of updated event'
+        key :required, true
+        schema do
+          key :'$ref', :EventInput
+        end
+      end
+      key :summary, 'Updates event by id'
+      key :description, 'Checks, whether event is available for update'\
+      ' by user, and returns event object with given id and updated attributes'
+      key :operationId, 'ShowEvent'
+      key :tags, ['event']
+      response 200 do
+        schema do
+          key :'$ref', :Event
+        end
+      end
+      response 401 do
+        key :description, 'Current user is not logged in'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+      response 403 do
+        key :description, 'Current user can not update the event, he is attendee or an organizer'\
+        ' who doesn\'t own this event'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+      response 404 do
+        key :description, 'There is no event with such id'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+      response 422 do
+        key :description, 'Params of the event are invalid'
+        schema do
+          key :'$ref', :ErrorListModel
+        end
+      end
+    end
+    operation :delete do
+      parameter do
+        key :name, :id
+        key :in, :path
+        key :description, 'ID of event to update'
+        key :required, true
+        key :type, :integer
+        key :example, 1
+      end
+      key :summary, 'Deletes event by id'
+      key :description, 'Checks, whether event is available for delete'\
+      ' by user, sends notification e-mail to all of its attendees and deletes it'
+      key :operationId, 'DeleteEvent'
+      key :tags, ['event']
+      response 204 do
+        key :description, 'Successful delete'
+      end
+      response 401 do
+        key :description, 'Current user is not logged in'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+      response 403 do
+        key :description, 'Current user can not delete the event, he is attendee or an organizer'\
+        ' who doesn\'t own this event'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+      response 404 do
+        key :description, 'There is no event with such id'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+      response 422 do
+        key :description, 'This event took place in the past'
+        schema do
+          key :'$ref', :ErrorListModel
         end
       end
     end
