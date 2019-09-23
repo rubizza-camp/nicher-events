@@ -2,6 +2,7 @@
 # :reek:NilCheck
 # :reek:MissingSafeMethod
 # :reek:TooManyMethods
+# rubocop:disable Metrics/LineLength
 
 class Api::V1::EventsController < ApplicationController
   before_action :authenticate_user!, only: %i[create update destroy]
@@ -24,7 +25,7 @@ class Api::V1::EventsController < ApplicationController
   def create
     @event = current_user.events.new(event_params)
     if @event.save
-      set_link_map_for_event_layout unless params.dig(:event, :event_layouts_attributes).nil?
+      set_link_map_for_event_layout unless params.dig(:event, :event_layout_attributes).nil?
       render json: @event, status: :created
     else
       render json: @event.errors.full_messages, status: :unprocessable_entity
@@ -33,7 +34,7 @@ class Api::V1::EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      update_link_map_for_event_layout unless params.dig(:event, :event_layouts_attributes).nil?
+      update_link_map_for_event_layout unless params.dig(:event, :event_layout_attributes).nil?
       render json: @event
     else
       render json: @event.errors.full_messages, status: :unprocessable_entity
@@ -43,6 +44,7 @@ class Api::V1::EventsController < ApplicationController
   def destroy
     send_notify
     @event.attendances.destroy_all
+    @event.event_layout.destroy
     @event.destroy
     head :no_content
   end
@@ -90,26 +92,25 @@ class Api::V1::EventsController < ApplicationController
     status_str = params.dig(:event, :status)
     status = Event.statuses[status_str]
     check_for_virtual_map
-    # rubocop:disable Metrics/LineLength
-    params.require(:event).permit(:name, :date, :description, event_layouts_attributes: [:virtual_map]).merge(status: status)
-    # rubocop:enable Metrics/LineLength
+    params.require(:event).permit(:name, :date, :description, event_layout_attributes: %i[virtual_map venue_id]).merge(status: status)
   end
 
   def set_link_map_for_event_layout
-    current_layout = @event.event_layouts.take
+    current_layout = @event.event_layout
     current_layout.link_map = url_for(current_layout.virtual_map)
   end
 
   def update_link_map_for_event_layout
-    current_layout = @event.event_layouts.take
+    current_layout = @event.event_layout.take
     current_layout.link_map = rails_blob_path(current_layout.virtual_map, only_path: true)
   end
 
   def check_for_virtual_map
-    if params.dig(:event, :event_layouts_attributes, :virtual_map).class == ActionDispatch::Http::UploadedFile
-      params['event']['event_layouts_attributes'] = [params.dig(:event, :event_layouts_attributes)]
+    if params.dig(:event, :event_layout_attributes, :virtual_map).class == ActionDispatch::Http::UploadedFile
+      params['event']['event_layout_attributes'] = params.dig(:event, :event_layout_attributes)
     else
-      params['event'].delete :event_layouts_attributes
+      params['event'].delete :event_layout_attributes
     end
   end
 end
+# rubocop:enable Metrics/LineLength

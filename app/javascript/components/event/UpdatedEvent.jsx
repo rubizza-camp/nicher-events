@@ -5,7 +5,7 @@ import EventForm from './EventForm';
 export default class UpdatedEvent extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { event: {name: '', description: '', status: '', date: new Date(), event_layouts_attributes: { virtual_map: null } },
+    this.state = { event: {name: '', description: '', status: '', date: new Date(), event_layout_attributes: { virtual_map: null, venue_id: null } },
       prev_event: {name: '', description: '', status: '', date: new Date()} };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
@@ -48,7 +48,7 @@ export default class UpdatedEvent extends React.Component {
     data.append('event[description]', event.description);
     data.append('event[status]', event.status);
     data.append('event[date]', event.date);
-    data.append('event[event_layouts_attributes][virtual_map]', event.event_layouts_attributes.virtual_map);
+    data.append('event[event_layout_attributes][virtual_map]', event.event_layout_attributes.virtual_map);
 
     headers['X-CSRF-Token'] = document.querySelector('meta[name=\'csrf-token\']').getAttribute('content');
     Axios({

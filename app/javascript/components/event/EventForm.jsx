@@ -4,34 +4,17 @@ import { FormButton } from '../../ui/Buttons';
 import { RadioGroupStatus } from '../../ui/RadioGroupStatus';
 import { FormTextField } from '../../ui/FormTextField';
 import DatePicker from '../../ui/DatePicker';
-import Axios from 'axios';
 
 export default class EventForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { event: {name: '', description: '', status: '', date: new Date(), event_layouts_attributes: { virtual_map: null } } };
-    // this.fetchVenues = this.fetchVenues.bind(this);
+    this.state = { event: {name: '', description: '', status: '', date: new Date(), event_layout_attributes: { virtual_map: null, venue_id: null } } };
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeForEventLayoutFile = this.handleChangeForEventLayoutFile.bind(this);
     this.handleChangeForEventLayout = this.handleChangeForEventLayout.bind(this);
   }
 
-  // fetchVenues() {
-  //   let headers = {};
-  //   if (localStorage.user) {
-  //     headers = JSON.parse(localStorage.user);
-  //   }
-  //   Axios.get('/api/v1/venues', { headers: headers })
-  //     .then((response) => {
-  //       this.setState({ venues: response.data });
-  //     });
-  // }
-
-  componentDidMount() {
-    // this.fetchVenues();
-  }
-
   handleChange = (event) => {
-
     var prevState = {...this.state};
     var updatedEvent = {...this.state.event};
     updatedEvent[event.target.name] = event.target.value;
@@ -41,7 +24,14 @@ export default class EventForm extends React.Component {
   handleChangeForEventLayout = (event) => {
     var prevState = {...this.state};
     var updatedEvent = {...this.state.event};
-    updatedEvent['event_layouts_attributes'][event.target.name] = event.target.files[0];
+    updatedEvent['event_layout_attributes'][event.target.name] = event.target.value;
+    this.setState({ ...prevState, event: updatedEvent });
+  }
+
+  handleChangeForEventLayoutFile = (event) => {
+    var prevState = {...this.state};
+    var updatedEvent = {...this.state.event};
+    updatedEvent['event_layout_attributes'][event.target.name] = event.target.files[0];
     this.setState({ ...prevState, event: updatedEvent });
   }
 
@@ -81,11 +71,17 @@ export default class EventForm extends React.Component {
             rows="3"
             onChange={this.handleChange}
           />
+          <h1>List venue</h1>
+          <input
+            name="venue_id"
+            onChange={this.handleChangeForEventLayout}
+          />
+
           <h1>Event layout</h1>
           <input type="file"
             name="virtual_map"
             accept="image/*"
-            onChange={this.handleChangeForEventLayout}
+            onChange={this.handleChangeForEventLayoutFile}
           />
           <div className="btn-group">
             <FormButton text='Save' color="primary" />

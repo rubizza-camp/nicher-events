@@ -13,7 +13,8 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
   describe 'PATCH #update' do
     let(:valid_event) { create(:event, user_id: organizer.id) }
-
+    let(:valid_event_layout_attributes) { create(:event_layout, event_id: valid_event.id) }
+    let(:params_event) { valid_event.attributes!merge valid_event_layout_attributes }
     context 'when user is registered as organizer' do
       before do
         @header = organizer.create_new_auth_token
@@ -22,7 +23,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
       context 'event belongs to current user\'s organization' do
         it 'returns json with updated event' do
-          patch :update, params: { id: event_of_current_user.id, event: valid_event.attributes }
+          patch :update, params: { id: event_of_current_user.id, event: params_event }
           expect(json_response.keys.to_set).to eq(event_attributes.to_set)
           expect(json_response['name']).to eq(valid_event.name)
         end

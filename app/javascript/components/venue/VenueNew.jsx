@@ -29,8 +29,8 @@ export default class VenueNew extends Component {
   handleSubmit(event) {
     event.preventDefault();
     let headers = {};
-    if (sessionStorage.user) {
-      headers = JSON.parse(sessionStorage.user);
+    if (localStorage.user) {
+      headers = JSON.parse(localStorage.user);
     }
     headers['X-CSRF-Token'] = document
       .querySelector('meta[name=\'csrf-token\']')
