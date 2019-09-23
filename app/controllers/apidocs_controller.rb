@@ -23,7 +23,7 @@ class ApidocsController < ActionController::Base
         key :url, 'https://swagger.io'
       end
     end
-    key :host, 'http://localhost:3000/'
+    key :host, 'http://localhost:3000'
     key :consumes, ['application/json']
     key :produces, ['application/json']
   end

@@ -10,6 +10,9 @@ class Api::V1::VenuesController < ApplicationController
       key :summary, 'Fetches all venues'
       key :description, 'Returns all venues'
       key :operationId, 'FetchVenues'
+      key :tags, [
+          'venue'
+      ]
       response 200 do
         schema do
           key :type, :array
@@ -20,6 +23,7 @@ class Api::V1::VenuesController < ApplicationController
       end
     end
     operation :post do
+      key :summary, 'Create Venue'
       key :description, 'Creates a new venue.  Duplicates doesn\'t allowed'
       key :operationId, 'addVenue'
       key :produces, [
@@ -46,7 +50,7 @@ class Api::V1::VenuesController < ApplicationController
     end
   end
 
-  swagger_path 'api/v1/venues/{id}' do
+  swagger_path 'api/v1/venues/:id' do
     operation :get do
       key :summary, 'Find Venue by ID'
       key :description, 'Returns a single venue if the user has access'
@@ -66,6 +70,70 @@ class Api::V1::VenuesController < ApplicationController
         key :description, 'venue response'
         schema do
           key :'$ref', :Venue
+        end
+      end
+    end
+
+    operation :get do
+      key :summary, 'Find Venue by ID'
+      key :description, 'Returns a single venue if the user has access'
+      key :operationId, 'findVenueById'
+      key :tags, [
+          'venue'
+      ]
+      parameter do
+        key :name, :id
+        key :in, :path
+        key :description, 'ID of venue to fetch'
+        key :required, true
+        key :type, :integer
+        key :format, :int64
+      end
+      response 200 do
+        key :description, 'venue response'
+        schema do
+          key :'$ref', :Venue
+        end
+      end
+    end
+
+    operation :patch do
+      key :summary, 'Update Venue'
+      key :description, 'Returns updated venue'
+      key :operationId, 'UpdateVenue'
+      key :tags, [
+          'venue'
+      ]
+      parameter do
+        key :name, :id
+        key :in, :path
+        key :description, 'ID of venue to fetch'
+        key :required, true
+        key :type, :integer
+        key :format, :int64
+      end
+      response 200 do
+        key :description, 'venue response'
+        schema do
+          key :'$ref', :Venue
+        end
+      end
+    end
+
+    operation :delete do
+      key :summary, 'Delete Venue'
+      key :description, 'deletes a single venue based on the ID supplied'
+      key :operationId, 'deleteVenue'
+      key :tags, [
+          'venue'
+      ]
+      response 204 do
+        key :description, 'venue deleted'
+      end
+      response :default do
+        key :description, 'unexpected error'
+        schema do
+          key :'$ref', :ErrorModel
         end
       end
     end

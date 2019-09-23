@@ -16,29 +16,42 @@ class Venue < ApplicationRecord
   swagger_schema :Venue do
     property :id do
       key :type, :integer
+      key :example, 1
+    end
+    property :name do
+      key :type, :string
+      key :example, 'Cybergizer'
     end
     property :address do
       key :type, :string
+      key :example, 'Masherova street, MINSK'
     end
     property :description do
       key :type, :string
+      key :example, 'good places for your event'
     end
     property :people_capacity do
       key :type, :integer
+      key :example, 20
     end
   end
 
   swagger_schema :VenueInput do
-    allOf do
-      schema do
-        key :'$ref', :Venue
-      end
-      schema do
-        key :required, [:name]
-        property :name do
-          key :type, :string
-        end
-      end
+    property :name do
+      key :type, :string
+      key :example, 'Cybergizer'
+    end
+    property :address do
+      key :type, :string
+      key :example, 'Masherova street, MINSK'
+    end
+    property :description do
+      key :type, :string
+      key :example, 'good places for your event'
+    end
+    property :people_capacity do
+      key :type, :integer
+      key :example, 20
     end
   end
 
