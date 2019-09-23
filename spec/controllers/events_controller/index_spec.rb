@@ -4,7 +4,7 @@ require 'set'
 RSpec.describe Api::V1::EventsController, type: :controller do
   describe 'GET #index' do
     let!(:event_attributes) {
-      %w[id name date description status organization available_for_edit users attendance_id comments]
+      %w[id name date description status organization available_for_edit users attendance_id comments link_map]
     }
     let(:current_organization) { create(:organization) }
     let(:current_organizer) { create(:user, role: :organizer, organization: current_organization) }

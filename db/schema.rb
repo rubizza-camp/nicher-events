@@ -70,12 +70,14 @@ ActiveRecord::Schema.define(version: 2019_08_28_211942) do
   end
 
   create_table "event_layouts", force: :cascade do |t|
-    t.string "virtual_map"
-    t.integer "venue_id"
-    t.integer "event_id"
+    t.string "virtual_map", default: ""
+    t.bigint "venue_id"
+    t.bigint "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "link_map", default: ""
+    t.index ["event_id"], name: "index_event_layouts_on_event_id"
+    t.index ["venue_id"], name: "index_event_layouts_on_venue_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -145,6 +147,8 @@ ActiveRecord::Schema.define(version: 2019_08_28_211942) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "events"
   add_foreign_key "comments", "users"
+  add_foreign_key "event_layouts", "events"
+  add_foreign_key "event_layouts", "venues"
   add_foreign_key "events", "users"
   add_foreign_key "user_organizations", "organizations"
   add_foreign_key "user_organizations", "users"

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::EventsController, type: :controller do
   let!(:event_attributes) {
-    %w[id name date description status organization available_for_edit users attendance_id comments]
+    %w[id name date description status organization available_for_edit users attendance_id comments link_map]
   }
   let(:organization) { create(:organization) }
   let(:organizer) { create(:user, role: :organizer, organization: organization) }
