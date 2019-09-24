@@ -70,12 +70,11 @@ ActiveRecord::Schema.define(version: 2019_08_28_211942) do
   end
 
   create_table "event_layouts", force: :cascade do |t|
-    t.string "virtual_map", default: ""
+    t.string "virtual_map_link", default: ""
     t.bigint "venue_id"
     t.bigint "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "link_map", default: ""
     t.index ["event_id"], name: "index_event_layouts_on_event_id"
     t.index ["venue_id"], name: "index_event_layouts_on_venue_id"
   end

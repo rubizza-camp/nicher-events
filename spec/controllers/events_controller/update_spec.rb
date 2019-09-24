@@ -1,8 +1,9 @@
 require 'rails_helper'
+# rubocop:disable Metrics/LineLength
 
 RSpec.describe Api::V1::EventsController, type: :controller do
   let!(:event_attributes) {
-    %w[id name date description status organization available_for_edit users attendance_id comments link_map]
+    %w[id name date description status organization available_for_edit users attendance_id comments virtual_map_link venue]
   }
   let(:organization) { create(:organization) }
   let(:organizer) { create(:user, role: :organizer, organization: organization) }
@@ -10,11 +11,11 @@ RSpec.describe Api::V1::EventsController, type: :controller do
   let(:second_organization) { create(:organization) }
   let(:second_organizer) { create(:user, role: :organizer, organization: second_organization) }
   let(:event_of_second_user) { create(:event, user_id: second_organizer.id) }
+  let(:venue) { create(:venue) }
+  let(:event_layout) { create(:event_layout, venue_id: venue.id) }
 
   describe 'PATCH #update' do
-    let(:valid_event) { create(:event, user_id: organizer.id) }
-    let(:valid_event_layout_attributes) { create(:event_layout, event_id: valid_event.id) }
-    let(:params_event) { valid_event.attributes!merge valid_event_layout_attributes }
+    let(:valid_event) { create(:event, user_id: organizer.id, event_layout: event_layout) }
     context 'when user is registered as organizer' do
       before do
         @header = organizer.create_new_auth_token
@@ -23,7 +24,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
       context 'event belongs to current user\'s organization' do
         it 'returns json with updated event' do
-          patch :update, params: { id: event_of_current_user.id, event: params_event }
+          patch :update, params: { id: event_of_current_user.id, event: valid_event.attributes }
           expect(json_response.keys.to_set).to eq(event_attributes.to_set)
           expect(json_response['name']).to eq(valid_event.name)
         end
@@ -75,3 +76,4 @@ RSpec.describe Api::V1::EventsController, type: :controller do
     end
   end
 end
+# rubocop:enable Metrics/LineLength

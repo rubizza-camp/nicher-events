@@ -4,6 +4,7 @@ require 'rails_helper'
 RSpec.describe Api::V1::EventsController, type: :controller do
   let(:organization) { create(:organization) }
   let(:organizer) { create(:user, role: :organizer, organization: organization) }
+  let(:venue) { create(:venue) }
 
   describe 'POST #create with event_layouts attributes' do
     let(:create_action) { post :create, params: event_with_layout_params }
@@ -22,7 +23,9 @@ RSpec.describe Api::V1::EventsController, type: :controller do
                  date: Faker::Date.between(from: 2.days.ago, to: Date.today),
                  description: Faker::Lorem.sentence,
                  status: Event.statuses.keys.sample,
-                 event_layouts_attributes: { virtual_map: fixture_file_upload('nikolas.jpg', 'image/jpg') }
+                 event_layout_attributes: {
+                   virtual_map: fixture_file_upload('nikolas.jpg', 'image/jpg'), venue_id: venue.id
+                 }
                } }
         }
 
@@ -33,7 +36,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         it 'render json with link for attached file' do
           create_action
           expect(response.content_type).to eq 'application/json'
-          expect(json_response).to include 'link_map'
+          expect(json_response).to include 'virtual_map_link'
         end
       end
 

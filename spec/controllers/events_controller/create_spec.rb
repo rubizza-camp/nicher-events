@@ -3,7 +3,7 @@ require 'rails_helper'
 # rubocop:disable Metrics/LineLength
 
 RSpec.describe Api::V1::EventsController, type: :controller do
-  let!(:event_attributes) { %w[id name date description status organization available_for_edit users attendance_id comments] }
+  let!(:event_attributes) { %w[id name date description status organization available_for_edit users attendance_id comments virtual_map_link venue] }
   let(:organization) { create(:organization) }
   let(:organizer) { create(:user, role: :organizer, organization: organization) }
   let(:errors) { ['Name can\'t be blank', 'Date can\'t be blank', 'Description is too short (minimum is 10 characters)', 'Status is not included in the list'] }

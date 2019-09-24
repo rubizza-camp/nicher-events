@@ -2,7 +2,7 @@
 class CreateEventLayouts < ActiveRecord::Migration[5.2]
   def change
     create_table :event_layouts do |t|
-      t.string :virtual_map, default: ''
+      t.string :virtual_map_link, default: ''
       t.references :venue, foreign_key: true
       t.references :event, foreign_key: true
 

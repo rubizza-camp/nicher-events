@@ -16,8 +16,8 @@ class EventSerializer < ActiveModel::Serializer
     object.decorate.already_subscribed_by_user?(current_user&.id) unless available_for_edit
   end
 
-  def link_map
-    object.event_layouts.take.link_map
+  def virtual_map_link
+    object.event_layout.virtual_map_link
   rescue NoMethodError
     '#'
   end

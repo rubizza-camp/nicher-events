@@ -24,8 +24,8 @@ class Api::V1::EventsController < ApplicationController
 
   def create
     @event = current_user.events.new(event_params)
+    set_link_map_for_event_layout unless params.dig(:event, :event_layout_attributes).nil?
     if @event.save
-      set_link_map_for_event_layout unless params.dig(:event, :event_layout_attributes).nil?
       render json: @event, status: :created
     else
       render json: @event.errors.full_messages, status: :unprocessable_entity
@@ -34,7 +34,8 @@ class Api::V1::EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      update_link_map_for_event_layout unless params.dig(:event, :event_layout_attributes).nil?
+      set_link_map_for_event_layout unless params.dig(:event, :event_layout_attributes).nil?
+      @event.save
       render json: @event
     else
       render json: @event.errors.full_messages, status: :unprocessable_entity
@@ -44,7 +45,7 @@ class Api::V1::EventsController < ApplicationController
   def destroy
     send_notify
     @event.attendances.destroy_all
-    @event.event_layout.destroy
+    @event.event_layout&.destroy
     @event.destroy
     head :no_content
   end
@@ -97,12 +98,7 @@ class Api::V1::EventsController < ApplicationController
 
   def set_link_map_for_event_layout
     current_layout = @event.event_layout
-    current_layout.link_map = url_for(current_layout.virtual_map)
-  end
-
-  def update_link_map_for_event_layout
-    current_layout = @event.event_layout.take
-    current_layout.link_map = rails_blob_path(current_layout.virtual_map, only_path: true)
+    current_layout.virtual_map_link = url_for(current_layout.virtual_map)
   end
 
   def check_for_virtual_map
