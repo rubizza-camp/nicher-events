@@ -26,15 +26,13 @@ import UserProfile from '../components/UserProfile';
 import InviteInfo from '../components/event/InviteInfo';
 
 const RegisterNavigation = () => (
-  <Box pb={10}>
-    <AppBar >
-      <Toolbar>
-        <NavButtons text='Main page' to="/"  />
-        <NavButtons to="/sign_in" text='Sign in' />
-        <NavButtons  to="/sign_up" text='Sign up' />
-      </Toolbar>
-    </AppBar>
-  </Box>
+  <AppBar >
+    <Toolbar>
+      <NavButtons text='Main page' to='/' />
+      <NavButtons to={ { pathname: '/sign_in', search: window.location.search } }  text='Sign in' />
+      <NavButtons to={ { pathname: '/sign_up', search: window.location.search } }  text='Sign up' />
+    </Toolbar>
+  </AppBar>
 );
 
 const SignOutNavigation = () => (
@@ -48,6 +46,11 @@ const SignOutNavigation = () => (
   </AppBar>
 );
 
+const OrganizationNavigation = ({userOrganizationId}) => (
+  <NavButtons to={'/organizations/' + userOrganizationId} text='Organization' />
+);
+
+
 const DefaultLayout = ({ component: Component, ...rest }) => {
   let navbarComponent;
   if (localStorage.user === undefined) {
@@ -55,15 +58,21 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
   } else {
     navbarComponent = <SignOutNavigation />;
   }
-
-  if (location.pathname === '/') {
-    navbarComponent = '';
+  let organizationComponent;
+  if (localStorage.user != null) {
+    const userRole = JSON.parse(localStorage.user_attributes).role;
+    if(userRole === 'organizer' && JSON.parse(localStorage.user_attributes).organization !== null) {
+      const userOrganizationId = JSON.parse(localStorage.user_attributes).organization.id;
+      organizationComponent = <OrganizationNavigation userOrganizationId={userOrganizationId} />;
+    }
   }
-
   return (
     <Route {...rest} render={matchProps => (
       <div className="DefaultLayout">
-        {navbarComponent}
+        <Box pb={10}>
+          {navbarComponent}
+        </Box>
+        <div className="Header">{navbarComponent} {organizationComponent}</div>
         <Component {...matchProps} />
       </div>
     )}/>

@@ -5,6 +5,9 @@ import { FormTextField } from '../ui/TextFileds';
 import Grid from '@material-ui/core/Grid';
 import { NavButtons } from '../ui/Buttons';
 const queryString = require('query-string');
+import Card from '@material-ui/core/Card';
+import MailRoundedIcon from '@material-ui/icons/MailRounded';
+import HttpsIcon from '@material-ui/icons/Https';
 
 export default class SigInForm extends React.Component {
   constructor(props) {
@@ -68,29 +71,41 @@ export default class SigInForm extends React.Component {
 
     return (
       <div>
-        <div className="errors">
-          {errorMessages}
-        </div>
-        <form onSubmit={this.handleSignIn}>
-          <Grid container direction="column" justify="center"
-            alignItems="center">
-            <FormTextField type="text"
-              name="email"
-              label="Email"
-              value={this.state.user.email}
-              onChange={this.handleChange} />
+        <Grid container direction="column" justify="center" alignItems="center">
+          <Card style={{padding: 16}}>
+            <div className="errors">
+              {errorMessages}
+            </div>
+            <div>
+              <Grid container direction="column" justify="center" alignItems="center">
+                <h1>Sign In</h1>
+              </Grid>  
+            </div>
+            <form onSubmit={this.handleSignIn}>
+              <Grid container direction="column" justify="center" alignItems="center">
+                <div>
+                  <MailRoundedIcon fontSize='large' />
+                  <FormTextField type="text"
+                    name="email"
+                    label="Email"
+                    value={this.state.user.email}
+                    onChange={this.handleChange} />
+                </div>
+                <div>
+                  <HttpsIcon fontSize='large' />
+                  <FormTextField type="password"
+                    name="password"
+                    label="Password"
+                    value={this.state.user.password}
+                    onChange={this.handleChange} />
+                </div>
+                <FormButton text="Sign in" />
 
-            <FormTextField type="password"
-              name="password"
-              label="Password"
-              value={this.state.user.password}
-              onChange={this.handleChange} />
-
-            <FormButton text="Sign in" />
-
-            <NavButtons to="/forgot_password" text='Forgot password?' />
-          </Grid>
-        </form>
+                <NavButtons to="/forgot_password" text='Forgot password?' />
+              </Grid>
+            </form>
+          </Card>
+        </Grid>
       </div>
     );
   }
