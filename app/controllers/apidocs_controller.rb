@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 class ApidocsController < ActionController::Base
   include Swagger::Blocks
 
@@ -23,6 +24,27 @@ class ApidocsController < ActionController::Base
         key :url, 'https://swagger.io'
       end
     end
+    security_definition :api_key, type: :apiKey do
+      key :name, 'access-token'
+      key :in, :header
+    end
+    security_definition :tokenType, type: :apiKey do
+      key :name, 'token-type'
+      key :in, :header
+    end
+    security_definition :client, type: :apiKey do
+      key :name, 'client'
+      key :in, :header
+    end
+    security_definition :expiry, type: :apiKey do
+      key :name, 'expiry'
+      key :in, :header
+    end
+    security_definition :uid, type: :apiKey do
+      key :name, 'uid'
+      key :in, :header
+    end
+
     key :host, 'localhost:3000/'
     key :consumes, ['application/json']
     key :produces, ['application/json']
@@ -48,3 +70,4 @@ class ApidocsController < ActionController::Base
     render json: Swagger::Blocks.build_root_json(SWAGGERED_CLASSES)
   end
 end
+# rubocop:enable Metrics/BlockLength
