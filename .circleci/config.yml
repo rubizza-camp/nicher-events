@@ -1,0 +1,25 @@
+jobs:
+  build:
+   docker:
+      - image: circleci/ruby:2.6.3-node
+        environment:
+          RAILS_ENV: test
+          PGHOST: 127.0.0.1
+          PGUSER: root
+      - image: circleci/postgres:latest
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: nicher-events_test
+   working_directory: ~/nicher-events
+   steps:
+      - checkout
+      - run: |
+          yarn install --check-files
+          bundle install
+      - run: |
+          sudo apt install -y postgresql-client || true
+          
+      - run: |
+          bundle exec rake db:create
+          bundle exec rake db:migrate
+          bundle exec rspec

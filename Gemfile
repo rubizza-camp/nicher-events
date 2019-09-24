@@ -14,11 +14,14 @@ gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker'
+gem 'webpacker', '~> 4.0.7'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 
-gem 'active_model_serializers'
+gem 'active_model_serializers', '~> 0.10.10'
+gem 'draper', '~> 3.1'
+gem 'foreman', '~> 0.85.0'
+gem 'thor', '~> 0.19.1'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
@@ -42,13 +45,19 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'factory_bot_rails', '~> 5.0.2'
+  gem 'faker', '~> 2.1'
+  gem 'letter_opener', '1.7.0'
+  gem 'pry', '~> 0.12.2'
+  gem 'rails-controller-testing', '~> 1.0', '>= 1.0.4'
+  gem 'rspec-rails', '~> 3.8'
 end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
@@ -63,4 +72,10 @@ group :test do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+
+gem 'aws-sdk-s3', '~> 1.46'
+gem 'devise', '4.6.2'
+gem 'devise_token_auth', '1.1.0'
+gem 'dotenv', '2.7.4'
+gem 'rack-cors', '1.0.3', require: 'rack/cors'

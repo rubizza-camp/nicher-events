@@ -1,7 +1,110 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+
+User.create([
+  {
+    first_name: 'Margo',
+    last_name: 'Omelchuk',
+    email: 'margosha20617@gmail.com',
+    phone: '+375291111111',
+    password: '123456',
+    role: 'organizer'
+  },
+
+  {
+    first_name: 'Dima',
+    last_name: 'Kosikov',
+    email: 'dima.kosikov01@mail.ru',
+    phone: '+375291111111',
+    password: '123456789',
+    role: 'organizer'
+  },
+
+  {
+    first_name: 'Julia',
+    last_name: 'Lugina',
+    email: 'lugina.yulya@mail.ru',
+    phone: '+375291111111',
+    password: '123456',
+    role: 'attendee'
+  }
+])
+
+Organization.create([
+  {
+    name: 'ABC',
+    description: 'The company "ABC" is a domestic Belarusian manufacturer of food products. Since 1995, we have
+    been developing our production and directing our efforts to meeting the needs of people in quality and
+    healthy products.
+
+    Availability and openness:
+    The consumer chooses those brands and those products that he trusts. His preferences, level of well-being,
+    pace of life and habits are changing, but the availability of ABC products on his desk has remained unchanged
+    for many years.
+    The choice by the buyer in the store of products from "ABC" is one of the most important, decisive factors
+    in the development and expansion of the assortment of manufactured goods. Their relevance and accessibility
+    in the trade network of the Republic of Belarus, as well as repeated victories at various consumer preferences
+    contests (Product of the Year, Choice of the Year, World Food, etc.) are a significant incentive for the
+    entire company team.',
+    users: [User.first]
+  },
+  {
+    name: 'Cybergizer',
+    description: 'At Cybergizer, we are nuts about code style and concepts of engineering excellence.
+    We are empowering people and companies to unlock hidden potential, imagine, and invent their future with
+    the help of new approaches and technologies.
+    That’s how we bring product design and development to the next level.',
+    users: [User.second]
+  }
+])
+
+User.first.events.create([
+  { name: Faker::Lorem.word,
+    date: Faker::Date.between(from: 2.days.ago, to: Date.today),
+    description: Faker::Lorem.sentence,
+    status: Event.statuses.keys.sample,
+  },
+  { name: Faker::Lorem.word,
+    date: Faker::Date.between(from: 2.days.ago, to: Date.today),
+    description: Faker::Lorem.sentence,
+    status: Event.statuses.keys.sample,
+  }
+])
+
+User.second.events.create([
+  { name: Faker::Lorem.word,
+    date: Faker::Date.between(from: 2.days.ago, to: Date.today),
+    description: Faker::Lorem.sentence,
+    status: Event.statuses.keys.sample,
+  },
+  { name: Faker::Lorem.word,
+    date: Faker::Date.between(from: 2.days.ago, to: Date.today),
+    description: Faker::Lorem.sentence,
+    status: Event.statuses.keys.sample,
+  }
+])
+
+20.times do
+  Venue.create(
+    name: Faker::Cannabis.brand,
+    address: Faker::Address.full_address,
+    description: Faker::Lorem.paragraph,
+    people_capacity: rand(99)
+  )
+end
+
+Comment.create([
+  {
+    text: 'Good',
+    rating: 5,
+    user_id: User.first.id,
+    event_id: Event.first.id
+  },
+
+  {
+    text: 'Bad',
+    rating: 2,
+    user_id: User.second.id,
+    event_id: Event.last.id
+  }
+])
