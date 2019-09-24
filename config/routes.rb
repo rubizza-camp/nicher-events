@@ -17,7 +17,8 @@ Rails.application.routes.draw do
       end
     end
   end
-
+  get '/api' => redirect('/swagger-ui/dist/index.html?url=http://localhost:3000/apidocs')
+  resources :apidocs, only: [:index]
   get '*page', to: 'welcome#index',
       constraints: ->(req) { !req.xhr? && req.format.html? }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

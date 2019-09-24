@@ -88,7 +88,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :controller do
       end
     end
 
-    context 'when user is unauthorized' do
+    context 'when user is attendee' do
       let(:user) { create(:user, role: 'attendee') }
       let(:new_organization) { build(:organization) }
 

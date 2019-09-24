@@ -1,8 +1,78 @@
 # :reek:InstanceVariableAssumption :reek:NilCheck
+# rubocop:disable Metrics/BlockLength
+# rubocop:disable Metrics/ClassLength
 class Api::V1::VenuesController < ApplicationController
   before_action :authenticate_user!
   before_action :organizer?, only: %i[create update destroy]
   before_action :set_venue, only: %i[show update destroy]
+  include Swagger::Blocks
+
+  swagger_path '/api/v1/venues' do
+    operation :get do
+      key :summary, 'Fetches all venues'
+      key :description, 'Returns all venues'
+      key :operationId, 'FetchVenues'
+      key :tags, ['venue']
+      response 200 do
+        schema do
+          key :type, :array
+          items do
+            key :'$ref', :Venue
+          end
+        end
+      end
+    end
+    operation :post do
+      key :description, 'Creates a new venue.  Duplicates doesn\'t allowed'
+      key :operationId, 'addVenue'
+      key :produces, [
+        'application/json'
+      ]
+      key :tags, [
+        'venue'
+      ]
+      parameter do
+        key :name, :venue
+        key :in, :body
+        key :description, 'Venue to add to db'
+        key :required, true
+        schema do
+          key :'$ref', :VenueInput
+        end
+      end
+      response 200 do
+        key :description, 'venue response'
+        schema do
+          key :'$ref', :Venue
+        end
+      end
+    end
+  end
+
+  swagger_path 'api/v1/venues/{id}' do
+    operation :get do
+      key :summary, 'Find Venue by ID'
+      key :description, 'Returns a single venue if the user has access'
+      key :operationId, 'findVenueById'
+      key :tags, [
+        'venue'
+      ]
+      parameter do
+        key :name, :id
+        key :in, :path
+        key :description, 'ID of venue to fetch'
+        key :required, true
+        key :type, :integer
+        key :format, :int64
+      end
+      response 200 do
+        key :description, 'venue response'
+        schema do
+          key :'$ref', :Venue
+        end
+      end
+    end
+  end
 
   def index
     @venues = Venue.all
@@ -50,3 +120,5 @@ class Api::V1::VenuesController < ApplicationController
     params.require(:venue).permit(:name, :address, :description, :people_capacity)
   end
 end
+# rubocop:enable Metrics/BlockLength
+# rubocop:enable Metrics/ClassLength

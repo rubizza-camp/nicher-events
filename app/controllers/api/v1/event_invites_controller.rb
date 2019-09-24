@@ -1,7 +1,8 @@
 # :reek:InstanceVariableAssumption
 # :reek:MissingSafeMethod
 # :reek:NilCheck
-
+# rubocop:disable Metrics/BlockLength
+# rubocop:disable Metrics/ClassLength
 class Api::V1::EventInvitesController < ApplicationController
   before_action :authenticate_user!, only: %i[create show update]
   before_action :verify_organizer!, only: %i[create]
@@ -10,6 +11,162 @@ class Api::V1::EventInvitesController < ApplicationController
   before_action :generate_token, only: %i[create]
   before_action :set_invite, only: %i[show update]
   before_action :verify_token!, only: %i[show update]
+  include Swagger::Blocks
+  swagger_path '/api/v1/{event_id}/event_invites' do
+    operation :post do
+      key :summary, 'Creates invitation for event'
+      key :description, 'Checks if current user can invite to this event'\
+      ' and creates invitation'
+      key :operationId, 'CreateEventInvitation'
+      key :tags, ['event_invite']
+      parameter do
+        key :name, 'event_id'
+        key :in, :path
+        key :type, :integer
+        key :description, 'Id of event for invitation'
+        key :required, true
+      end
+      parameter do
+        key :name, 'event_invite'
+        key :in, :query
+        key :description, 'Information about the event'
+        schema do
+          key :'$ref', :EventInviteInput
+        end
+        key :required, true
+      end
+      response 201 do
+        key :description, 'Invite was created successfully'
+      end
+      response 401 do
+        key :description, 'Current user hasn\'t signed in'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+      response 403 do
+        key :description, 'Current user is attendee, he or she'\
+        ' can\'t create invites or current user is organizer and'\
+        ' doesn\'t own current event'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+      response 422 do
+        key :description, 'The user wit this email has been already subscribed to the event'\
+        ' or params are invalid'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+    end
+  end
+
+  swagger_path 'api/v1/event/{event_id}/event_invites/{id}' do
+    operation :get do
+      key :summary, 'Gets invitation for event'
+      key :description, 'Fetches invitation by id'
+      key :operationId, 'ShowEventInvitation'
+      key :tags, ['event_invite']
+      parameter do
+        key :name, 'event_id'
+        key :in, :path
+        key :type, :integer
+        key :description, 'Id of event for invitation'
+        key :required, true
+      end
+      parameter do
+        key :name, 'id'
+        key :in, :path
+        key :type, :integer
+        key :description, 'Id of invitation'
+        key :required, true
+      end
+      parameter do
+        key :name, 'token'
+        key :in, :query
+        key :type, :string
+        key :description, 'Token for event acceptance'
+        key :required, true
+      end
+      response 200 do
+        key :description, 'Invite response'
+        schema do
+          key :'$ref', :EventInvite
+        end
+      end
+      response 401 do
+        key :description, 'Current user hasn\'t signed in'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+      response 412 do
+        key :description, 'The provided token is invalid'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+    end
+    operation :patch do
+      key :summary, 'Accept or decline invitation for event'
+      key :description, 'Changes status of invitation by id'
+      key :operationId, 'UpdateEventInvitation'
+      key :tags, ['event_invite']
+      parameter do
+        key :name, 'event_id'
+        key :in, :path
+        key :type, :integer
+        key :description, 'Id of event for invitation'
+        key :required, true
+      end
+      parameter do
+        key :name, 'id'
+        key :in, :path
+        key :type, :integer
+        key :description, 'Id of invitation'
+        key :required, true
+      end
+      parameter do
+        key :name, 'token'
+        key :in, :query
+        key :type, :string
+        key :description, 'Token for event acceptance'
+        key :required, true
+      end
+      parameter do
+        key :name, 'status'
+        key :in, :query
+        key :type, :string
+        key :description, 'Accept or decline'
+        key :enum, %w[accept reject]
+      end
+      parameter do
+        key :name, 'event_invite'
+        key :in, :query
+        key :description, 'Information about the event'
+        schema do
+          key :'$ref', :EventInviteInput
+        end
+        key :required, true
+      end
+      response 200 do
+        key :description, 'Invite response'
+      end
+      response 401 do
+        key :description, 'Current user hasn\'t signed in'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+      response 412 do
+        key :description, 'The provided token is invalid'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+    end
+  end
 
   def create
     @invite = current_user.event_invites.new(attendance_params)
@@ -75,3 +232,5 @@ class Api::V1::EventInvitesController < ApplicationController
     EventInviteMailer.with(email_params).event_email.deliver_later
   end
 end
+# rubocop:enable Metrics/BlockLength
+# rubocop:enable Metrics/ClassLength
