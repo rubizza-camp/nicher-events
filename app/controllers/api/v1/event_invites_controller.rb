@@ -1,7 +1,8 @@
 # :reek:InstanceVariableAssumption
 # :reek:MissingSafeMethod
 # :reek:NilCheck
-
+# rubocop:disable Metrics/BlockLength
+# rubocop:disable Metrics/ClassLength
 class Api::V1::EventInvitesController < ApplicationController
   before_action :authenticate_user!, only: %i[create show update]
   before_action :verify_organizer!, only: %i[create]
@@ -63,7 +64,7 @@ class Api::V1::EventInvitesController < ApplicationController
 
   swagger_path 'api/v1/event/{event_id}/event_invites/{id}' do
     operation :get do
-      key :summary, 'Get invitation for event'
+      key :summary, 'Gets invitation for event'
       key :description, 'Fetches invitation by id'
       key :operationId, 'ShowEventInvitation'
       key :tags, ['event_invite']
@@ -96,12 +97,6 @@ class Api::V1::EventInvitesController < ApplicationController
       end
       response 401 do
         key :description, 'Current user hasn\'t signed in'
-        schema do
-          key :'$ref', :ErrorModel
-        end
-      end
-      response 404 do
-        key :description, 'There is no event with such id'
         schema do
           key :'$ref', :ErrorModel
         end
@@ -160,12 +155,6 @@ class Api::V1::EventInvitesController < ApplicationController
       end
       response 401 do
         key :description, 'Current user hasn\'t signed in'
-        schema do
-          key :'$ref', :ErrorModel
-        end
-      end
-      response 404 do
-        key :description, 'There is no event with such id'
         schema do
           key :'$ref', :ErrorModel
         end
@@ -243,3 +232,5 @@ class Api::V1::EventInvitesController < ApplicationController
     EventInviteMailer.with(email_params).event_email.deliver_later
   end
 end
+# rubocop:enable Metrics/BlockLength
+# rubocop:enable Metrics/ClassLength

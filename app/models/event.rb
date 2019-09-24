@@ -69,6 +69,7 @@ class Event < ApplicationRecord
     end
     property :organization do
       key :type, :object
+      key :'$ref', :Organization
       key :description, 'Host of event'
     end
     property :available_for_edit do

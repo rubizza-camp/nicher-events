@@ -30,15 +30,17 @@ class ApidocsController < ActionController::Base
 
   # A list of all classes that have swagger_* declarations.
   SWAGGERED_CLASSES = [
-    Api::V1::VenuesController,
-    Api::V1::EventsController,
     Api::V1::AttendancesController,
+    Api::V1::EventsController,
     Api::V1::EventInvitesController,
-    Venue,
+    Api::V1::OrganizationsController,
+    Api::V1::VenuesController,
     Event,
     EventInvite,
     ErrorModel,
     ErrorListModel,
+    Organization,
+    Venue,
     self
   ].freeze
 

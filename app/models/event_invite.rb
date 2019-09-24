@@ -25,5 +25,5 @@ class EventInvite < ApplicationRecord
       key :description, 'Id of invite'
       key :example, '1'
     end
-end
+  end
 end

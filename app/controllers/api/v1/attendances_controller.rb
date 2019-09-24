@@ -1,6 +1,6 @@
 # :reek:InstanceVariableAssumption
 # :reek:NilCheck
-
+# rubocop:disable Metrics/BlockLength
 class Api::V1::AttendancesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_event
@@ -107,3 +107,4 @@ class Api::V1::AttendancesController < ApplicationController
     return head :unprocessable_entity if @event.editable?(current_user.id)
   end
 end
+# rubocop:enable Metrics/BlockLength
