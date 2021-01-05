@@ -10,7 +10,7 @@
     "@material-ui/lab": "^4.0.0-alpha.24",
     "@material-ui/pickers": "^3.2.3",
     "@rails/webpacker": "^4.0.7",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "create-react-context": "^0.3.0",
     "date-fns": "^2.0.0",
